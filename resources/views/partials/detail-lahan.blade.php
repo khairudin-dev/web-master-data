@@ -49,7 +49,7 @@
             <tr>
                 <td>Luas Lahan</td>
                 <td>:</td>
-                <td class="text-right">{{ $lahan->lusa . ' ha' }}</td>
+                <td class="text-right">{{ $lahan->luas . ' ha' }}</td>
             </tr>
             <tr>
                 <td>Varietas</td>

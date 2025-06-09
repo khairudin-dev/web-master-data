@@ -282,7 +282,7 @@
                 date.getDate() === day;
         }, "Format tanggal harus dd/mm/yyyy dan valid");
 
-        // alert(editMode)
+
         $("#form_regis").validate({
             ignore: ".ignore, .select2-input",
             focusInvalid: true,
@@ -482,6 +482,7 @@
                 $(element).parents(".form-group").find(".is-invalid").removeClass("is-invalid");
             }
         });
+
 
         $.each(formData, function (key, val) {
             if (val) {
