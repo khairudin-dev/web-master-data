@@ -159,8 +159,9 @@
                             <!-- Kolom Kanan -->
                             <div class="col-md-6">
                                 <img id="preview-label" class=""
-                                    style="max-height:230px; display: none; margin: auto; "
-                                    src="img/photos/unsplash-1.jpg" alt="Unsplash">
+                                    style="max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
+                                    @if (!empty($edit)) src="{{ asset('/label/' . $lahan->i_label) }}" @endif
+                                    alt="Unsplash">
                             </div>
                         </div>
 
@@ -337,30 +338,23 @@
             };
             const dataWilayah = @json($wilayah);
             const dataForm = @json($dataForm);
+            const test = {{ !empty($edit) }}
+            const editMode = {{ !empty($edit) ? 'false' : 'true' }};
 
             const formData = {
-                provinsi: "{{ old('provinsi') ?? ($edit ? $lahan->alamat_parts[4] : '') }}",
-                kota: "{{ old('kota') ?? ($edit ? $lahan->alamat_parts[3] : '') }}",
-                kecamatan: "{{ old('kecamatan') ?? ($edit ? $lahan->alamat_parts[2] : '') }}",
-                desa: "{{ old('desa') ?? ($edit ? $lahan->alamat_parts[1] : '') }}",
-                l_provinsi: "{{ old('l_provinsi') ?? ($edit ? $lahan->lokasi_parts[4] : '') }}",
-                l_kota: "{{ old('l_kota') ?? ($edit ? $lahan->lokasi_parts[3] : '') }}",
-                l_kecamatan: "{{ old('l_kecamatan') ?? ($edit ? $lahan->lokasi_parts[2] : '') }}",
-                l_desa: "{{ old('l_desa') ?? ($edit ? $lahan->lokasi_parts[1] : '') }}",
+                provinsi: "{{ old('provinsi') ?? (isset($edit) && $edit ? $lahan->alamat_parts[4] : '') }}",
+                kota: "{{ old('kota') ?? (isset($edit) && $edit ? $lahan->alamat_parts[3] : '') }}",
+                kecamatan: "{{ old('kecamatan') ?? (isset($edit) && $edit ? $lahan->alamat_parts[2] : '') }}",
+                desa: "{{ old('desa') ?? (isset($edit) && $edit ? $lahan->alamat_parts[1] : '') }}",
+                l_provinsi: "{{ old('l_provinsi') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[4] : '') }}",
+                l_kota: "{{ old('l_kota') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[3] : '') }}",
+                l_kecamatan: "{{ old('l_kecamatan') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[2] : '') }}",
+                l_desa: "{{ old('l_desa') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[1] : '') }}",
+                varietas: "{{ old('varietas') ?? (isset($edit) && $edit ? $lahan->varietas : '') }}",
+                kb: "{{ old('kb') ?? (isset($edit) && $edit ? $lahan->kb : '') }}",
+                musim: "{{ old('musim') ?? (isset($edit) && $edit ? $lahan->musim : '') }}",
                 // lanjutkan sesuai kebutuhan...
             };
-
-            // const oldProvinsi = "{{ old('provinsi') }}";
-            // const oldKota = "{{ old('kota') }}";
-            // const oldKecamatan = "{{ old('kecamatan') }}";
-            // const oldDesa = "{{ old('desa') }}";
-            // const oldProvinsi_l = "{{ old('l_provinsi') }}";
-            // const oldKota_l = "{{ old('l_kota') }}";
-            // const oldKecamatan_l = "{{ old('l_kecamatan') }}";
-            // const oldDesa_l = "{{ old('l_desa') }}";
-            const oldVarietas = "{{ old('varietas') }}";
-            const oldKb = "{{ old('kb') }}";
-            const oldMusim = "{{ old('musim') }}";
         </script>
         <script type="text/javascript" src="{{ asset('js/regis_lahan.js') }}"></script>
     @endpush

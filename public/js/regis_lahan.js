@@ -282,7 +282,7 @@
                 date.getDate() === day;
         }, "Format tanggal harus dd/mm/yyyy dan valid");
 
-
+        // alert(editMode)
         $("#form_regis").validate({
             ignore: ".ignore, .select2-input",
             focusInvalid: true,
@@ -338,9 +338,14 @@
                     required: true,
                 },
                 "label": {
-                    required: true,
+                    required: editMode,
                     accept: "image/png, image/jpg, image/jpeg",
-                    filesize: 2097152, // Max file size in bytes (5MB)
+                    filesize: {
+                        param: 2097152, // 2MB
+                        depends: function (element) {
+                            return editMode && $(element).val() !== "";
+                        } // Max file size in bytes (5MB)
+                    },
                 },
                 "lokasi": {
                     required: true,
@@ -478,51 +483,12 @@
             }
         });
 
-        // if (oldProvinsi) {
-        //     $("#provinsi").val(oldProvinsi);
-        //     $("#provinsi").trigger('change');
-        // }
-        // if (oldKota) {
-        //     $("#kota").val(oldKota); // Select the option with a value of "1"
-        //     $("#kota").trigger('change');
-        // }
-        // if (oldKecamatan) {
-        //     $("#kecamatan").val(oldKecamatan); // Select the option with a value of "1"
-        //     $("#kecamatan").trigger('change');
-        // }
-        // if (oldDesa) {
-        //     $("#desa").val(oldDesa); // Select the option with a value of "1"
-        // }
         $.each(formData, function (key, val) {
             if (val) {
                 $("#" + key).val(val).trigger('change');
             }
         });
 
-        // if (oldProvinsi_l) {
-        //     $("#l_provinsi").val(oldProvinsi_l);
-        //     $("#l_provinsi").trigger('change');
-        // }
-        // if (oldKota_l) {
-        //     $("#l_kota").val(oldKota_l); // Select the option with a value of "1"
-        //     $("#l_kota").trigger('change');
-        // }
-        // if (oldKecamatan_l) {
-        //     $("#l_kecamatan").val(oldKecamatan_l); // Select the option with a value of "1"
-        //     $("#l_kecamatan").trigger('change');
-        // }
-        // if (oldDesa_l) {
-        //     $("#l_desa").val(oldDesa_l); // Select the option with a value of "1"
-        // }
-        if (oldVarietas) {
-            $("#varietas").val(oldVarietas); // Select the option with a value of "1"
-        }
-        if (oldKb) {
-            $("#kb").val(oldKb); // Select the option with a value of "1"
-        }
-        if (oldMusim) {
-            $("#musim").val(oldMusim); // Select the option with a value of "1"
-        }
         if ($('#sm_dg').is(':checked')) {
             // Ambil nilai dari input dan select
             const alamat = $('#alamat').val().trim();
