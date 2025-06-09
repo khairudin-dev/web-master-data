@@ -338,7 +338,6 @@
             };
             const dataWilayah = @json($wilayah);
             const dataForm = @json($dataForm);
-            const test = {{ !empty($edit) }}
             const editMode = {{ !empty($edit) ? 'false' : 'true' }};
 
             const formData = {
