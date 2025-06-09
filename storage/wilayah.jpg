@@ -1,0 +1,47 @@
+{
+  "provinsi": [
+    {
+      "nama": "Lampung",
+      "kabupaten": [
+        {
+          "nama": "Kabupaten Lampung Barat",
+          "kecamatan": [
+            {
+              "nama": "Balik Bukit",
+              "desa": [
+                "Pekon Bahway",
+                "Pekon Gunung Sugih"
+              ]
+            },
+            {
+              "nama": "Sukau",
+              "desa": [
+                "Pekon Sukau",
+                "Pekon Tanjung Raya"
+              ]
+            }
+          ]
+        },
+        {
+          "nama": "Kota Bandar Lampung",
+          "kecamatan": [
+            {
+              "nama": "Kedaton",
+              "desa": [
+                "Kelurahan Penengahan",
+                "Kelurahan Sukarame"
+              ]
+            },
+            {
+              "nama": "Tanjung Karang Pusat",
+              "desa": [
+                "Kelurahan Enggal",
+                "Kelurahan Rawa Laut"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+]
+}
