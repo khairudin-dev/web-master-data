@@ -25,7 +25,6 @@
                                 <input type="text" class="form-control @error('blok') is-invalid @enderror"
                                     value="{{ old('blok', isset($edit) && $edit ? $lahan->no_blok : '') }}"
                                     id="blok" name="blok" placeholder="Nomor blok baru...">
-                                <span class="font-13 text-muted">Contoh: BMI S 9999</span>
                                 @error('blok')
                                     <div class="jquery-validation-error small form-text invalid-feedback">
                                         {{ $message }}
@@ -116,130 +115,67 @@
 
                         <div class="form-row">
                             <!-- Kolom Kiri -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="varietas">Varietas</label>
-                                    <select id="varietas" name="varietas"
-                                        class="form-control select2 @error('varietas') is-invalid @enderror"
-                                        data-toggle="select2">
-                                        <option></option>
-                                    </select>
-                                    @error('varietas')
-                                        <div class="jquery-validation-error small form-text invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="kb">Kelas Benih</label>
-                                    <select id="kb" name="kb"
-                                        class="form-control select2 @error('kb') is-invalid @enderror"
-                                        data-toggle="select2">
-                                        <option></option>
-                                    </select>
-                                    @error('kb')
-                                        <div class="jquery-validation-error small form-text invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="label">Label Benih</label>
-                                    <input type="file" id="label" name="label"
-                                        class="form-control-file validation-file @error('label') is-invalid @enderror"
-                                        value="{{ old('label') }}" accept="image/*">
-                                    @error('label')
-                                        <div class="jquery-validation-error small form-text invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-
-                                </div>
+                            <div class="form-group col-md-6">
+                                <label for="varietas">Varietas</label>
+                                <select id="varietas" name="varietas"
+                                    class="form-control select2 @error('varietas') is-invalid @enderror"
+                                    data-toggle="select2">
+                                    <option></option>
+                                </select>
+                                @error('varietas')
+                                    <div class="jquery-validation-error small form-text invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                            <!-- Kolom Kanan -->
-                            <div class="col-md-6">
+                            <div class="form-group col-md-6">
+                                <label for="kb">Kelas Benih</label>
+                                <select id="kb" name="kb"
+                                    class="form-control select2 @error('kb') is-invalid @enderror"
+                                    data-toggle="select2">
+                                    <option></option>
+                                </select>
+                                @error('kb')
+                                    <div class="jquery-validation-error small form-text invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="form-label" for="label">Label Benih</label>
+                                <input type="file" id="label" name="label"
+                                    class="form-control-file validation-file @error('label') is-invalid @enderror"
+                                    value="{{ old('label') }}" accept="image/*">
+                                @error('label')
+                                    <div class="jquery-validation-error small form-text invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="lokasi">Lokasi Lahan</label>
+                                <input type="file" class="form-control-file validation-file @error('lokasi') is-invalid @enderror"
+                                    value="{{ old('lokasi', isset($edit) && $edit ? $lahan->lokasi_parts[0] : '') }}"
+                                    id="lokasi" name="lokasi" placeholder="Lokasi lahan...">
+                                @error('lokasi')
+                                    <div class="jquery-validation-error small form-text invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 text-center mb-4">
                                 <img id="preview-label" class=""
-                                    style="max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
+                                    style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
+                                    @if (!empty($edit)) src="{{ asset('/label/' . $lahan->i_label) }}" @endif
+                                    alt="Unsplash">
+
+                            </div>
+                            <div class="col-md-6 text-center mb-4">
+                                <img id="preview-lokasi" class=""
+                                    style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
                                     @if (!empty($edit)) src="{{ asset('/label/' . $lahan->i_label) }}" @endif
                                     alt="Unsplash">
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="lokasi">Lokasi Lahan</label>
-                            <div class="form-group">
-                                <label class="custom-control custom-checkbox m-0">
-                                    <input type="checkbox" class="custom-control-input"
-                                        {{ old('sm_dg') == 'on' ? 'checked' : '' }} id="sm_dg" name="sm_dg">
-                                    <span class="custom-control-label">Sama dengan alamat Pemilik</span>
-                                </label>
-                            </div>
-                            <input type="text" class="form-control @error('lokasi') is-invalid @enderror"
-                                value="{{ old('lokasi', isset($edit) && $edit ? $lahan->lokasi_parts[0] : '') }}"
-                                id="lokasi" name="lokasi" placeholder="Lokasi lahan...">
-                            @error('lokasi')
-                                <div class="jquery-validation-error small form-text invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="l_provinsi">Provinsi</label>
-                                <select id="l_provinsi" name="l_provinsi"
-                                    class="form-control select2 @error('l_provinsi') is-invalid @enderror"
-                                    data-toggle="select2">
-                                    <option></option>
-                                </select>
-                                @error('l_provinsi')
-                                    <div class="jquery-validation-error small form-text invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="l_kota">Kota / Kabupaten</label>
-                                <select id="l_kota" name="l_kota"
-                                    class="form-control select2 @error('l_kota') is-invalid @enderror"
-                                    data-toggle="select2">
-                                    <option></option>
-                                </select>
-                                @error('l_kota')
-                                    <div class="jquery-validation-error small form-text invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="l_kecamatan">Kecamatan</label>
-                                <select id="l_kecamatan" name="l_kecamatan"
-                                    class="form-control select2 @error('l_kecamatan') is-invalid @enderror"
-                                    data-toggle="select2">
-                                    <option></option>
-                                </select>
-                                @error('l_kecamatan')
-                                    <div class="jquery-validation-error small form-text invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="l_desa">Desa / Kelurahan</label>
-                                <select id="l_desa" name="l_desa"
-                                    class="form-control select2 @error('l_desa') is-invalid @enderror"
-                                    data-toggle="select2">
-                                    <option></option>
-                                </select>
-                                @error('l_desa')
-                                    <div class="jquery-validation-error small form-text invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-
-                            </div>
-
                         </div>
 
                         <div class="form-row">
@@ -345,10 +281,10 @@
                 kota: "{{ old('kota') ?? (isset($edit) && $edit ? $lahan->alamat_parts[3] : '') }}",
                 kecamatan: "{{ old('kecamatan') ?? (isset($edit) && $edit ? $lahan->alamat_parts[2] : '') }}",
                 desa: "{{ old('desa') ?? (isset($edit) && $edit ? $lahan->alamat_parts[1] : '') }}",
-                l_provinsi: "{{ old('l_provinsi') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[4] : '') }}",
-                l_kota: "{{ old('l_kota') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[3] : '') }}",
-                l_kecamatan: "{{ old('l_kecamatan') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[2] : '') }}",
-                l_desa: "{{ old('l_desa') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[1] : '') }}",
+                // l_provinsi: "{{ old('l_provinsi') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[4] : '') }}",
+                // l_kota: "{{ old('l_kota') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[3] : '') }}",
+                // l_kecamatan: "{{ old('l_kecamatan') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[2] : '') }}",
+                // l_desa: "{{ old('l_desa') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[1] : '') }}",
                 varietas: "{{ old('varietas') ?? (isset($edit) && $edit ? $lahan->varietas : '') }}",
                 kb: "{{ old('kb') ?? (isset($edit) && $edit ? $lahan->kb : '') }}",
                 musim: "{{ old('musim') ?? (isset($edit) && $edit ? $lahan->musim : '') }}",
