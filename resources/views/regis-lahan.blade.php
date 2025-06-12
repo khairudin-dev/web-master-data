@@ -4,7 +4,13 @@
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('lahan') }}">Lahan</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Registrasi Lahan Baru</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @if (isset($edit))   
+            Edit Data Lahan
+            @else
+            Registrasi Lahan Baru
+            @endif
+        </li>
     </x-slot:head_link>
 
     {{-- start content --}}
@@ -16,9 +22,13 @@
                     <h6 class="card-subtitle text-muted">Registrasikan lahan baru</h6>
                 </div>
                 <div class="card-body">
-                    <form id="form_regis" action="{{ route('post regis lahan') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form id="form_regis"
+                        action="{{ isset($edit) && $edit ? route('update regis lahan', ['s' => $lahan->id]) : route('post regis lahan') }}"
+                        method="POST" enctype="multipart/form-data">
                         @csrf
+                        @if (isset($edit))
+                            @method('put')
+                        @endif
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="blok">No. Blok</label>
@@ -141,40 +151,45 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="form-group col-md-6">
-                                <label class="form-label" for="label">Label Benih</label>
-                                <input type="file" id="label" name="label"
-                                    class="form-control-file validation-file @error('label') is-invalid @enderror"
-                                    value="{{ old('label') }}" accept="image/*">
-                                @error('label')
-                                    <div class="jquery-validation-error small form-text invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="lokasi">Lokasi Lahan</label>
-                                <input type="file" class="form-control-file validation-file @error('lokasi') is-invalid @enderror"
-                                    value="{{ old('lokasi', isset($edit) && $edit ? $lahan->lokasi_parts[0] : '') }}"
-                                    id="lokasi" name="lokasi" placeholder="Lokasi lahan...">
-                                @error('lokasi')
-                                    <div class="jquery-validation-error small form-text invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 text-center mb-4">
-                                <img id="preview-label" class=""
-                                    style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
-                                    @if (!empty($edit)) src="{{ asset('/label/' . $lahan->i_label) }}" @endif
-                                    alt="Unsplash">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="label">Label Benih</label>
+                                    <input type="file" id="label" name="label"
+                                        class="form-control-file validation-file @error('label') is-invalid @enderror"
+                                        value="{{ old('label') }}" accept="image/*">
+                                    @error('label')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="text-center mb-4">
+                                    <img id="preview-label" class=""
+                                        style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
+                                        @if (!empty($edit)) src="{{ asset('/label/' . $lahan->i_label) }}" @endif
+                                        alt="Unsplash">
 
+                                </div>
                             </div>
-                            <div class="col-md-6 text-center mb-4">
-                                <img id="preview-lokasi" class=""
-                                    style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
-                                    @if (!empty($edit)) src="{{ asset('/label/' . $lahan->i_label) }}" @endif
-                                    alt="Unsplash">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lokasi">Lokasi Lahan</label>
+                                    <input type="file"
+                                        class="form-control-file validation-file @error('lokasi') is-invalid @enderror"
+                                        value="{{ old('lokasi', isset($edit) && $edit ? $lahan->lokasi_parts[0] : '') }}"
+                                        id="lokasi" name="lokasi" accept="image/*">
+                                    @error('lokasi')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="text-center mb-4">
+                                    <img id="preview-lokasi" class=""
+                                        style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
+                                        @if (!empty($edit)) src="{{ asset('/lokasi/' . $lahan->lokasi) }}" @endif
+                                        alt="Unsplash">
+                                </div>
                             </div>
                         </div>
 
@@ -268,23 +283,15 @@
     {{-- end content --}}
     @push('sc')
         <script>
-            window.flashMessage = {
-                success: @json(session('success')),
-                error: @json(session('error'))
-            };
             const dataWilayah = @json($wilayah);
             const dataForm = @json($dataForm);
-            const editMode = {{ !empty($edit) ? 'false' : 'true' }};
+            const editMode = {{ !empty($edit) ? 'true' : 'false' }};
 
             const formData = {
                 provinsi: "{{ old('provinsi') ?? (isset($edit) && $edit ? $lahan->alamat_parts[4] : '') }}",
                 kota: "{{ old('kota') ?? (isset($edit) && $edit ? $lahan->alamat_parts[3] : '') }}",
                 kecamatan: "{{ old('kecamatan') ?? (isset($edit) && $edit ? $lahan->alamat_parts[2] : '') }}",
                 desa: "{{ old('desa') ?? (isset($edit) && $edit ? $lahan->alamat_parts[1] : '') }}",
-                // l_provinsi: "{{ old('l_provinsi') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[4] : '') }}",
-                // l_kota: "{{ old('l_kota') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[3] : '') }}",
-                // l_kecamatan: "{{ old('l_kecamatan') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[2] : '') }}",
-                // l_desa: "{{ old('l_desa') ?? (isset($edit) && $edit ? $lahan->lokasi_parts[1] : '') }}",
                 varietas: "{{ old('varietas') ?? (isset($edit) && $edit ? $lahan->varietas : '') }}",
                 kb: "{{ old('kb') ?? (isset($edit) && $edit ? $lahan->kb : '') }}",
                 musim: "{{ old('musim') ?? (isset($edit) && $edit ? $lahan->musim : '') }}",

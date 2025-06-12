@@ -19,7 +19,8 @@
                             <tr>
                                 <th>Nomor Blok</th>
                                 <th>Nama Pemilik</th>
-                                <th>Lokasi Lahan</th>
+                                <th>Varietas</th>
+                                <th>Alamat Pemilik</th>
                                 <th>Luas</th>
                                 <th>Tgl. Semai</th>
                                 <th>Tgl. Tanam</th>
@@ -31,7 +32,8 @@
                                 <tr>
                                     <td>{{ $lahan->no_blok }}</td>
                                     <td>{{ $lahan->nama }}</td>
-                                    <td>{{ $lahan->lokasi }}</td>
+                                    <td>{{ $lahan->varietas }}</td>
+                                    <td>{{ $lahan->alamat }}</td>
                                     <td>{{ $lahan->luas . ' ha' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}</td>
@@ -39,8 +41,9 @@
                                         <a href="#detailahan" data-toggle="modal" class="go-detail text-info"
                                             data-blok_lahan="{{ $lahan->no_blok }}">
                                             <i class="align-middle fas fa-fw fa-eye"></i></a>
-                                        <a href="" class="go-del text-danger"><i
-                                                class="align-middle fas fa-fw fa-trash"></i></a>
+                                        <a href="#detailahan" data-toggle="modal" class="go-del text-danger"
+                                            data-blok_lahan="{{ $lahan->no_blok }}">
+                                            <i class="align-middle fas fa-fw fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @empty
@@ -58,7 +61,6 @@
 
     {{-- end content --}}
     @push('sc')
-    <script src="{{ asset('js/lahan.js') }}"></script>
-
+        <script src="{{ asset('js/lahan.js') }}"></script>
     @endpush
 </x-layout>

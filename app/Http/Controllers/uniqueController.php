@@ -9,8 +9,12 @@ class uniqueController extends Controller
 {
     public function validateBlok(Request $request)
     {
-        $exists = Datatani::where('no_blok', $request->no_blok)->exists();
+        $query = Datatani::where('no_blok', $request->no_blok);
 
-        return response()->json(!$exists);
+        if ($request->filled('edit')) {
+            $query->where('id', '!=', $request->edit);
+        }
+
+        return response()->json(!$query->exists());
     }
 }

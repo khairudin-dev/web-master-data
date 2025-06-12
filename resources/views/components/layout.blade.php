@@ -61,16 +61,15 @@
     <div class="modal fade" id="detailahan" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" id="header-body-detailahan">
                     <h5 class="modal-title" id="title_blok">Lahan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body m-3" id="modal-body-detailahan">
-
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer"id="footer-body-detailahan">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Tutup</button>
                 </div>
             </div>
@@ -86,7 +85,13 @@
         </defs>
     </svg>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/detail.js') }}"></script>
+    <script>
+        window.flashMessage = {
+            success: @json(session('success')),
+            error: @json(session('error'))
+        };
+    </script>
+    <script type="text/javascript" src="{{ asset('js/detail.js') }}"></script>
     @stack('sc')
 </body>
 

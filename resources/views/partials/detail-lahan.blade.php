@@ -11,29 +11,16 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-md-13">
             <div class="text-muted">Alamat Pemilik</div>
             <strong>
-                {{ $lahan->alamat_parts[0] }}
+                {{ $lahan->alamat }}
             </strong>
-            <p>
-                {{ $lahan->alamat_parts[1] }}<br>
-                {{ 'Kecamatan ' . $lahan->alamat_parts[2] }}<br>
-                {{ $lahan->alamat_parts[3] }}<br>
-                {{ 'Provinsi ' . $lahan->alamat_parts[4] }}<br>
-            </p>
         </div>
-        <div class="col-md-6 text-md-right">
+        <div class="col-md-12 text-md-center">
             <div class="text-muted">Lokasi Lahan</div>
-            <strong>
-                {{ $lahan->lokasi_parts[0] }}
-            </strong>
-            <p>
-                {{ $lahan->lokasi_parts[1] }}<br>
-                {{ 'Kecamatan ' . $lahan->lokasi_parts[2] }}<br>
-                {{ $lahan->lokasi_parts[3] }}<br>
-                {{ 'Provinsi ' . $lahan->lokasi_parts[4] }}<br>
-            </p>
+            <img id="preview-label" class="" style="max-height:230px; max-width: 100%; margin: auto; "
+                src="{{ asset('/lokasi/' . $lahan->lokasi) }}" alt="Unsplash">
         </div>
     </div>
 
@@ -91,7 +78,8 @@
         <img id="preview-label" class="" style="max-height:230px; margin: auto; "
             src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
         <hr class="my-4" />
-        <a href="{{ route('edit lahan', ['s'=> $lahan->id]) }}" class="btn btn-outline-primary"><i class="mr-1 fas fa-fw fa-pencil-alt"></i>
+        <a href="{{ route('edit lahan', ['s' => $lahan->id]) }}" class="btn btn-outline-primary"><i
+                class="mr-1 fas fa-fw fa-pencil-alt"></i>
             Edit Data
         </a>
     </div>

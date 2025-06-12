@@ -2,27 +2,6 @@
         if (window.innerWidth > 912) { // 768px adalah breakpoint 'md' di Bootstrap
             $("#sidebar").addClass("toggled");
         }
-        if (window.flashMessage?.success) {
-            toastr["success"](`${window.flashMessage.success} <a href='/lahan'>ke daftar lahan</a>`, "Berhasil.", {
-                positionClass: "toast-top-center",
-                closeButton: true,
-                progressBar: true,
-                newestOnTop: true,
-                rtl: $("body").attr("dir") === "rtl" || $("html").attr("dir") === "rtl",
-                timeOut: 10000
-            });
-        }
-
-        if (window.flashMessage?.error) {
-            toastr["error"](`${window.flashMessage.error}`, "Gagal!", {
-                positionClass: "toast-top-center",
-                closeButton: true,
-                progressBar: true,
-                newestOnTop: true,
-                rtl: $("body").attr("dir") === "rtl" || $("html").attr("dir") === "rtl",
-                timeOut: 10000
-            });
-        }
 
         $('#alamat, #lokasi').mask('A', {
             translation: {
@@ -48,6 +27,7 @@
         // });
 
         // Select2
+
         $(".select2").select2({
             allowClear: true,
             placeholder: "Silahkan pilih...",
@@ -87,6 +67,7 @@
         $('#datetimepicker-tanam').datetimepicker({
             format: 'DD/MM/YYYY',
         });
+
         // Saat tanggal semai diubah
         $("#datetimepicker-semai").on("change.datetimepicker", function (e) {
             // Set tanggal minimum untuk tanam agar setelah semai
@@ -268,15 +249,24 @@
         // $('#form_regis').on('input change', 'input', function () {
         //     $(this).valid();
         // });
+
         $.validator.addMethod("filesize", function (value, element, arg) {
             if (element.files.length > 0 && element.files[0].size <= arg) {
                 return true;
             }
             return false;
         }, "File size must be less than {0} bytes.");
+
         $.validator.addMethod("noComma", function (value, element) {
             return this.optional(element) || value.indexOf(",") === -1;
         }, "Tidak boleh mengandung tanda koma (,)");
+
+
+        function getFormParam(name) {
+            const actionUrl = $('#form_regis').attr('action'); // "/update-lahan/2"
+            const match = actionUrl.match(/\/update-lahan\/(\d+)/);
+            return match ? match[1] : null;
+        }
 
         $("#form_regis").validate({
             ignore: ".ignore, .select2-input",
@@ -292,17 +282,19 @@
                 "blok": {
                     required: true,
                     // minlength: 10,
-                    // remote: {
-                    //     url: '/u-blk',
-                    //     type: 'post',
-                    //     data: {
-                    //         no_blok: function () {
-                    //             return $('#blok').val();
-                    //         },
-                    //         _token: $('meta[name="csrf-token"]').attr('content') // jika pakai Laravel
-                    //     }
-                    // }
-
+                    remote: {
+                        url: '/u-blk',
+                        type: 'post',
+                        data: {
+                            no_blok: function () {
+                                return $('#blok').val();
+                            },
+                            edit: function () {
+                                return editMode ? getFormParam('s') : null; // atau sesuaikan nama field ID Anda
+                            },
+                            _token: $('meta[name="csrf-token"]').attr('content') // jika pakai Laravel
+                        }
+                    }
                 },
                 "nama": {
                     required: true,
@@ -335,19 +327,24 @@
                     required: true,
                 },
                 "label": {
-                    required: editMode,
+                    required: !editMode,
                     accept: "image/png, image/jpg, image/jpeg",
                     filesize: {
                         param: 2097152, // 2MB
                         depends: function (element) {
-                            return editMode && $(element).val() !== "";
+                            return !editMode && $(element).val() !== "";
                         } // Max file size in bytes (5MB)
                     },
                 },
                 "lokasi": {
-                    required: true,
-                    // minlength: 16,
-                    // noComma: true
+                    required: !editMode,
+                    accept: "image/png, image/jpg, image/jpeg",
+                    filesize: {
+                        param: 2097152, // 2MB
+                        depends: function (element) {
+                            return !editMode && $(element).val() !== "";
+                        } // Max file size in bytes (5MB)
+                    },
                 },
                 // "l_provinsi": {
                 //     required: true,
@@ -361,6 +358,7 @@
                 // "l_desa": {
                 //     required: true,
                 // },
+
                 "sumber": {
                     required: true,
                     minlength: 3
@@ -383,7 +381,7 @@
                 "blok": {
                     required: "Nomor Blok wajib diisi",
                     // minlength: "Nomor Blok minimal 10 karakter",
-                    // remote: "Nomor Blok sudah digunakan"
+                    remote: "Nomor Blok sudah digunakan"
                 },
                 "nama": {
                     required: "Nama wajib diisi",
@@ -416,12 +414,13 @@
                 },
                 "label": {
                     required: "Foto Label wajib diisi",
-                    // accept: "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
-                    // filesize: "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+                    accept: "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
+                    filesize: "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
                 },
                 "lokasi": {
-                    required: "Lokasi wajib diisi",
-                    // minlength: "Lokasi minimal 16 karakter"
+                    required: "Foto Label wajib diisi",
+                    accept: "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
+                    filesize: "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
                 },
                 // "l_provinsi": {
                 //     required: "Provinsi wajib diisi",
@@ -435,6 +434,7 @@
                 // "l_desa": {
                 //     required: "Desa / Kelurahan wajib diisi",
                 // },
+
                 "sumber": {
                     required: "Label Sumber wajib diisi",
                     minlength: "Label Sumber minimal 3 karakter"

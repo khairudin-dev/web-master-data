@@ -1,4 +1,25 @@
 $(document).ready(function () {
+        if (window.flashMessage?.success) {
+            toastr["success"](`${window.flashMessage.success}`, "Berhasil.", {
+                positionClass: "toast-top-center",
+                closeButton: true,
+                progressBar: true,
+                newestOnTop: true,
+                rtl: $("body").attr("dir") === "rtl" || $("html").attr("dir") === "rtl",
+                timeOut: 10000
+            });
+        }
+
+        if (window.flashMessage?.error) {
+            toastr["error"](`${window.flashMessage.error}`, "Gagal!", {
+                positionClass: "toast-top-center",
+                closeButton: true,
+                progressBar: true,
+                newestOnTop: true,
+                rtl: $("body").attr("dir") === "rtl" || $("html").attr("dir") === "rtl",
+                timeOut: 10000
+            });
+        }
     $('#search_blk').on('submit', function (e) {
         e.preventDefault(); // Cegah reload halaman
 
