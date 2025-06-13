@@ -1,4 +1,5 @@
 <x-layout>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
@@ -42,7 +43,7 @@
                                             data-blok_lahan="{{ $lahan->no_blok }}">
                                             <i class="align-middle fas fa-fw fa-eye"></i></a>
                                         <a href="#detailahan" data-toggle="modal" class="go-del text-danger"
-                                            data-blok_lahan="{{ $lahan->no_blok }}">
+                                            data-blok_lahan="{{ $lahan->no_blok }}" data-blok="{{ $lahan->id }}" data-action="{{ route('delete regis lahan', ['s' => '__ID__']) }}">
                                             <i class="align-middle fas fa-fw fa-trash"></i></a>
                                     </td>
                                 </tr>

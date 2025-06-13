@@ -18,7 +18,7 @@ class RegisLahanController extends Controller
     public function lahan(): View
     {
         $title = "Daftar Lahan";
-        $lahans = Datatani::latest()->get(['no_blok', 'nama', 'varietas', 'alamat', 'luas', 'semai', 'tanam']);
+        $lahans = Datatani::latest()->get(['id','no_blok', 'nama', 'varietas', 'alamat', 'luas', 'semai', 'tanam']);
         // // Kirim data ke view
         return view('lahan', compact('title', 'lahans'));
     }
@@ -259,5 +259,24 @@ class RegisLahanController extends Controller
 
         //redirect to index
         return redirect()->route('lahan')->with(['success' => 'Data Berhasil Diubah!']);
+    }
+
+    public function delete($s): RedirectResponse
+    {
+        //get product by ID
+        $lahan = Datatani::findOrFail($s);
+
+        $label = $lahan->i_label;
+        $lokasi = $lahan->lokasi;
+
+        //delete product
+        $lahan->delete();
+        //delete image
+        Storage::delete('label/' . $label);
+        Storage::delete('lokasi/' . $lokasi);
+
+
+        //redirect to index
+        return redirect()->route('lahan')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }

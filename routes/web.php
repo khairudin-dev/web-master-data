@@ -14,4 +14,5 @@ Route::get('/lahan',[RegisLahanController::class, 'lahan'])->name('lahan');
 Route::get('/detail-lahan/{no_blok}', [RegisLahanController::class, 'getDetail'])->name('detail lahan');
 Route::post('/regis-lahan',[RegisLahanController::class, 'regis'])->name('post regis lahan');
 Route::put('/update-lahan/{s}',[RegisLahanController::class, 'update'])->name('update regis lahan');
+Route::delete('/del-lahan/{s}',[RegisLahanController::class, 'delete'])->name('delete regis lahan');
 Route::post('/u-blk', [uniqueController::class, 'validateBlok'])->name('u-blk');
