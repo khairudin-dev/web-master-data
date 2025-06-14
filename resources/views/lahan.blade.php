@@ -12,7 +12,11 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Daftar Lahan</h5>
-                    <h6 class="card-subtitle text-muted">Daftar data lahan yang telah terregistrsi</h6>
+                    @if (isset($role) && $role == 'qc')
+                        <h6 class="card-subtitle text-muted">Daftar data lahan yang belum terregistrsi nomor lapang</h6>
+                    @else
+                        <h6 class="card-subtitle text-muted">Daftar data lahan yang telah terregistrsi</h6>
+                    @endif
                 </div>
                 <div class="card-body">
                     <table id="lahan" class="table table-striped" style="width:100%">
@@ -39,12 +43,21 @@
                                     <td>{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}</td>
                                     <td>
-                                        <a href="#detailahan" data-toggle="modal" class="go-detail text-info"
-                                            data-blok_lahan="{{ $lahan->no_blok }}">
-                                            <i class="align-middle fas fa-fw fa-eye"></i></a>
-                                        <a href="#detailahan" data-toggle="modal" class="go-del text-danger"
-                                            data-blok_lahan="{{ $lahan->no_blok }}" data-blok="{{ $lahan->id }}" data-action="{{ route('delete regis lahan', ['s' => '__ID__']) }}">
-                                            <i class="align-middle fas fa-fw fa-trash"></i></a>
+
+                                        @if (isset($role) && $role == 'qc')
+                                            <a href="#detailahan" data-toggle="modal" class="go-detail text-info"
+                                                data-blok_lahan="{{ $lahan->no_blok }}">
+                                                <i class="align-middle mr-2 far fa-fw fa-edit"></i></a>
+                                        @else
+                                            <a href="#detailahan" data-toggle="modal" class="go-detail text-info"
+                                                data-blok_lahan="{{ $lahan->no_blok }}">
+                                                <i class="align-middle fas fa-fw fa-eye"></i></a>
+                                            <a href="#detailahan" data-toggle="modal" class="go-del text-danger"
+                                                data-blok_lahan="{{ $lahan->no_blok }}"
+                                                data-blok="{{ $lahan->id }}"
+                                                data-action="{{ route('delete regis lahan', ['s' => '__ID__']) }}">
+                                                <i class="align-middle fas fa-fw fa-trash"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

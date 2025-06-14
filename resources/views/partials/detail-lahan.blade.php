@@ -78,9 +78,39 @@
         <img id="preview-label" class="" style="max-height:230px; margin: auto; "
             src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
         <hr class="my-4" />
-        <a href="{{ route('edit lahan', ['s' => $lahan->id]) }}" class="btn btn-outline-primary"><i
-                class="mr-1 fas fa-fw fa-pencil-alt"></i>
-            Edit Data
-        </a>
+
+        @php
+            $role ="qc";
+        @endphp
+        @if (isset($role) && $role == 'qc')
+            <form id="form_regis"
+                action="{{ isset($edit) && $edit ? route('update regis lahan', ['s' => $lahan->id]) : route('post regis lahan') }}"
+                method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('put')
+                <div class="form-row">
+                    <div class="form-group col-md-9">
+                        <label for="blok">No. Blok</label>
+                        <input type="text" class="form-control @error('blok') is-invalid @enderror"
+                            value="{{ old('blok', isset($edit) && $edit ? $lahan->no_blok : '') }}" id="blok"
+                            name="blok" placeholder="Nomor blok baru...">
+                        @error('blok')
+                            <div class="jquery-validation-error small form-text invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
+                    </div>
+                    <div class="form-group col-md-3">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        @else
+            <a href="{{ route('edit lahan', ['s' => $lahan->id]) }}" class="btn btn-outline-primary"><i
+                    class="mr-1 fas fa-fw fa-pencil-alt"></i>
+                Edit Data
+            </a>
+        @endif
     </div>
 </div>

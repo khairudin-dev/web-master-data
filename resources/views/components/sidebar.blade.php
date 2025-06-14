@@ -43,7 +43,7 @@
                     <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Lahan</span>
                 </a>
                 <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Registrasi No. Lapangan</a>
+                    <li class="sidebar-item"><a class="sidebar-link" href="{{ route('regis lapang') }}">Registrasi No. Lapangan</a>
                     </li>
                     <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar No. Lapangan</a>
                     </li>

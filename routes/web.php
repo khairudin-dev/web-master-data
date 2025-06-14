@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegisLahanController;
+use App\Http\Controllers\RegisLapangController;
 use App\Http\Controllers\uniqueController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,5 @@ Route::post('/regis-lahan',[RegisLahanController::class, 'regis'])->name('post r
 Route::put('/update-lahan/{s}',[RegisLahanController::class, 'update'])->name('update regis lahan');
 Route::delete('/del-lahan/{s}',[RegisLahanController::class, 'delete'])->name('delete regis lahan');
 Route::post('/u-blk', [uniqueController::class, 'validateBlok'])->name('u-blk');
+
+Route::get('/regis-lapang',[RegisLapangController::class, 'lapang'])->name('regis lapang');
