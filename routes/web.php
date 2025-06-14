@@ -3,8 +3,10 @@
 use App\Http\Controllers\RegisLahanController;
 use App\Http\Controllers\RegisLapangController;
 use App\Http\Controllers\uniqueController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Auth::routes();
 Route::get('/', function () {
     // return view('welcome');
     return view('app', ['title'=>'Dashboard']);
@@ -19,3 +21,5 @@ Route::delete('/del-lahan/{s}',[RegisLahanController::class, 'delete'])->name('d
 Route::post('/u-blk', [uniqueController::class, 'validateBlok'])->name('u-blk');
 
 Route::get('/regis-lapang',[RegisLapangController::class, 'lapang'])->name('regis lapang');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

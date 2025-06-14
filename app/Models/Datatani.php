@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Datatani extends Model
 {
+    protected $guarded = "id";
     protected $fillable = [
         'no_blok',
         'nama',
@@ -62,11 +63,5 @@ class Datatani extends Model
     public function getAlamatPartsAttribute()
     {
         return explode(', ', $this->alamat);
-    }
-
-    // Accessor untuk lokasi yang dipecah menjadi array
-    public function getLokasiPartsAttribute()
-    {
-        return explode(', ', $this->lokasi);
     }
 }

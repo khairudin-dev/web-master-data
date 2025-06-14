@@ -80,7 +80,7 @@
         <hr class="my-4" />
 
         @php
-            $role ="qc";
+            // $role ="qc";
         @endphp
         @if (isset($role) && $role == 'qc')
             <form id="form_regis"
