@@ -12,6 +12,7 @@ $(document).ready(function () {
 
         //ambil detail lahan
         loadDetailLahan(noBlok)
+
     });
     $(document).on('click', '.go-del', function () {
         var noBlok = $(this).data('blok_lahan');

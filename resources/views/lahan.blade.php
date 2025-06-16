@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Daftar Lahan</h5>
-                    @if (isset($role) && $role == 'qc')
+                    @if (auth()->user()->role == 'qc')
                         <h6 class="card-subtitle text-muted">Daftar data lahan yang belum terregistrsi nomor lapang</h6>
                     @else
                         <h6 class="card-subtitle text-muted">Daftar data lahan yang telah terregistrsi</h6>
@@ -44,7 +44,7 @@
                                     <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}</td>
                                     <td>
 
-                                        @if (isset($role) && $role == 'qc')
+                                        @if (auth()->user()->role == 'qc')
                                             <a href="#detailahan" data-toggle="modal" class="go-detail text-info"
                                                 data-blok_lahan="{{ $lahan->no_blok }}">
                                                 <i class="align-middle mr-2 far fa-fw fa-edit"></i></a>
@@ -75,6 +75,12 @@
 
     {{-- end content --}}
     @push('sc')
+        @if (auth()->user()->role == 'qc')
+            <script src="{{ asset('js/regis_lapang.js') }}"></script>
+        @endif
         <script src="{{ asset('js/lahan.js') }}"></script>
+        <script>
+            const qcMode = {{ auth()->user()->role == 'qc' ? 'true' : 'false' }};
+        </script>
     @endpush
 </x-layout>

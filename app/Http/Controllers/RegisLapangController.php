@@ -10,10 +10,9 @@ class RegisLapangController extends Controller
 {
     public function lapang(): View
     {
-        $role = "qc";
         $title = "Daftar Lahan";
         $lahans = Datatani::latest()->get(['id', 'no_blok', 'nama', 'varietas', 'alamat', 'luas', 'semai', 'tanam']);
         // // Kirim data ke view
-        return view('lahan', compact('title', 'lahans','role'));
+        return view('lahan', compact('title', 'lahans'));
     }
 }

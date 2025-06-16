@@ -117,12 +117,6 @@ class RegisLahanController extends Controller
         // dd($data);
         return redirect()->route('regis lahan')->with(['success' => 'Data Berhasil Disimpan!']);
     }
-    public function getDetail($no_blok): Response
-    {
-        $lahan = Datatani::select('id', 'no_blok', 'nama', 'alamat', 'varietas', 'kb', 'musim', 'lokasi', 'i_label', 'label_sumber', 'semai', 'tanam', 'luas')->where('no_blok', $no_blok)->firstOrFail();
-        // dd($lahan);
-        return response()->view('partials.detail-lahan', compact('lahan'));
-    }
 
     public function edit_page($s): View
     {

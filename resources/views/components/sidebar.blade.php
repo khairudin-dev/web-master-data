@@ -8,8 +8,8 @@
     <div class="sidebar-content">
         <div class="sidebar-user">
             {{-- <img src="img/avatars/avatar.jpg" class="img-fluid rounded-circle mb-2" alt="Linda Miller" /> --}}
-            <div class="font-weight-bold">Nama User</div>
-            <small>Bagian</small>
+            <div class="font-weight-bold">{{ auth()->user()->name }}</div>
+            <small>{{ auth()->user()->role }}</small>
         </div>
 
         <ul class="sidebar-nav">

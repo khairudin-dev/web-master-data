@@ -78,39 +78,32 @@
         <img id="preview-label" class="" style="max-height:230px; margin: auto; "
             src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
         <hr class="my-4" />
+    </div>
+    @if (auth()->user()->role == 'qc')
+        <h5>Input Nomor Lapang</h5>
+        <form class="form-inline" id="form_regis_lapang"
+            action="{{ route('update regis lahan', ['s' => $lahan->id]) }}"
+            method="POST">
+            @csrf
+            @method('put')
 
-        @php
-            // $role ="qc";
-        @endphp
-        @if (isset($role) && $role == 'qc')
-            <form id="form_regis"
-                action="{{ isset($edit) && $edit ? route('update regis lahan', ['s' => $lahan->id]) : route('post regis lahan') }}"
-                method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('put')
-                <div class="form-row">
-                    <div class="form-group col-md-9">
-                        <label for="blok">No. Blok</label>
-                        <input type="text" class="form-control @error('blok') is-invalid @enderror"
-                            value="{{ old('blok', isset($edit) && $edit ? $lahan->no_blok : '') }}" id="blok"
-                            name="blok" placeholder="Nomor blok baru...">
-                        @error('blok')
-                            <div class="jquery-validation-error small form-text invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                    </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
+            <input type="text" class="form-control mb-2 mr-sm-2 @error('lapang') is-invalid @enderror" placeholder="No. Lapang..."
+                value="{{ old('lapang',  $lahan->lapang)}}" id="lapang" name="lapang"
+                style="width: 80%">
+            @error('lapang')
+                <div class="jquery-validation-error small form-text invalid-feedback">
+                    {{ $message }}
                 </div>
-            </form>
-        @else
+            @enderror
+            
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </form>
+    @else
+        <div class="text-center">
             <a href="{{ route('edit lahan', ['s' => $lahan->id]) }}" class="btn btn-outline-primary"><i
                     class="mr-1 fas fa-fw fa-pencil-alt"></i>
                 Edit Data
             </a>
-        @endif
-    </div>
+        </div>
+    @endif
 </div>
