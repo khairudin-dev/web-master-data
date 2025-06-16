@@ -20,6 +20,8 @@ Route::middleware(['auth', 'role:produksi'])->group(function () {
 });
 Route::middleware(['auth', 'role:qc'])->group(function () {
     Route::get('/regis-lapang', [RegisLapangController::class, 'lapang'])->name('regis lapang');
+    Route::get('/lapang', [RegisLapangController::class, 'listLapang'])->name('lapang');
+    Route::put('/regis-lapang/{s}', [RegisLapangController::class, 'regis'])->name('post regis lapang');
 });
 Route::middleware(['auth', 'role:analis'])->group(function () {
 });

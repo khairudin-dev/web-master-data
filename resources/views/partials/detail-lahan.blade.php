@@ -81,7 +81,7 @@
     </div>
     @if (auth()->user()->role == 'qc')
         <h5>Input Nomor Lapang</h5>
-        <form class="form-inline" id="formLapang" action="{{ route('update regis lahan', ['s' => $lahan->id]) }}"
+        <form class="form-inline" id="formLapang" action="{{ route('post regis lapang', ['s' => $lahan->id]) }}"
             method="POST">
             @csrf
             @method('put')
@@ -106,8 +106,3 @@
         </div>
     @endif
 </div>
-@push('sc')
-    <script>
-        alert("gi")
-    </script>
-@endpush

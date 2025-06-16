@@ -50,7 +50,7 @@
                                 No.
                                 Lapangan</a>
                         </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar No.
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('lapang') }}"">Daftar No.
                                 Lapangan</a>
                         </li>
                     </ul>
