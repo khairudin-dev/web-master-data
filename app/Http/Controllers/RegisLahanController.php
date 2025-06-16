@@ -19,7 +19,8 @@ class RegisLahanController extends Controller
     {
         $title = "Daftar Lahan";
         $lahans = Datatani::latest()->get(['id','no_blok', 'nama', 'varietas', 'alamat', 'luas', 'semai', 'tanam']);
-        // // Kirim data ke view
+        // // Kirim data ke 
+        // dd($lahans);
         return view('lahan', compact('title', 'lahans'));
     }
     public function rsgis_page(): View

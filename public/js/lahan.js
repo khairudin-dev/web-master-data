@@ -40,9 +40,5 @@ $(document).ready(function () {
 
     });
 
-    // Reset modal saat ditutup
-    $('#detailahan').on('hidden.bs.modal', function () {
-        $('#modal-body-detailahan').html('');
-        $('#title_blok').text('Lahan');
-    });
+
 });

@@ -48,7 +48,9 @@
                                             <a href="#detailahan" data-toggle="modal" class="go-detail text-info"
                                                 data-blok_lahan="{{ $lahan->no_blok }}">
                                                 <i class="align-middle mr-2 far fa-fw fa-edit"></i></a>
-                                        @else
+                                        @endif
+
+                                        @if (auth()->user()->role == 'produksi')
                                             <a href="#detailahan" data-toggle="modal" class="go-detail text-info"
                                                 data-blok_lahan="{{ $lahan->no_blok }}">
                                                 <i class="align-middle fas fa-fw fa-eye"></i></a>
@@ -75,12 +77,13 @@
 
     {{-- end content --}}
     @push('sc')
-        @if (auth()->user()->role == 'qc')
-            <script src="{{ asset('js/regis_lapang.js') }}"></script>
-        @endif
-        <script src="{{ asset('js/lahan.js') }}"></script>
         <script>
             const qcMode = {{ auth()->user()->role == 'qc' ? 'true' : 'false' }};
         </script>
+        {{-- @if (auth()->user()->role == 'qc')
+            <script src="{{ asset('js/regis_lapang.js') }}"></script>
+        @endif --}}
+        <script src="{{ asset('js/lahan.js') }}"></script>
+        <script></script>
     @endpush
 </x-layout>

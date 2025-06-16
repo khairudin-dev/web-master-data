@@ -52,6 +52,7 @@ function loadDetailLahan(noBlok) {
         type: 'GET',
         success: function (res) {
             $('#modal-body-detailahan').html(res);
+            
         },
         error: function (res) {
             try {

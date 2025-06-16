@@ -81,21 +81,20 @@
     </div>
     @if (auth()->user()->role == 'qc')
         <h5>Input Nomor Lapang</h5>
-        <form class="form-inline" id="form_regis_lapang"
-            action="{{ route('update regis lahan', ['s' => $lahan->id]) }}"
+        <form class="form-inline" id="formLapang" action="{{ route('update regis lahan', ['s' => $lahan->id]) }}"
             method="POST">
             @csrf
             @method('put')
 
-            <input type="text" class="form-control mb-2 mr-sm-2 @error('lapang') is-invalid @enderror" placeholder="No. Lapang..."
-                value="{{ old('lapang',  $lahan->lapang)}}" id="lapang" name="lapang"
+            <input type="text" class="form-control mb-2 mr-sm-2 @error('lapang') is-invalid @enderror"
+                placeholder="No. Lapang..." value="{{ old('lapang', $lahan->lapang) }}" id="lapang" name="lapang"
                 style="width: 80%">
             @error('lapang')
                 <div class="jquery-validation-error small form-text invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
-            
+
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     @else
@@ -107,3 +106,8 @@
         </div>
     @endif
 </div>
+@push('sc')
+    <script>
+        alert("gi")
+    </script>
+@endpush

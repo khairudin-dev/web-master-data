@@ -176,7 +176,7 @@
                                     <label for="lokasi">Lokasi Lahan</label>
                                     <input type="file"
                                         class="form-control-file validation-file @error('lokasi') is-invalid @enderror"
-                                        value="{{ old('lokasi', isset($edit) && $edit ? $lahan->lokasi_parts[0] : '') }}"
+                                        value="{{ old('lokasi', isset($edit) && $edit ? $lahan->lokasi_parts : '') }}"
                                         id="lokasi" name="lokasi" accept="image/*">
                                     @error('lokasi')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
