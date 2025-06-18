@@ -83,53 +83,65 @@
                 </li>
             @endif
 
+            @if (auth()->user()->role == 'procesing')
+                <li class="sidebar-header">
+                    Kelola Data (Prosesing)
+                </li>
+                <li class="sidebar-item">
+                    <a href="#Proses" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Prosesing</span>
+                    </a>
+                    <ul id="Proses" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil
+                                Proses</a>
+                        </li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
+                                Proses</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+            @if (auth()->user()->role == 'analis')
+                <li class="sidebar-header">
+                    Kelola Data (Analis)
+                </li>
+                <li class="sidebar-item">
+                    <a href="#Laboratorium" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Uji
+                            Laboratorium</span>
+                    </a>
+                    <ul id="Laboratorium" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil
+                                Uji</a>
+                        </li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
+                                Uji</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
-            <li class="sidebar-header">
-                Kelola Data (Prosesing)
-            </li>
-            <li class="sidebar-item">
-                <a href="#Proses" data-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Prosesing</span>
-                </a>
-                <ul id="Proses" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil Proses</a>
-                    </li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil Proses</a>
-                    </li>
-                </ul>
-            </li>
 
-            <li class="sidebar-header">
-                Kelola Data (Analis)
-            </li>
-            <li class="sidebar-item">
-                <a href="#Laboratorium" data-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Uji
-                        Laboratorium</span>
-                </a>
-                <ul id="Laboratorium" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil Uji</a>
-                    </li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil Uji</a>
-                    </li>
-                </ul>
-            </li>
+            @if (auth()->user()->role == 'marketing')
+                <li class="sidebar-header">
+                    Kelola Data (Marketing)
+                </li>
+                <li class="sidebar-item">
+                    <a href="#Distribusi" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Distribusi
+                            Benih</span>
+                    </a>
+                    <ul id="Distribusi" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input
+                                Distribusi</a>
+                        </li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar
+                                Distribusi</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
 
-            <li class="sidebar-header">
-                Kelola Data (Marketing)
-            </li>
-            <li class="sidebar-item">
-                <a href="#Distribusi" data-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Distribusi
-                        Benih</span>
-                </a>
-                <ul id="Distribusi" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Distribusi</a>
-                    </li>
-                    <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Distribusi</a>
-                    </li>
-                </ul>
-            </li>
         </ul>
     </div>
 </nav>

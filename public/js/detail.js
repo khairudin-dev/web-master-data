@@ -68,3 +68,26 @@ function loadDetailLahan(noBlok) {
         }
     });
 }
+function loadDetailLahan_acccord(noBlok) {
+    // AJAX ambil detail lahan
+    $.ajax({
+        url: '/detail-lahan/' + noBlok,
+        type: 'GET',
+        success: function (res) {
+            $('#area_form_lapang').html(res);
+            
+        },
+        error: function (res) {
+            try {
+                var json = JSON.parse(res.responseText);
+                if (json.message) {
+                    $('#area_form_lapang').html('<p class="text-danger">Data tidak ditemukan.</p>');
+                } else {
+                    $('#area_form_lapang').html('<div class="alert alert-danger">Terjadi kesalahan tidak diketahui.</div>');
+                }
+            } catch (e) {
+                $('#area_form_lapang').html('<div class="alert alert-danger">Terjadi kesalahan pada server.</div>');
+            }
+        }
+    });
+}

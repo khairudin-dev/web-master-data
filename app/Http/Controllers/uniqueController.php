@@ -17,4 +17,14 @@ class uniqueController extends Controller
 
         return response()->json(!$query->exists());
     }
+    public function validateLapang(Request $request)
+    {
+        $query = Datatani::where('lapang', $request->lapang);
+
+        if ($request->filled('edit')) {
+            $query->where('id', '!=', $request->edit);
+        }
+
+        return response()->json(!$query->exists());
+    }
 }

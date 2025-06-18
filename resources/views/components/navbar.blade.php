@@ -4,7 +4,7 @@
             <i class="hamburger align-self-center"></i>
         </a>
 
-        <form class="form-inline d-sm-inline-block" id="search_blk">
+        <form class="form-inline d-inline-block" id="search_blk">
             <input class="form-control form-control-lite" type="text" name="search_blk"
                 placeholder="Masukkan Nomor Blok">
         </form>

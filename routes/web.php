@@ -22,6 +22,7 @@ Route::middleware(['auth', 'role:qc'])->group(function () {
     Route::get('/regis-lapang', [RegisLapangController::class, 'lapang'])->name('regis lapang');
     Route::get('/lapang', [RegisLapangController::class, 'listLapang'])->name('lapang');
     Route::put('/regis-lapang/{s}', [RegisLapangController::class, 'regis'])->name('post regis lapang');
+    Route::post('/u-lpg', [uniqueController::class, 'validateLapang'])->name('u-lpg');
 });
 Route::middleware(['auth', 'role:analis'])->group(function () {
 });

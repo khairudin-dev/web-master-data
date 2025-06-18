@@ -41,6 +41,6 @@ class RegisLapangController extends Controller
         ]);
 
         //redirect to index
-        return redirect()->back()->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('lapang')->with(['success' => 'Data Berhasil Diubah!']);
     }
 }
