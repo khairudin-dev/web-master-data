@@ -4,13 +4,11 @@
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('lahan') }}">Lahan</a></li>
-        <li class="breadcrumb-item active" aria-current="page">
-            @if (isset($edit))   
-            Edit Data Lahan
-            @else
-            Registrasi Lahan Baru
-            @endif
-        </li>
+        @if (isset($edit))
+            <li class="breadcrumb-item active" aria-current="page">Edit Data Lahan</li>
+        @else
+            <li class="breadcrumb-item active" aria-current="page">Registrasi Lahan Baru/li>
+        @endif
     </x-slot:head_link>
 
     {{-- start content --}}
@@ -18,7 +16,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Data Lahan Baru</h5>
+                    <h5 class="card-title">Input Data Lahan Baru</h5>
                     <h6 class="card-subtitle text-muted">Registrasikan lahan baru</h6>
                 </div>
                 <div class="card-body">
@@ -206,7 +204,7 @@
                                 @enderror
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="luas">Luas Lahan {ha}</label>
+                                <label for="luas">Luas Lahan (ha)</label>
                                 <input type="number" class="form-control @error('luas') is-invalid @enderror"
                                     value="{{ old('luas', isset($edit) && $edit ? $lahan->luas : '') }}"
                                     id="luas" name="luas" placeholder="Luas Lahan...">

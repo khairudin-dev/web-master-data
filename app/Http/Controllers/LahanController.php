@@ -12,12 +12,7 @@ class LahanController extends Controller
     public function getDetail($no_blok): Response
     {
         // dd($lahan);
-        if (Auth::user()->role == 'qc') {
-            $lahan = Datatani::select('id', 'no_blok', 'lapang' , 'nama', 'alamat', 'varietas', 'kb', 'musim', 'lokasi', 'i_label', 'label_sumber', 'semai', 'tanam', 'luas')->where('no_blok', $no_blok)->firstOrFail();
-        }else {
-            # code...
-            $lahan = Datatani::select('id', 'no_blok', 'nama', 'alamat', 'varietas', 'kb', 'musim', 'lokasi', 'i_label', 'label_sumber', 'semai', 'tanam', 'luas')->where('no_blok', $no_blok)->firstOrFail();
-        }
+        $lahan = Datatani::select('id', 'no_blok', 'lapang', 'nama', 'alamat', 'varietas', 'kb', 'musim', 'lokasi', 'i_label', 'label_sumber', 'semai', 'tanam', 'luas')->where('no_blok', $no_blok)->firstOrFail();
         // dd($lahan);
         return response()->view('partials.detail-lahan', compact('lahan'));
     }

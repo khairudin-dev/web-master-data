@@ -4,9 +4,12 @@
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
         @if (auth()->user()->role == 'qc')
-            @if ($regis)
+            @if (isset($regis_lpg))
                 <li class="breadcrumb-item"><a href="{{ route('lapang') }}">Lapang</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Restrasi Nomor Lapang</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+            @elseif (isset($pmt))
+                <li class="breadcrumb-item"><a href="{{ route('lapang') }}">Pemantauan</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
             @else
                 <li class="breadcrumb-item active" aria-current="page">Lapang</li>
             @endif
@@ -25,16 +28,18 @@
                         <h5 class="card-title">
                             <a href="#" data-toggle="collapse" data-target="#collapseListData"
                                 aria-expanded="true" aria-controls="collapseListData">
+
                                 Daftar Lahan
                             </a>
                         </h5>
                         @if (auth()->user()->role == 'qc')
-                            @if ($regis)
+                            @if (isset($regis_lpg))
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang belum terregistrsi nomor
                                     lapang
                                 </h6>
                             @else
-                                <h6 class="card-subtitle text-muted">Daftar data Nomor Lapang yang telah diregistrsi
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah diregistrsi Nomor
+                                    Lapang
                                 </h6>
                             @endif
                         @else
@@ -50,7 +55,7 @@
                                         <th>Nomor Blok</th>
                                         <th>Nama Pemilik</th>
                                         <th>Varietas</th>
-                                        @if (auth()->user()->role == 'qc' && !$regis)
+                                        @if (auth()->user()->role == 'qc' && !isset($regis_lpg))
                                             <th>Nomor Lapang</th>
                                         @else
                                             <th>Alamat Pemilik</th>
@@ -67,7 +72,7 @@
                                             <td>{{ $lahan->no_blok }}</td>
                                             <td>{{ $lahan->nama }}</td>
                                             <td>{{ $lahan->varietas }}</td>
-                                            @if (auth()->user()->role == 'qc' && !$regis)
+                                            @if (auth()->user()->role == 'qc' && !isset($regis_lpg))
                                                 <td>{{ $lahan->lapang }}</td>
                                             @else
                                                 <td>{{ $lahan->alamat }}</td>
@@ -78,7 +83,7 @@
                                             <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}</td>
                                             <td>
 
-                                                @if (auth()->user()->role == 'qc')
+                                                @if (auth()->user()->role == 'qc' && isset($regis_lpg) or isset($lpg))
                                                     <a href="#collapseOne" data-toggle="collapse"
                                                         data-target="#collapseOne" class="accr-detail text-info"
                                                         aria-expanded="true" aria-controls="collapseOne"
@@ -88,7 +93,11 @@
                                                         <i class="align-middle mr-2 far fa-fw fa-edit"></i>
                                                     </a>
                                                 @endif
-
+                                                @if (auth()->user()->role == 'qc' && isset($pmt))
+                                                    <a href="{{ route('input pemantauan lapang', ['s' => $lahan->id]) }}" class="text-info">
+                                                        <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                    </a>
+                                                @endif
                                                 @if (auth()->user()->role == 'produksi')
                                                     <a href="#detailahan" data-toggle="modal"
                                                         class="go-detail text-info"
@@ -105,7 +114,11 @@
                                     @empty
                                         <div class="alert alert-danger p-1">
                                             @if (auth()->user()->role == 'qc')
-                                                Belum ada Lahan yang bisa diregistrasi nomor lapang
+                                                @if (isset($regis_lpg))
+                                                    Belum ada Lahan yang bisa diregistrasi nomor lapang
+                                                @else
+                                                    Belum ada Lahan yang telah diregistrasi nomor lapang
+                                                @endif
                                             @else
                                                 Belum ada Lahan yang diregistrasi
                                             @endif
@@ -118,19 +131,15 @@
                         </div>
                     </div>
                 </div>
-                @if (auth()->user()->role == 'qc')
+                @if (auth()->user()->role == 'qc' && isset($regis_lpg) or isset($lpg))
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <h5 class="card-title my-2" id="title_blok">
-                                @if ($regis)
-                                    Input
-                                @else
-                                    Perbarui
-                                @endif Nomor Lapang
+                                Input / Perbarui Nomor Lapang
                             </h5>
                         </div>
-                        <div id="collapseOne" class="collapse @error('lapang') show @enderror" aria-labelledby="headingOne"
-                            data-parent="#accordionExample">
+                        <div id="collapseOne" class="collapse @error('lapang') show @enderror"
+                            aria-labelledby="headingOne" data-parent="#accordionExample">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-5 col-md-6" id="area_form_lapang"></div>
@@ -166,11 +175,7 @@
 
     {{-- end content --}}
     @push('sc')
-        <script>
-            $(document).ready(function() {
-                const qcMode = {{ auth()->user()->role == 'qc' ? 'true' : 'false' }};
-            });
-        </script>
+        <script></script>
         @if (auth()->user()->role == 'qc')
             <script src="{{ asset('js/regis_lapang.js') }}"></script>
         @else

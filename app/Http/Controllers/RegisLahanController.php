@@ -233,8 +233,7 @@ class RegisLahanController extends Controller
                 $request->file('label')->storeAs('label', $label);
             } catch (\Exception $e) {
                 // Opsional: rollback DB atau log error
-                // return redirect()->back()->withInput()->withErrors(['label_upload' => 'Gagal simpan label: ' . $e->getMessage()]);
-                return redirect()->back()->withInput()->withErrors('Gagal simpan file label');
+                return redirect()->back()->with(['error'=>'Gagal simpan file label']);
             }
         }
         if ($request->hasFile('lokasi')) {
@@ -247,8 +246,7 @@ class RegisLahanController extends Controller
                 $request->file('lokasi')->storeAs('lokasi', $lokasi);
             } catch (\Exception $e) {
                 // Opsional: rollback DB atau log error
-                // return redirect()->back()->withInput()->withErrors(['label_upload' => 'Gagal simpan label: ' . $e->getMessage()]);
-                return redirect()->back()->withInput()->withErrors('Gagal simpan file lokasi');
+                return redirect()->back()->with(['error'=>'Gagal simpan file lokasi']);
             }
         }
 

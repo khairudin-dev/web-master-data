@@ -9,22 +9,22 @@ use Illuminate\Http\Request;
 
 class RegisLapangController extends Controller
 {
-    public function lapang(): View
+    public function lahan(): View
     {
-        $title = "Daftar Lahan";
-        $regis = true;
+        $title = "Registrasi Nomor Lapang";
+        $regis_lpg = true;
         $lahans = Datatani::whereNull('lapang')->latest()->get(['id', 'no_blok', 'nama', 'varietas', 'alamat', 'luas', 'semai', 'tanam']);
         // // Kirim data ke view
-        return view('lahan', compact('title', 'lahans', 'regis'));
+        return view('lahan', compact('title', 'lahans', 'regis_lpg'));
     }
-    public function listLapang(): View
+    public function lapang(): View
     {
-        $regis = false;
+        $lpg = true;
         $title = "Daftar Nomor Lapang";
         $lahans = Datatani::whereNotNull('lapang')->latest()->get(['id','lapang', 'no_blok', 'nama', 'varietas', 'alamat', 'luas', 'semai', 'tanam']);
         // // Kirim data ke view
         // dd($lahans);
-        return view('lahan', compact('title', 'lahans','regis'));
+        return view('lahan', compact('title', 'lahans','lpg'));
     }
     public function regis(Request $request, $s): RedirectResponse
     {

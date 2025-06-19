@@ -76,15 +76,14 @@
             </tr>
         </tbody>
     </table>
-
-    <div class="text-center">
-        <p class="text-sm">
-            <strong>Foto Label</strong>
-        </p>
-        <img id="preview-label" class="" style="max-height:230px; margin: auto; "
-            src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
-        <hr class="my-4" />
+    <div class="row mb-4">
+        <div class="col-md-12 text-center">
+            <div class="text-muted">Foto Label</div>
+            <img id="preview-label" class="" style="max-height:230px; max-width: 100%; margin: auto; "
+                src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
+        </div>
     </div>
+
     @if (auth()->user()->role == 'produksi')
         <div class="text-center">
             <a href="{{ route('edit lahan', ['s' => $lahan->id]) }}" class="btn btn-outline-primary"><i

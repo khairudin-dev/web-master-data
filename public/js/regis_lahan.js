@@ -53,10 +53,6 @@
         dataForm.musim.forEach(musim => {
             $('#musim').append(`<option value="${musim}">${musim}</option>`);
         });
-        $('#l_provinsi').append(`<option value="">Pilih Provinsi</option>`);
-        dataWilayah.provinsi.forEach(prov => {
-            $('#l_provinsi').append(`<option value="${prov.nama}">${prov.nama}</option>`);
-        });
 
         // Datetimepicker
         $('#datetimepicker-semai').datetimepicker({
@@ -160,96 +156,6 @@
             }
         });
 
-        // $('#l_provinsi').on('change', function () {
-        //     let provinsiDipilih = $(this).val();
-        //     $('#l_kota').empty().append(`<option value="">Pilih Kabupaten</option>`);
-        //     $('#l_kecamatan').empty().append(`<option value="">Pilih Kecamatan</option>`);
-        //     $('#l_desa').empty().append(`<option value="">Pilih Desa</option>`);
-
-        //     let prov = dataWilayah.provinsi.find(p => p.nama === provinsiDipilih);
-        //     if (prov) {
-        //         prov.kabupaten.forEach(kab => {
-        //             $('#l_kota').append(`<option value="${kab.nama}">${kab.nama}</option>`);
-        //         });
-        //     }
-        // });
-        // $('#l_kota').on('change', function () {
-        //     let provinsiDipilih = $('#l_provinsi').val();
-        //     let kabupatenDipilih = $(this).val();
-
-        //     $('#l_kecamatan').empty().append(`<option value="">Pilih Kecamatan</option>`);
-        //     $('#l_desa').empty().append(`<option value="">Pilih Desa</option>`);
-
-        //     let prov = dataWilayah.provinsi.find(p => p.nama === provinsiDipilih);
-        //     if (!prov) return;
-
-        //     let kab = prov.kabupaten.find(k => k.nama === kabupatenDipilih);
-        //     if (kab) {
-        //         kab.kecamatan.forEach(kec => {
-        //             $('#l_kecamatan').append(`<option value="${kec.nama}">${kec.nama}</option>`);
-        //         });
-        //     }
-        // });
-        // $('#l_kecamatan').on('change', function () {
-        //     let provinsiDipilih = $('#l_provinsi').val();
-        //     let kabupatenDipilih = $('#l_kota').val();
-        //     let kecamatanDipilih = $(this).val();
-
-        //     $('#l_desa').empty().append(`<option value="">Pilih Desa</option>`);
-
-        //     let prov = dataWilayah.provinsi.find(p => p.nama === provinsiDipilih);
-        //     if (!prov) return;
-
-        //     let kab = prov.kabupaten.find(k => k.nama === kabupatenDipilih);
-        //     if (!kab) return;
-
-        //     let kec = kab.kecamatan.find(k => k.nama === kecamatanDipilih);
-        //     if (kec) {
-        //         kec.desa.forEach(desa => {
-        //             $('#l_desa').append(`<option value="${desa}">${desa}</option>`);
-        //         });
-        //     }
-        // });
-
-        // $('#sm_dg').on('change', function () {
-        //     if (this.checked) {
-        //         // Ambil nilai dari input dan select
-        //         const alamat = $('#alamat').val().trim();
-        //         const provinsi = $('#provinsi').val();
-        //         const kota = $('#kota').val();
-        //         const kecamatan = $('#kecamatan').val();
-        //         const desa = $('#desa').val();
-
-        //         // Validasi: jika ada yang kosong, tampilkan pesan dan batalkan ceklis
-        //         if (!alamat || !provinsi || !kota || !kecamatan || !desa) {
-        //             alert('Lengkapi semua bagian alamat pemilik lahan terlebih dahulu.');
-        //             $(this).prop('checked', false);
-        //             return; // Hentikan proses
-        //         }
-
-        //         // Salin teks alamat
-        //         $('#lokasi').val(alamat).prop('disabled', true);
-
-        //         // Salin select wilayah
-        //         $('#l_provinsi').val(provinsi).trigger('change').prop('disabled', true);
-        //         $('#l_kota').val(kota).trigger('change').prop('disabled', true);
-        //         $('#l_kecamatan').val(kecamatan).trigger('change').prop('disabled', true);
-        //         $('#l_desa').val(desa).trigger('change').prop('disabled', true);
-        //     } else {
-        //         // Aktifkan kembali form lokasi dan kosongkan isinya
-        //         $('#lokasi').prop('disabled', false).val('');
-        //         $('#l_provinsi').prop('disabled', false).val(null).trigger('change');
-        //         $('#l_kota').prop('disabled', false).val(null).trigger('change');
-        //         $('#l_kecamatan').prop('disabled', false).val(null).trigger('change');
-        //         $('#l_desa').prop('disabled', false).val(null).trigger('change');
-        //     }
-        // });
-
-        // Trigger validation on tagsinput change
-        // $('#form_regis').on('input change', 'input', function () {
-        //     $(this).valid();
-        // });
-
         $.validator.addMethod("filesize", function (value, element, arg) {
             if (element.files.length > 0 && element.files[0].size <= arg) {
                 return true;
@@ -346,19 +252,6 @@
                         } // Max file size in bytes (5MB)
                     },
                 },
-                // "l_provinsi": {
-                //     required: true,
-                // },
-                // "l_kota": {
-                //     required: true,
-                // },
-                // "l_kecamatan": {
-                //     required: true,
-                // },
-                // "l_desa": {
-                //     required: true,
-                // },
-
                 "sumber": {
                     required: true,
                     minlength: 3
@@ -486,21 +379,4 @@
             }
         });
 
-        // if ($('#sm_dg').is(':checked')) {
-        //     // Ambil nilai dari input dan select
-        //     const alamat = $('#alamat').val().trim();
-        //     const provinsi = $('#provinsi').val();
-        //     const kota = $('#kota').val();
-        //     const kecamatan = $('#kecamatan').val();
-        //     const desa = $('#desa').val();
-
-        //     // Salin teks alamat
-        //     $('#lokasi').val(alamat).prop('disabled', true);
-
-        //     // Salin select wilayah
-        //     $('#l_provinsi').val(provinsi).trigger('change').prop('disabled', true);
-        //     $('#l_kota').val(kota).trigger('change').prop('disabled', true);
-        //     $('#l_kecamatan').val(kecamatan).trigger('change').prop('disabled', true);
-        //     $('#l_desa').val(desa).trigger('change').prop('disabled', true);
-        // }
     });

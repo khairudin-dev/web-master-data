@@ -43,7 +43,7 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#pages" data-toggle="collapse" class="sidebar-link collapsed">
-                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Lahan</span>
+                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Lapang</span>
                     </a>
                     <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
                         <li class="sidebar-item"><a class="sidebar-link" href="{{ route('regis lapang') }}">Registrasi
@@ -60,7 +60,7 @@
                         <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Pemantauan</span>
                     </a>
                     <ul id="Pemantauan" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('pemantauan lapang') }}">Input Hasil
                                 Pemantauan</a>
                         </li>
                         <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil

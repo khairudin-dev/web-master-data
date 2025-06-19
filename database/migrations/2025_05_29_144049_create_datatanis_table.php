@@ -35,9 +35,9 @@ return new class extends Migration
             $table->date('tg_pl2')->nullable();
             $table->string('i_pl2')->nullable();
             $table->text('k_pl2')->nullable();
-            $table->date('tg_p3')->nullable();
-            $table->string('i_p3')->nullable();
-            $table->text('k_p3')->nullable();
+            $table->date('tg_pl3')->nullable();
+            $table->string('i_pl3')->nullable();
+            $table->text('k_pl3')->nullable();
             $table->date('panen')->nullable();
             $table->decimal('lulus', 5, 2)->nullable();
             $table->decimal('taksasi', 7, 2)->nullable();
