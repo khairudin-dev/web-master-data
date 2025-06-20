@@ -51,7 +51,7 @@ class PemantauanController extends Controller
             's_pl3',
         )->findOrFail($s);
         if (empty($lahan->lapang)) {
-            return redirect()->back()->with(['error'=>'Kamu memasukkan lahan yang salah']);
+            return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
         $title = "Input Hasil Pemantauan Lahan";
         return view('pemantauan-input', compact('title', "lahan"));
@@ -60,7 +60,7 @@ class PemantauanController extends Controller
     {
         $lahan = Datatani::findOrFail($s);
         if (empty($lahan->lapang)) {
-            return redirect()->back()->with(['error'=>'Kamu memasukkan lahan yang salah']);
+            return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
         $request->validate([
             'k_p' => 'required',
@@ -118,38 +118,37 @@ class PemantauanController extends Controller
         //redirect to index
         return redirect()->route('input pemantauan lapang', $lahan->id)->with(['success' => 'Data Berhasil Diubah!']);
     }
-
     public function pl1(Request $request, $s): RedirectResponse
     {
         $lahan = Datatani::findOrFail($s);
         if (empty($lahan->tg_pendahuluan)) {
-            return redirect()->back()->with(['error'=>'Kamu memasukkan lahan yang salah']);
+            return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
         $request->validate([
             'k_pl1' => 'required',
             's_pl1' => 'required|numeric|min:0',
             'tg_pl1' => 'required|date_format:d/m/Y',
         ], [
-            "k_p.required" => "Keterangan wajib diisi",
-            "s_p.required" => "Isikan 0 jika memang kosong",
-            "s_p.min" => "Isikan 0 jika memang kosong",
-            "s_p.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
-            "tg_p.required" => "Tanggal Pemantauan wajib diisi",
-            "tg_p.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+            "k_pl1.required" => "Keterangan wajib diisi",
+            "s_pl1.required" => "Isikan 0 jika memang kosong",
+            "s_pl1.min" => "Isikan 0 jika memang kosong",
+            "s_pl1.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
+            "tg_pl1.required" => "Tanggal Pemantauan wajib diisi",
+            "tg_pl1.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
             // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
         ]);
 
         $pl1 = $lahan->i_pl1;
         // //check if image is uploaded
         if ($request->hasFile('pl1') or empty($lahan->i_pl1)) {
-            // $request->validate([
-            //     'pl1' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            // ], [
-            //     "pl1.required" => "Foto Bukti Pemantauan wajib diisi",
-            //     "pl1.image" => "Harus berupa file gambar", // Allowed extensions
-            //     "pl1.mimes" => "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
-            //     "pl1.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
-            // ]);
+            $request->validate([
+                'pl1' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            ], [
+                "pl1.required" => "Foto Bukti Pemantauan wajib diisi",
+                "pl1.image" => "Harus berupa file gambar", // Allowed extensions
+                "pl1.mimes" => "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
+                "pl1.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+            ]);
             $oldPl1 = $pl1;
             $pl1 = "pl1-" . $lahan->no_blok . '.' . $request->file('pl1')->getClientOriginalExtension();
         }
@@ -184,33 +183,33 @@ class PemantauanController extends Controller
     {
         $lahan = Datatani::findOrFail($s);
         if (empty($lahan->tg_pl1)) {
-            return redirect()->back()->with(['error'=>'Kamu memasukkan lahan yang salah']);
+            return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
         $request->validate([
             'k_pl2' => 'required',
             's_pl2' => 'required|numeric|min:0',
             'tg_pl2' => 'required|date_format:d/m/Y',
         ], [
-            "k_p.required" => "Keterangan wajib diisi",
-            "s_p.required" => "Isikan 0 jika memang kosong",
-            "s_p.min" => "Isikan 0 jika memang kosong",
-            "s_p.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
-            "tg_p.required" => "Tanggal Pemantauan wajib diisi",
-            "tg_p.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+            "k_pl2.required" => "Keterangan wajib diisi",
+            "s_pl2.required" => "Isikan 0 jika memang kosong",
+            "s_pl2.min" => "Isikan 0 jika memang kosong",
+            "s_pl2.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
+            "tg_pl2.required" => "Tanggal Pemantauan wajib diisi",
+            "tg_pl2.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
             // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
         ]);
 
         $pl2 = $lahan->i_pl2;
         // //check if image is uploaded
-        if ($request->hasFile('pl12') or empty($lahan->i_pl2)) {
-            // $request->validate([
-            //     'pl1' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            // ], [
-            //     "pl1.required" => "Foto Bukti Pemantauan wajib diisi",
-            //     "pl1.image" => "Harus berupa file gambar", // Allowed extensions
-            //     "pl1.mimes" => "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
-            //     "pl1.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
-            // ]);
+        if ($request->hasFile('pl2') or empty($lahan->i_pl2)) {
+            $request->validate([
+                'pl2' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            ], [
+                "pl2.required" => "Foto Bukti Pemantauan wajib diisi",
+                "pl2.image" => "Harus berupa file gambar", // Allowed extensions
+                "pl2.mimes" => "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
+                "pl2.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+            ]);
             $oldPl2 = $pl2;
             $pl2 = "pl2-" . $lahan->no_blok . '.' . $request->file('pl2')->getClientOriginalExtension();
         }
@@ -224,14 +223,75 @@ class PemantauanController extends Controller
 
         ]);
 
-        if ($request->hasFile('pl1')) {
+        if ($request->hasFile('pl2')) {
             //delete old image
             if ($oldPl2 && Storage::exists('pl2/' . $oldPl2)) {
-                Storage::delete('pl1/' . $oldPl2);
+                Storage::delete('pl2/' . $oldPl2);
             }
             //upload new image
             try {
                 $request->file('pl2')->storeAs('pl2', $pl2);
+            } catch (\Exception $e) {
+                // Opsional: rollback DB atau log error
+                return redirect()->back()->with(['error' => 'Gagal simpan file label']);
+            }
+        }
+
+        //redirect to index
+        return redirect()->route('input pemantauan lapang', $lahan->id)->with(['success' => 'Data Berhasil Diubah!']);
+    }
+    public function pl3(Request $request, $s): RedirectResponse
+    {
+        $lahan = Datatani::findOrFail($s);
+        if (empty($lahan->tg_pl2)) {
+            return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
+        }
+        $request->validate([
+            'k_pl3' => 'required',
+            's_pl3' => 'required|numeric|min:0',
+            'tg_pl3' => 'required|date_format:d/m/Y',
+        ], [
+            "k_pl3.required" => "Keterangan wajib diisi",
+            "s_pl3.required" => "Isikan 0 jika memang kosong",
+            "s_pl3.min" => "Isikan 0 jika memang kosong",
+            "s_pl3.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
+            "tg_pl3.required" => "Tanggal Pemantauan wajib diisi",
+            "tg_pl3.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+            // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
+        ]);
+
+        $pl3 = $lahan->i_pl3;
+        // //check if image is uploaded
+        if ($request->hasFile('pl3') or empty($lahan->i_pl3)) {
+            $request->validate([
+                'pl3' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            ], [
+                "pl3.required" => "Foto Bukti Pemantauan wajib diisi",
+                "pl3.image" => "Harus berupa file gambar", // Allowed extensions
+                "pl3.mimes" => "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
+                "pl3.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+            ]);
+            $oldPl3 = $pl3;
+            $pl3 = "pl3-" . $lahan->no_blok . '.' . $request->file('pl3')->getClientOriginalExtension();
+        }
+        // dd($request->pendahuluan);
+        $lahan->update([
+            'k_pl3' => $request->k_pl3,
+            's_pl3' => $request->s_pl3,
+            'tg_pl3' => Carbon::createFromFormat('d/m/Y', $request->tg_pl3)->format('Y-m-d'),
+            'i_pl3' => $pl3,
+            'luas_akhir' => $lahan->luas - $lahan->s_pendahuluan - $lahan->s_pl1 - $lahan->s_pl2 - $request->s_pl3,
+
+        ]);
+
+        if ($request->hasFile('pl3')) {
+            //delete old image
+            if ($oldPl3 && Storage::exists('pl3/' . $oldPl3)) {
+                Storage::delete('pl3/' . $oldPl3);
+            }
+            //upload new image
+            try {
+                $request->file('pl3')->storeAs('pl3', $pl3);
             } catch (\Exception $e) {
                 // Opsional: rollback DB atau log error
                 return redirect()->back()->with(['error' => 'Gagal simpan file label']);

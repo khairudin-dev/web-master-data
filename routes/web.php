@@ -29,7 +29,7 @@ Route::middleware(['auth', 'role:qc'])->group(function () {
     Route::put('/pemantauan/pendahuluan/{s}', [PemantauanController::class, 'pendahuluan'])->name('post pendahuluan');
     Route::put('/pemantauan/pl1/{s}', [PemantauanController::class, 'pl1'])->name('post pl1');
     Route::put('/pemantauan/pl2/{s}', [PemantauanController::class, 'pl2'])->name('post pl2');
-
+    Route::put('/pemantauan/pl3/{s}', [PemantauanController::class, 'pl3'])->name('post pl3');
 });
 Route::middleware(['auth', 'role:analis'])->group(function () {
 });

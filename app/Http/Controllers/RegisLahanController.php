@@ -109,6 +109,7 @@ class RegisLahanController extends Controller
             "semai" => Carbon::createFromFormat('d/m/Y', $request->semai)->format('Y-m-d'),
             "tanam" => Carbon::createFromFormat('d/m/Y', $request->tanam)->format('Y-m-d'),
             "luas" => $request->luas,
+            "luas_akhir" => $request->luas,
         ]);
         if ($store) {
             $request->file('label')->storeAs('label', $label);
@@ -221,6 +222,7 @@ class RegisLahanController extends Controller
             "semai" => Carbon::createFromFormat('d/m/Y', $request->semai)->format('Y-m-d'),
             "tanam" => Carbon::createFromFormat('d/m/Y', $request->tanam)->format('Y-m-d'),
             "luas" => $request->luas,
+            "luas_akhir" => $request->luas - $lahan->s_pendahuluan - $lahan->s_pl1 - $lahan->s_pl2 - $lahan->s_pl3,
         ]);
 
         if ($request->hasFile('label')) {
