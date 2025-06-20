@@ -60,10 +60,12 @@
                         <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Pemantauan</span>
                     </a>
                     <ul id="Pemantauan" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input pemantauan lapang') }}">Input Hasil
+                        <li class="sidebar-item"><a class="sidebar-link"
+                                href="{{ route('input pemantauan lapang') }}">Input Hasil
                                 Pemantauan</a>
                         </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('pemantauan lapang') }}" >Daftar Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('pemantauan lapang') }}">Daftar
+                                Hasil
                                 Pemantauan</a>
                         </li>
                     </ul>
@@ -87,12 +89,14 @@
                 <li class="sidebar-header">
                     Kelola Data (Prosesing)
                 </li>
+            @endif
+            @if (auth()->user()->role == 'analis')
                 <li class="sidebar-item">
                     <a href="#Proses" data-toggle="collapse" class="sidebar-link collapsed">
                         <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Prosesing</span>
                     </a>
                     <ul id="Proses" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input proses') }}">Input Hasil
                                 Proses</a>
                         </li>
                         <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
@@ -100,8 +104,6 @@
                         </li>
                     </ul>
                 </li>
-            @endif
-            @if (auth()->user()->role == 'analis')
                 <li class="sidebar-header">
                     Kelola Data (Analis)
                 </li>

@@ -143,8 +143,8 @@
                                                     <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
                                                     </th>
                                                     <th>{{ $lahan->luas_akhir . ' (ha)' }}</th>
-                                                    <th>{{ $lahan->taksasi . ' (ha)' }}</th>
-                                                    <th>{{ $lahan->tonase . ' (ha)' }}</th>
+                                                    <th>{{ number_format($lahan->taksasi, 0, '.', ','). ' (Kg)' }}</th>
+                                                    <th>{{ number_format($lahan->tonase, 0, '.', ','). ' (Kg)' }}</th>
                                                 @else
                                                     @if (!isset($inppn))
                                                         <td>{{ $lahan->nama }}</td>

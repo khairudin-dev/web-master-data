@@ -3,6 +3,7 @@
 use App\Http\Controllers\LahanController;
 use App\Http\Controllers\PanenController;
 use App\Http\Controllers\PemantauanController;
+use App\Http\Controllers\ProsesController;
 use App\Http\Controllers\RegisLahanController;
 use App\Http\Controllers\RegisLapangController;
 use App\Http\Controllers\uniqueController;
@@ -36,9 +37,9 @@ Route::middleware(['auth', 'role:qc'])->group(function () {
     Route::get('/panen-input/{s}', [PanenController::class, 'form'])->name('form panen');
     Route::put('/panen-input/{s}', [PanenController::class, 'post'])->name('post panen');
     Route::get('/panen', [PanenController::class, 'panen'])->name('panen');
-
 });
 Route::middleware(['auth', 'role:analis'])->group(function () {
+    Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
 });
 Route::middleware(['auth', 'role:masketing'])->group(function () {
 });
