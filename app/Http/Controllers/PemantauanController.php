@@ -14,9 +14,18 @@ class PemantauanController extends Controller
     //
     public function lapang(): View
     {
-        $pmt = true;
+        $inppmt = true;
         $title = "Input Hasil Pemantauan";
-        $lahans = Datatani::whereNotNull('lapang')->latest()->get(['id', 'lapang', 'no_blok', 'nama', 'varietas', 'alamat', 'luas', 'semai', 'tanam']);
+        $lahans = Datatani::whereNotNull('lapang')->latest()->get(['id', 'lapang', 'no_blok', 'nama', 'varietas', 'luas', 'semai', 'tanam']);
+        // // Kirim data ke view
+        // dd($lahans);
+        return view('lahan', compact('title', 'lahans', 'inppmt'));
+    }
+    public function pemantauan(): View
+    {
+        $pmt = true;
+        $title = "Daftar Hasil Pemantauan";
+        $lahans = Datatani::whereNotNull('tg_pendahuluan')->latest()->get(['id', 'lapang', 'no_blok', 'tg_pendahuluan', 'tg_pl1', 'tg_pl2', 'tg_pl3']);
         // // Kirim data ke view
         // dd($lahans);
         return view('lahan', compact('title', 'lahans', 'pmt'));
@@ -30,6 +39,7 @@ class PemantauanController extends Controller
             'varietas',
             'kb',
             'tanam',
+            'semai',
             'luas',
             'luas_akhir',
             'i_label',
@@ -50,6 +60,7 @@ class PemantauanController extends Controller
             'k_pl3',
             's_pl3',
         )->findOrFail($s);
+        // dd($lahan->semai);
         if (empty($lahan->lapang)) {
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
@@ -116,7 +127,7 @@ class PemantauanController extends Controller
         }
 
         //redirect to index
-        return redirect()->route('input pemantauan lapang', $lahan->id)->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('pemantauan lapang')->with(['success' => 'Data Berhasil Diubah!']);
     }
     public function pl1(Request $request, $s): RedirectResponse
     {
@@ -177,7 +188,7 @@ class PemantauanController extends Controller
         }
 
         //redirect to index
-        return redirect()->route('input pemantauan lapang', $lahan->id)->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('pemantauan lapang')->with(['success' => 'Data Berhasil Diubah!']);
     }
     public function pl2(Request $request, $s): RedirectResponse
     {
@@ -238,7 +249,7 @@ class PemantauanController extends Controller
         }
 
         //redirect to index
-        return redirect()->route('input pemantauan lapang', $lahan->id)->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('pemantauan lapang')->with(['success' => 'Data Berhasil Diubah!']);
     }
     public function pl3(Request $request, $s): RedirectResponse
     {
@@ -299,6 +310,6 @@ class PemantauanController extends Controller
         }
 
         //redirect to index
-        return redirect()->route('input pemantauan lapang', $lahan->id)->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('pemantauan lapang')->with(['success' => 'Data Berhasil Diubah!']);
     }
 }

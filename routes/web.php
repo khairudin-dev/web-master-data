@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LahanController;
+use App\Http\Controllers\PanenController;
 use App\Http\Controllers\PemantauanController;
 use App\Http\Controllers\RegisLahanController;
 use App\Http\Controllers\RegisLapangController;
@@ -24,12 +25,18 @@ Route::middleware(['auth', 'role:qc'])->group(function () {
     Route::get('/lapang', [RegisLapangController::class, 'lapang'])->name('lapang');
     Route::put('/regis-lapang/{s}', [RegisLapangController::class, 'regis'])->name('post regis lapang');
     Route::post('/u-lpg', [uniqueController::class, 'validateLapang'])->name('u-lpg');
-    Route::get('/pemantauan-lapang', [PemantauanController::class, 'lapang'])->name('pemantauan lapang');
-    Route::get('/pemantauan-lapang-input/{s}', [PemantauanController::class, 'form'])->name('input pemantauan lapang');
+    Route::get('/pemantauan-lapang', [PemantauanController::class, 'pemantauan'])->name('pemantauan lapang');
+    Route::get('/pemantauan-lapang-input', [PemantauanController::class, 'lapang'])->name('input pemantauan lapang');
+    Route::get('/pemantauan-lapang-input/{s}', [PemantauanController::class, 'form'])->name('form pemantauan lapang');
     Route::put('/pemantauan/pendahuluan/{s}', [PemantauanController::class, 'pendahuluan'])->name('post pendahuluan');
     Route::put('/pemantauan/pl1/{s}', [PemantauanController::class, 'pl1'])->name('post pl1');
     Route::put('/pemantauan/pl2/{s}', [PemantauanController::class, 'pl2'])->name('post pl2');
     Route::put('/pemantauan/pl3/{s}', [PemantauanController::class, 'pl3'])->name('post pl3');
+    Route::get('/panen-input', [PanenController::class, 'lapang'])->name('input panen');
+    Route::get('/panen-input/{s}', [PanenController::class, 'form'])->name('form panen');
+    Route::put('/panen-input/{s}', [PanenController::class, 'post'])->name('post panen');
+    Route::get('/panen', [PanenController::class, 'panen'])->name('panen');
+
 });
 Route::middleware(['auth', 'role:analis'])->group(function () {
 });

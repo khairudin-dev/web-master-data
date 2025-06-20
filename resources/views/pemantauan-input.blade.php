@@ -3,7 +3,8 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('lapang') }}">Pemantauan</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('pemantauan lapang') }}">Pemantauan</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('input pemantauan lapang') }}">Input Hasil Pemantauan</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ $title }} Blok : {{ $lahan->no_blok }}</li>
     </x-slot:head_link>
 
@@ -206,7 +207,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-    
+
                                             <div class="form-row">
                                                 <!-- Kolom Kiri -->
                                                 <div class="col-md-6">
@@ -272,7 +273,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-    
+
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </fieldset>
 
@@ -280,7 +281,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         {{-- pl 2 --}}
                         <div class="col-md-6">
                             <div class="card">
@@ -304,7 +305,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-    
+
                                             <div class="form-row">
                                                 <!-- Kolom Kiri -->
                                                 <div class="col-md-6">
@@ -370,7 +371,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-    
+
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </fieldset>
 
@@ -378,7 +379,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         {{-- pl 3 --}}
                         <div class="col-md-6">
                             <div class="card">
@@ -402,7 +403,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-    
+
                                             <div class="form-row">
                                                 <!-- Kolom Kiri -->
                                                 <div class="col-md-6">
@@ -468,7 +469,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-    
+
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </fieldset>
 

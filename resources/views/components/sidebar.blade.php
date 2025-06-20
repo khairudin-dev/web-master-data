@@ -60,10 +60,10 @@
                         <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Pemantauan</span>
                     </a>
                     <ul id="Pemantauan" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('pemantauan lapang') }}">Input Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input pemantauan lapang') }}">Input Hasil
                                 Pemantauan</a>
                         </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('pemantauan lapang') }}" >Daftar Hasil
                                 Pemantauan</a>
                         </li>
                     </ul>
@@ -73,10 +73,10 @@
                         <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Panen</span>
                     </a>
                     <ul id="Panen" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input panen') }}">Input Hasil
                                 Panen</a>
                         </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('panen') }}">Daftar Hasil
                                 Panen</a>
                         </li>
                     </ul>
