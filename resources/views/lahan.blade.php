@@ -3,7 +3,7 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-        @if (auth()->user()->role == 'qc')
+        @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
             @if (isset($regis_lpg))
                 <li class="breadcrumb-item"><a href="{{ route('lapang') }}">Lapang</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
@@ -18,11 +18,21 @@
             @else
                 <li class="breadcrumb-item active" aria-current="page">Lapang</li>
             @endif
-        @elseif (auth()->user()->role == 'analis' && isset($inplab))
+        @elseif (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin' && isset($inplab))
             <li class="breadcrumb-item"><a href="{{ route('lab') }}">Uji Laboratrorium</a></li>
             <li class="breadcrumb-item active" aria-current="page">Input Hasil Uji</li>
+        @elseif (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
+            @if (isset($mkt))
+                <li class="breadcrumb-item active" aria-current="page">Data Distribusi</li>
+            @else
+                <li class="breadcrumb-item"><a href="{{ route('mkt') }}">Data Distribusi</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Input Data Distribusi</li>
+            @endif
         @else
-            <li class="breadcrumb-item active" aria-current="page">Uji Laboratrorium</li>
+            @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
+                <li class="breadcrumb-item active" aria-current="page">Uji Laboratrorium</li>
+            @endif
+            <li class="breadcrumb-item active" aria-current="page">Lahan</li>
         @endif
 
     </x-slot:head_link>
@@ -40,7 +50,7 @@
                                 Daftar Lahan
                             </a>
                         </h5>
-                        @if (auth()->user()->role == 'qc')
+                        @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                             @if (isset($regis_lpg))
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang belum terregistrsi nomor
                                     lapang
@@ -56,12 +66,20 @@
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
                                 </h6>
                             @endif
-                        @elseif (auth()->user()->role == 'analis')
+                        @elseif (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                             @if (isset($inplab))
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
                                 </h6>
                             @else
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang telah diuji
+                                </h6>
+                            @endif
+                        @elseif (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
+                            @if (isset($inpmkt))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah Uji Lab
+                                </h6>
+                            @else
+                                <h6 class="card-subtitle text-muted">Daftar data distribusi hasil panen
                                 </h6>
                             @endif
                         @else
@@ -75,7 +93,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nomor Blok</th>
-                                        @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi')
+                                        @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
 
                                             @if (isset($regis_lpg) or auth()->user()->role == 'produksi')
                                                 <th>Alamat Pemilik</th>
@@ -106,7 +124,7 @@
                                                 <th>Tgl. Semai</th>
                                                 <th>Tgl. Tanam</th>
                                             @endif
-                                        @elseif (auth()->user()->role == 'analis')
+                                        @elseif (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                                             <th>Nomor Lapang</th>
                                             @if (isset($inplab))
                                                 <th>Panen</th>
@@ -122,6 +140,22 @@
                                             <th>Kdl</th>
                                             <th>QTY Label</th>
                                             <th>No. Seri</th>
+                                        @elseif (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
+                                            <th>Nomor Lapang</th>
+                                            @if (@isset($mkt))
+                                                <th>Bantuan</th>
+                                                <th>Tonase</th>
+                                                <th>Free Market</th>
+                                                <th>Tonase</th>
+                                                <th>Penangkaran</th>
+                                                <th>Tonase</th>
+                                            @else
+                                                <th>Tonase Sertifikat</th>
+                                                <th>Nomor Sertifikat</th>
+                                                <th>Tgl. Kadaluarsa</th>
+                                                <th>QTY Label</th>
+                                                <th>No. Seri</th>
+                                            @endif
                                         @else
                                         @endif
                                         <th>Aksi</th>
@@ -131,7 +165,7 @@
                                     @forelse($lahans as $lahan)
                                         <tr>
                                             <td>{{ $lahan->no_blok }}</td>
-                                            @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi')
+                                            @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
                                                 @if (isset($regis_lpg) or auth()->user()->role == 'produksi')
                                                     <td>{{ $lahan->alamat }}</td>
                                                 @else
@@ -190,7 +224,7 @@
                                                     <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
                                                     </td>
                                                 @endif
-                                            @elseif (auth()->user()->role == 'analis')
+                                            @elseif (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                                                 <th>{{ $lahan->lapang }}</th>
                                                 @if (isset($inplab))
                                                     <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
@@ -202,7 +236,8 @@
                                                 @endif
                                                 <th>{{ $lahan->ka }}</th>
                                                 <th>{{ $lahan->kecambah }}</th>
-                                                <th class="text-lg {{ $lahan->mutu == 1 ? 'text-info' : 'text-danger' }}">
+                                                <th
+                                                    class="text-lg {{ $lahan->mutu == 1 ? 'text-info' : 'text-danger' }}">
                                                     @if ($lahan->mutu == 1)
                                                         <i class="align-middle mr-2 fas fa-fw fa-check-circle"></i>
                                                     @else
@@ -212,13 +247,29 @@
                                                 </th>
                                                 <th>{{ $lahan->tonase_sertifikat }}</th>
                                                 <th>{{ $lahan->no_sertifikat }}</th>
-                                                <th>{{ $lahan->tg_kadaluarsa }}</th>
+                                                <th>{{ \Carbon\Carbon::parse($lahan->tg_kadaluarsa)->format('d/m/Y') }}
                                                 <th>{{ $lahan->label }}</th>
                                                 <th>{{ $lahan->seri_label }}</th>
+                                            @elseif (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
+                                                <th>{{ $lahan->lapang }}</th>
+                                                @if (@isset($mkt))
+                                                    <th>{{ $lahan->bantuan }}</th>
+                                                    <th>{{ $lahan->t_bantuan . ' Kg' }}</th>
+                                                    <th>{{ $lahan->market }}</th>
+                                                    <th>{{ $lahan->t_market . ' Kg' }}</th>
+                                                    <th>{{ $lahan->penangkaran }}</th>
+                                                    <th>{{ $lahan->t_penangkaran . ' Kg' }}</th>
+                                                @else
+                                                    <th>{{ $lahan->tonase_sertifikat . ' Kg' }}</th>
+                                                    <th>{{ $lahan->no_sertifikat }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->tg_kadaluarsa)->format('d/m/Y') }}
+                                                    <th>{{ $lahan->label }}</th>
+                                                    <th>{{ $lahan->seri_label }}</th>
+                                                @endif
                                             @else
                                             @endif
                                             <td>
-                                                @if (auth()->user()->role == 'qc')
+                                                @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                                                     @if (isset($regis_lpg) or isset($lpg))
                                                         <a href="#collapseOne" data-toggle="collapse"
                                                             data-target="#collapseOne" class="accr-detail text-info"
@@ -247,18 +298,24 @@
                                                             </a>
                                                         @endif
                                                     @endif
-                                                @elseif (auth()->user()->role == 'produksi')
+                                                @elseif (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
                                                     <a href="#detailahan" data-toggle="modal"
                                                         class="go-detail text-info"
                                                         data-blok_lahan="{{ $lahan->no_blok }}">
                                                         <i class="align-middle fas fa-fw fa-eye"></i></a>
-                                                    <a href="#detailahan" data-toggle="modal" class="go-del text-danger"
+                                                    <a href="#detailahan" data-toggle="modal"
+                                                        class="go-del text-danger"
                                                         data-blok_lahan="{{ $lahan->no_blok }}"
                                                         data-blok="{{ $lahan->id }}"
                                                         data-action="{{ route('delete regis lahan', ['s' => '__ID__']) }}">
                                                         <i class="align-middle fas fa-fw fa-trash"></i></a>
-                                                @elseif (auth()->user()->role == 'analis')
+                                                @elseif (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                                                     <a href="{{ route('form uji lab', ['s' => $lahan->id]) }}"
+                                                        class="text-info">
+                                                        <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                    </a>
+                                                @elseif (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
+                                                    <a href="{{ route('form marketing', ['s' => $lahan->id]) }}"
                                                         class="text-info">
                                                         <i class="align-middle mr-2 far fa-fw fa-edit"></i>
                                                     </a>
@@ -268,7 +325,7 @@
                                         </tr>
                                     @empty
                                         <div class="alert alert-danger p-1">
-                                            @if (auth()->user()->role == 'qc')
+                                            @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                                                 @if (isset($regis_lpg))
                                                     Belum ada Lahan yang bisa diregistrasi nomor lapang
                                                 @elseif (isset($inppmt))
@@ -293,7 +350,7 @@
                         </div>
                     </div>
                 </div>
-                @if (auth()->user()->role == 'qc' && isset($regis_lpg) or isset($lpg))
+                @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin' && isset($regis_lpg) or isset($lpg))
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <h5 class="card-title my-2" id="title_blok">
@@ -338,7 +395,7 @@
     {{-- end content --}}
     @push('sc')
         <script></script>
-        @if (auth()->user()->role == 'qc')
+        @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
             <script src="{{ asset('js/regis_lapang.js') }}"></script>
         @else
             <script src="{{ asset('js/lahan.js') }}"></script>

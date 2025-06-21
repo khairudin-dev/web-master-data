@@ -19,7 +19,7 @@
 
                 </a>
             </li>
-            @if (auth()->user()->role == 'produksi')
+            @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">
                     Kelola Data (Produksi)
                 </li>
@@ -37,7 +37,7 @@
                 </li>
             @endif
 
-            @if (auth()->user()->role == 'qc')
+            @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">
                     Kelola Data
                 </li>
@@ -85,7 +85,7 @@
                 </li>
             @endif
 
-            @if (auth()->user()->role == 'procesing')
+            @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">
                     Kelola Data (Prosesing)
                 </li>
@@ -103,7 +103,7 @@
                     </ul>
                 </li>
             @endif
-            @if (auth()->user()->role == 'analis')
+            @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">
                     Kelola Data (Analis)
                 </li>
@@ -124,7 +124,7 @@
             @endif
 
 
-            @if (auth()->user()->role == 'marketing')
+            @if (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">
                     Kelola Data (Marketing)
                 </li>
@@ -134,10 +134,10 @@
                             Benih</span>
                     </a>
                     <ul id="Distribusi" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input marketing') }}">Input
                                 Distribusi</a>
                         </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('mkt') }}">Daftar
                                 Distribusi</a>
                         </li>
                     </ul>

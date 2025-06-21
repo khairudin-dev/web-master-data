@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
         $roles = [
             'produksi',
             'qc',
+            'procesing',
             'analis',
             'manager qc',
             'marketing',

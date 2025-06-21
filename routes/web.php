@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnalissController;
 use App\Http\Controllers\LahanController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\PanenController;
 use App\Http\Controllers\PemantauanController;
 use App\Http\Controllers\ProsesController;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::middleware(['auth', 'role:produksi'])->group(function () {
+Route::middleware(['auth', 'role:produksi,superadmin'])->group(function () {
     Route::get('/regis-lahan', [RegisLahanController::class, 'rsgis_page'])->name('regis lahan');
     Route::get('/edit-lahan/{s}', [RegisLahanController::class, 'edit_page'])->name('edit lahan');
     Route::get('/lahan', [RegisLahanController::class, 'lahan'])->name('lahan');
@@ -22,7 +23,7 @@ Route::middleware(['auth', 'role:produksi'])->group(function () {
     Route::delete('/del-lahan/{s}', [RegisLahanController::class, 'delete'])->name('delete regis lahan');
     Route::post('/u-blk', [uniqueController::class, 'validateBlok'])->name('u-blk');
 });
-Route::middleware(['auth', 'role:qc'])->group(function () {
+Route::middleware(['auth', 'role:qc,superadmin'])->group(function () {
     Route::get('/regis-lapang', [RegisLapangController::class, 'lahan'])->name('regis lapang');
     Route::get('/lapang', [RegisLapangController::class, 'lapang'])->name('lapang');
     Route::put('/regis-lapang/{s}', [RegisLapangController::class, 'regis'])->name('post regis lapang');
@@ -40,13 +41,18 @@ Route::middleware(['auth', 'role:qc'])->group(function () {
     Route::get('/panen', [PanenController::class, 'panen'])->name('panen');
 });
 Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
-Route::middleware(['auth', 'role:analis'])->group(function () {
+Route::middleware(['auth', 'role:analis,superadmin'])->group(function () {
     Route::get('/uji-lab/input', [AnalissController::class, 'lapang'])->name('input uji lab');
     Route::get('/uji-lab/input/{s}', [AnalissController::class, 'form'])->name('form uji lab');
     Route::put('/uji-lab/input/{s}', [AnalissController::class, 'post'])->name('post uji lab');
     Route::get('/uji-lab', [AnalissController::class, 'lab'])->name('lab');
 });
-Route::middleware(['auth', 'role:masketing'])->group(function () {});
+Route::middleware(['auth', 'role:marketing,superadmin'])->group(function () {
+    Route::get('/marketing/input', [MarketingController::class, 'lapang'])->name('input marketing');
+    Route::get('/marketing/input/{s}', [MarketingController::class, 'form'])->name('form marketing');
+    Route::put('/marketing/input/{s}', [MarketingController::class, 'post'])->name('post marketing');
+    Route::get('/marketing', [MarketingController::class, 'mkt'])->name('mkt');
+});
 Route::middleware(['auth', 'role:manager qc'])->group(function () {});
 Route::middleware(['auth', 'role:superadmin'])->group(function () {});
 Route::middleware(['auth'])->group(function () {
