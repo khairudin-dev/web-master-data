@@ -18,6 +18,9 @@
             @else
                 <li class="breadcrumb-item active" aria-current="page">Lapang</li>
             @endif
+        @elseif (auth()->user()->role == 'analis')
+            <li class="breadcrumb-item"><a href="{{ route('panen') }}">Uji Laboratrorium</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Input Hasil Uji</li>
         @else
             <li class="breadcrumb-item active" aria-current="page">Lahan</li>
         @endif
@@ -53,6 +56,9 @@
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
                                 </h6>
                             @endif
+                        @elseif (auth()->user()->role == 'analis')
+                            <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
+                            </h6>
                         @else
                             <h6 class="card-subtitle text-muted">Daftar data lahan yang telah terregistrsi</h6>
                         @endif
@@ -95,6 +101,13 @@
                                                 <th>Tgl. Semai</th>
                                                 <th>Tgl. Tanam</th>
                                             @endif
+                                        @elseif (auth()->user()->role == 'analis')
+                                            <th>Nomor Lapang</th>
+                                            <th>Panen</th>
+                                            <th>Luas Lulus</th>
+                                            <th>Taksasi</th>
+                                            <th>Tonase</th>
+                                        @else
                                         @endif
                                         <th>Aksi</th>
                                     </tr>
@@ -139,12 +152,13 @@
                                                             <i class="align-middle mr-2 fas fa-fw fa-clock"></i>
                                                         @endif
                                                     </td>
-                                                @elseif (isset($pn))
+                                                @elseif (isset($pn) or isset($inppr))
                                                     <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
                                                     </th>
                                                     <th>{{ $lahan->luas_akhir . ' (ha)' }}</th>
-                                                    <th>{{ number_format($lahan->taksasi, 0, '.', ','). ' (Kg)' }}</th>
-                                                    <th>{{ number_format($lahan->tonase, 0, '.', ','). ' (Kg)' }}</th>
+                                                    <th>{{ number_format($lahan->taksasi, 0, ',', '.') . ' (Kg)' }}
+                                                    </th>
+                                                    <th>{{ number_format($lahan->tonase, 0, ',', '.') . ' (Kg)' }}</th>
                                                 @else
                                                     @if (!isset($inppn))
                                                         <td>{{ $lahan->nama }}</td>
@@ -161,6 +175,15 @@
                                                     <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
                                                     </td>
                                                 @endif
+                                            @elseif (auth()->user()->role == 'analis')
+                                                <th>{{ $lahan->lapang }}</th>
+                                                <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                </th>
+                                                <th>{{ $lahan->lulus . ' (ha)' }}</th>
+                                                <th>{{ number_format($lahan->taksasi, 0, ',', '.') . ' (Kg)' }}
+                                                </th>
+                                                <th>{{ number_format($lahan->tonase, 0, ',', '.') . ' (Kg)' }}</th>
+                                            @else
                                             @endif
                                             <td>
 
@@ -203,6 +226,11 @@
                                                         data-blok="{{ $lahan->id }}"
                                                         data-action="{{ route('delete regis lahan', ['s' => '__ID__']) }}">
                                                         <i class="align-middle fas fa-fw fa-trash"></i></a>
+                                                @elseif (auth()->user()->role == 'analis')
+                                                    <a href="{{ route('form uji lab', ['s' => $lahan->id]) }}"
+                                                        class="text-info">
+                                                        <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                    </a>
                                                 @else
                                                 @endif
                                             </td>

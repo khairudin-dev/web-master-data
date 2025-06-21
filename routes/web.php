@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalissController;
 use App\Http\Controllers\LahanController;
 use App\Http\Controllers\PanenController;
 use App\Http\Controllers\PemantauanController;
@@ -38,15 +39,14 @@ Route::middleware(['auth', 'role:qc'])->group(function () {
     Route::put('/panen-input/{s}', [PanenController::class, 'post'])->name('post panen');
     Route::get('/panen', [PanenController::class, 'panen'])->name('panen');
 });
+Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
 Route::middleware(['auth', 'role:analis'])->group(function () {
-    Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
+    Route::get('/uji-lab/input', [AnalissController::class, 'lapang'])->name('input uji lab');
+    Route::get('/uji-lab/input/{s}', [AnalissController::class, 'form'])->name('form uji lab');
 });
-Route::middleware(['auth', 'role:masketing'])->group(function () {
-});
-Route::middleware(['auth', 'role:manager qc'])->group(function () {
-});
-Route::middleware(['auth', 'role:superadmin'])->group(function () {
-});
+Route::middleware(['auth', 'role:masketing'])->group(function () {});
+Route::middleware(['auth', 'role:manager qc'])->group(function () {});
+Route::middleware(['auth', 'role:superadmin'])->group(function () {});
 Route::middleware(['auth'])->group(function () {
     Route::get('/detail-lahan/{no_blok}', [LahanController::class, 'getDetail'])->name('detail lahan');
     Route::get('/', function () {

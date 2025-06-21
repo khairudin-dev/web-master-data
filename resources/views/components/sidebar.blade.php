@@ -89,8 +89,6 @@
                 <li class="sidebar-header">
                     Kelola Data (Prosesing)
                 </li>
-            @endif
-            @if (auth()->user()->role == 'analis')
                 <li class="sidebar-item">
                     <a href="#Proses" data-toggle="collapse" class="sidebar-link collapsed">
                         <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Prosesing</span>
@@ -104,6 +102,8 @@
                         </li>
                     </ul>
                 </li>
+            @endif
+            @if (auth()->user()->role == 'analis')
                 <li class="sidebar-header">
                     Kelola Data (Analis)
                 </li>
@@ -113,7 +113,7 @@
                             Laboratorium</span>
                     </a>
                     <ul id="Laboratorium" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Input Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input uji lab') }}">Input Hasil
                                 Uji</a>
                         </li>
                         <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
