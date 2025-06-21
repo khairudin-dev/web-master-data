@@ -43,6 +43,8 @@ Route::get('/proses/input', [ProsesController::class, 'input'])->name('input pro
 Route::middleware(['auth', 'role:analis'])->group(function () {
     Route::get('/uji-lab/input', [AnalissController::class, 'lapang'])->name('input uji lab');
     Route::get('/uji-lab/input/{s}', [AnalissController::class, 'form'])->name('form uji lab');
+    Route::put('/uji-lab/input/{s}', [AnalissController::class, 'post'])->name('post uji lab');
+    Route::get('/uji-lab', [AnalissController::class, 'lab'])->name('lab');
 });
 Route::middleware(['auth', 'role:masketing'])->group(function () {});
 Route::middleware(['auth', 'role:manager qc'])->group(function () {});

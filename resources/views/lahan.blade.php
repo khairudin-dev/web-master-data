@@ -18,11 +18,11 @@
             @else
                 <li class="breadcrumb-item active" aria-current="page">Lapang</li>
             @endif
-        @elseif (auth()->user()->role == 'analis')
-            <li class="breadcrumb-item"><a href="{{ route('panen') }}">Uji Laboratrorium</a></li>
+        @elseif (auth()->user()->role == 'analis' && isset($inplab))
+            <li class="breadcrumb-item"><a href="{{ route('lab') }}">Uji Laboratrorium</a></li>
             <li class="breadcrumb-item active" aria-current="page">Input Hasil Uji</li>
         @else
-            <li class="breadcrumb-item active" aria-current="page">Lahan</li>
+            <li class="breadcrumb-item active" aria-current="page">Uji Laboratrorium</li>
         @endif
 
     </x-slot:head_link>
@@ -57,8 +57,13 @@
                                 </h6>
                             @endif
                         @elseif (auth()->user()->role == 'analis')
-                            <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
-                            </h6>
+                            @if (isset($inplab))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
+                                </h6>
+                            @else
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah diuji
+                                </h6>
+                            @endif
                         @else
                             <h6 class="card-subtitle text-muted">Daftar data lahan yang telah terregistrsi</h6>
                         @endif
@@ -103,10 +108,20 @@
                                             @endif
                                         @elseif (auth()->user()->role == 'analis')
                                             <th>Nomor Lapang</th>
-                                            <th>Panen</th>
-                                            <th>Luas Lulus</th>
-                                            <th>Taksasi</th>
-                                            <th>Tonase</th>
+                                            @if (isset($inplab))
+                                                <th>Panen</th>
+                                                <th>Luas Lulus</th>
+                                                <th>Taksasi</th>
+                                                <th>Tonase</th>
+                                            @endif
+                                            <th>K A</th>
+                                            <th>D K</th>
+                                            <th>Mutu</th>
+                                            <th>T Sertif</th>
+                                            <th>No. Sertifikat</th>
+                                            <th>Kdl</th>
+                                            <th>QTY Label</th>
+                                            <th>No. Seri</th>
                                         @else
                                         @endif
                                         <th>Aksi</th>
@@ -177,16 +192,32 @@
                                                 @endif
                                             @elseif (auth()->user()->role == 'analis')
                                                 <th>{{ $lahan->lapang }}</th>
-                                                <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                @if (isset($inplab))
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                    </th>
+                                                    <th>{{ $lahan->lulus . ' (ha)' }}</th>
+                                                    <th>{{ number_format($lahan->taksasi, 0, ',', '.') . ' (Kg)' }}
+                                                    </th>
+                                                    <th>{{ number_format($lahan->tonase, 0, ',', '.') . ' (Kg)' }}</th>
+                                                @endif
+                                                <th>{{ $lahan->ka }}</th>
+                                                <th>{{ $lahan->kecambah }}</th>
+                                                <th class="text-lg {{ $lahan->mutu == 1 ? 'text-info' : 'text-danger' }}">
+                                                    @if ($lahan->mutu == 1)
+                                                        <i class="align-middle mr-2 fas fa-fw fa-check-circle"></i>
+                                                    @else
+                                                        <i class="align-middle mr-2 fas fa-fw fa-minus-circle"></i>
+                                                    @endif
+
                                                 </th>
-                                                <th>{{ $lahan->lulus . ' (ha)' }}</th>
-                                                <th>{{ number_format($lahan->taksasi, 0, ',', '.') . ' (Kg)' }}
-                                                </th>
-                                                <th>{{ number_format($lahan->tonase, 0, ',', '.') . ' (Kg)' }}</th>
+                                                <th>{{ $lahan->tonase_sertifikat }}</th>
+                                                <th>{{ $lahan->no_sertifikat }}</th>
+                                                <th>{{ $lahan->tg_kadaluarsa }}</th>
+                                                <th>{{ $lahan->label }}</th>
+                                                <th>{{ $lahan->seri_label }}</th>
                                             @else
                                             @endif
                                             <td>
-
                                                 @if (auth()->user()->role == 'qc')
                                                     @if (isset($regis_lpg) or isset($lpg))
                                                         <a href="#collapseOne" data-toggle="collapse"

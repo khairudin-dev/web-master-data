@@ -3,7 +3,7 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('pemantauan lapang') }}">Uji Laboratorium </a></li>
+        <li class="breadcrumb-item"><a href="{{ route('lab') }}">Uji Laboratorium </a></li>
         <li class="breadcrumb-item"><a href="{{ route('input uji lab') }}">Input Hasil Uji</a></li>
         <li class="breadcrumb-item active" aria-current="page">Input Hasil Uji Blok : {{ $lahan->no_blok }}</li>
     </x-slot:head_link>
@@ -109,6 +109,12 @@
                                 <div class="text-muted mb-2">Foto Label</div>
                             </div>
                             <hr class="bg-primary col-12">
+                        </div>
+                        <form id="lab_f" action="{{ route('post uji lab', ['s' => $lahan->id]) }}" method="POST"
+                            enctype="multipart/form-data" class="row mb-4">
+                            @csrf
+                            @method('put')
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ambil" class="form-label">Tanggal Pengambilan Calon Benih</label>
@@ -134,7 +140,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="selesai" class="form-label">Tanggal Selesai Uji Lab</label>
-                                    <div class="input-group date" id="datetimepicker-selesai" data-target-input="nearest">
+                                    <div class="input-group date" id="datetimepicker-selesai"
+                                        data-target-input="nearest">
                                         <input type="text" placeholder="Tanggal selesai..."
                                             class="form-control datetimepicker-input @error('selesai') is-invalid @enderror"
                                             value="{{ old('selesai', !empty($lahan->selesai) ? \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y') : '') }}"
@@ -153,74 +160,78 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="tk">Kadar Air</label>
-                                    <input type="number" class="form-control @error('tk') is-invalid @enderror"
-                                        value="{{ old('tk', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
-                                        id="tk" name="tk" placeholder="Luas Lahan spotimg...">
-                                    @error('tk')
+                                    <label for="ka">Kadar Air</label>
+                                    <input type="number" class="form-control @error('ka') is-invalid @enderror"
+                                        value="{{ old('ka', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
+                                        id="ka" name="ka" placeholder="Kadar air...">
+                                    @error('ka')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
-
                             </div>
-                            {{-- <div class="col-md-4">
-
-                                <form id="panen_f" action="{{ route('post panen', ['s' => $lahan->id]) }}"
-                                    method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('put')
-
-                                    <div class="form-row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="panen" class="form-label">Tanggal Panen</label>
-                                                <div class="input-group date" id="datetimepicker-panen"
-                                                    data-target-input="nearest">
-                                                    <input type="text" placeholder="Tanggal panen..."
-                                                        class="form-control datetimepicker-input @error('panen') is-invalid @enderror"
-                                                        value="{{ old('panen', !empty($lahan->panen) ? \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y') : '') }}"
-                                                        data-toggle="datetimepicker" data-target="#datetimepicker-panen"
-                                                        id="panen" name="panen" data-mask="00/00/0000" />
-                                                    @error('panen')
-                                                        <div
-                                                            class="jquery-validation-error small form-text invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
-                                                    <div class="input-group-append"
-                                                        data-target="#datetimepicker-panen"
-                                                        data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="dk">Daya Berkecambah</label>
+                                    <input type="number" class="form-control @error('dk') is-invalid @enderror"
+                                        value="{{ old('dk', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
+                                        id="dk" name="dk" placeholder="Daya berkecambah...">
+                                    @error('dk')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="tk">Taksasi</label>
-                                                <input type="number"
-                                                    class="form-control @error('tk') is-invalid @enderror"
-                                                    value="{{ old('tk', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
-                                                    id="tk" name="tk"
-                                                    placeholder="Luas Lahan spotimg...">
-                                                @error('tk')
-                                                    <div class="jquery-validation-error small form-text invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="lab">Hasil Uji Lab</label>
+                                    <select id="lab" name="lab"
+                                        class="form-control select2 @error('lab') is-invalid @enderror"
+                                        data-toggle="select2">
+                                        <option value=1 >Ya</option>
+                                        <option value=0 >Tidak</option>
+                                    </select>
+                                    @error('lab')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
                                         </div>
-                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="sertif">Nomor Sertifikat</label>
+                                    <input type="text" class="form-control @error('sertif') is-invalid @enderror"
+                                        value="{{ old('sertif', isset($edit) && $edit ? $lahan->sertif : '') }}"
+                                        id="sertif" name="sertif" placeholder="Nomor Sertifikat...">
+                                    @error('sertif')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
 
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                            </div> --}}
-                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-12" for="seri">Nomor Seri Label</label>
+                                    <input type="number"
+                                        class="form-control col-9 @error('seri') is-invalid @enderror"
+                                        value="{{ old('seri', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
+                                        id="seri" name="seri" placeholder="Seri Label...">
+                                    @error('seri')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    <button type="submit" class="col-2 ml-2 btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -229,9 +240,9 @@
         @push('sc')
             <script>
                 // const x = {{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }};
-                const x = moment('{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}', 'DD/MM/YYYY');
-                const y = {{ $lahan->luas_akhir }}
+                // const x = moment('{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}', 'DD/MM/YYYY');
+                // const y = {{ $lahan->luas_akhir }}
             </script>
-            <script type="text/javascript" src="{{ asset('js/panen.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/uji-lab.js') }}"></script>
         @endpush
 </x-layout>

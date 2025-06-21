@@ -49,8 +49,8 @@ return new class extends Migration
             $table->date('tg_selesai')->nullable();
             $table->integer('campuran')->nullable();
             $table->integer('kotoran_bersih')->nullable();
-            $table->integer('ka')->nullable();
-            $table->integer('kecambah')->nullable();
+            $table->decimal('ka', 4, 2)->nullable();
+            $table->decimal('kecambah', 4, 2)->nullable();
             $table->integer('mutu')->nullable();
             $table->integer('tonase_sertifikat')->nullable();
             $table->string('no_sertifikat')->nullable();

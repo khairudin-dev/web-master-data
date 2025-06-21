@@ -116,7 +116,7 @@
                         <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input uji lab') }}">Input Hasil
                                 Uji</a>
                         </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('lab') }}">Daftar Hasil
                                 Uji</a>
                         </li>
                     </ul>
