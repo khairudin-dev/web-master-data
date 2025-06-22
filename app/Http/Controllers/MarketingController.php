@@ -23,8 +23,17 @@ class MarketingController extends Controller
 
     public function form($s)
     {
-        $lahan = Datatani::select('id', 'lapang', 'no_blok', 'tonase_sertifikat', 'no_sertifikat', 'tg_kadaluarsa', 'label', 'seri_label'
-        // // Kirim data ke view,
+        $lahan = Datatani::select(
+            'id',
+            'lapang',
+            'no_blok',
+            'tonase_sertifikat',
+            'no_sertifikat',
+            'tg_kadaluarsa',
+            'label',
+            'seri_label',
+            'stok'
+            // // Kirim data ke view,
         )->findOrFail($s);
         if (empty($lahan->tonase_sertifikat)) {
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
@@ -32,12 +41,23 @@ class MarketingController extends Controller
         $title = "Input Data pendistribusian";
         return view('mkt-input', compact('title', "lahan"));
     }
-        public function post(Request $request, $s): RedirectResponse
+    public function post(Request $request, $s): RedirectResponse
     {
         $lahan = Datatani::findOrFail($s);
         if (empty($lahan->tonase_sertifikat)) {
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
+
+        // Ambil nilai dari input
+        $tb = $request->tb;
+        $tm = $request->tm;
+        $tp = $request->tp;
+
+        // Ubah ke float, dan fallback ke 0 jika tidak valid
+        $tb = is_numeric($tb) ? floatval($tb) : 0;
+        $tm = is_numeric($tm) ? floatval($tm) : 0;
+        $tp = is_numeric($tp) ? floatval($tp) : 0;
+
         $lahan->update([
             'bantuan' => $request->bantuan,
             't_bantuan' => $request->tp,
@@ -45,13 +65,14 @@ class MarketingController extends Controller
             't_market' => $request->tm,
             'penangkaran' => $request->penangkaran,
             't_penangkaran' => $request->tp,
+            'stok' => $lahan->tonase_sertifikat - $tb - $tm - $tp,
         ]);
         // dd($lahan);
 
         //redirect to index
         return redirect()->route('mkt')->with(['success' => 'Data Berhasil Diubah!']);
     }
-            public function mkt(): View
+    public function mkt(): View
     {
         $mkt = true;
         $title = "Daftar Data Distribusi";
@@ -59,17 +80,17 @@ class MarketingController extends Controller
             'id',
             'lapang',
             'no_blok',
-            'bantuan' ,
-            't_bantuan' ,
-            'market' ,
-            't_market' ,
-            'penangkaran' ,
-            't_penangkaran' ,
+            'bantuan',
+            't_bantuan',
+            'market',
+            't_market',
+            'penangkaran',
+            't_penangkaran',
+            'stok',
 
         ]);
         // // Kirim data ke view
         // dd($lahans);
         return view('lahan', compact('title', 'lahans', 'mkt'));
     }
-
 }

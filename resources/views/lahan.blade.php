@@ -150,6 +150,7 @@
                                                 <th>Tonase</th>
                                                 <th>Penangkaran</th>
                                                 <th>Tonase</th>
+                                                <th>Stok</th>
                                             @else
                                                 <th>Tonase Sertifikat</th>
                                                 <th>Nomor Sertifikat</th>
@@ -261,6 +262,7 @@
                                                     <th>{{ $lahan->t_market . ' Kg' }}</th>
                                                     <th>{{ $lahan->penangkaran }}</th>
                                                     <th>{{ $lahan->t_penangkaran . ' Kg' }}</th>
+                                                    <th>{{ $lahan->stok . ' Kg' }}</th>
                                                 @else
                                                     <th>{{ $lahan->tonase_sertifikat . ' Kg' }}</th>
                                                     <th>{{ $lahan->no_sertifikat }}</th>

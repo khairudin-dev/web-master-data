@@ -39,7 +39,7 @@
 
             @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">
-                    Kelola Data
+                    Kelola Data (QC Lapang)
                 </li>
                 <li class="sidebar-item">
                     <a href="#pages" data-toggle="collapse" class="sidebar-link collapsed">

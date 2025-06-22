@@ -69,6 +69,11 @@
                                                     <td>:</td>
                                                     <td class="text-right">{{ $lahan->seri_label }}</td>
                                                 </tr>
+                                                <tr>
+                                                    <td>Stok</td>
+                                                    <td>:</td>
+                                                    <td class="text-right" id="stok">{{ $lahan->stok. ' Kg' }}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -183,8 +188,9 @@
         @push('sc')
             <script>
                 // const x = {{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }};
-                const x = moment('{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}', 'DD/MM/YYYY');
-                const y = {{ $lahan->luas_akhir }}
+                // const x = moment('{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}', 'DD/MM/YYYY');
+                // const y = {{ $lahan->luas_akhir }}
+                const z = {{ $lahan->tonase_sertifikat }}
             </script>
             <script type="text/javascript" src="{{ asset('js/panen.js') }}"></script>
         @endpush

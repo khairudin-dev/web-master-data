@@ -219,10 +219,10 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label class="col-12" for="seri">Nomor Seri Label</label>
-                                    <input type="number"
+                                    <input type="text"
                                         class="form-control col-9 @error('seri') is-invalid @enderror"
                                         value="{{ old('seri', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
-                                        id="seri" name="seri" placeholder="Seri Label...">
+                                        id="seri" name="seri" placeholder="Seri Label..." data-mask="00000-00000">
                                     @error('seri')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
                                             {{ $message }}

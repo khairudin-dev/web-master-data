@@ -63,6 +63,7 @@ class Datatani extends Model
         't_market',
         'penangkaran',
         't_penangkaran',
+        'stok',
         'qcl'
     ];
     public function getAlamatPartsAttribute()

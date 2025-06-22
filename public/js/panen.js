@@ -18,7 +18,28 @@
                 $('#tonase').text('0'); // Default jika nilai tidak valid
             }
         });
+        $('#tb').change(function () {
+            getStok()
+        });
+        $('#tm').change(function () {
+            getStok()
+        });
+        $('#tp').change(function () {
+            getStok()
+        });
 
+        function getStok() {
+            let tb = parseFloat($('#tb').val());
+            let tm = parseFloat($('#tm').val());
+            let tp = parseFloat($('#tp').val());
+
+            if (isNaN(tb)) tb = 0;
+            if (isNaN(tm)) tm = 0;
+            if (isNaN(tp)) tp = 0;
+
+            // Asumsikan variabel z sudah didefinisikan sebelumnya di luar fungsi
+            $('#stok').text(z - tb - tm - tp); // 2 desimal
+        }
         // Saat tanggal panen diubah
         $("#datetimepicker-panen").on("change.datetimepicker", function (e) {
             // Ambil nilai tanggal panen yang dipilih
