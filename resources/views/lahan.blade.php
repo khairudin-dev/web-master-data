@@ -131,15 +131,16 @@
                                                 <th>Luas Lulus</th>
                                                 <th>Taksasi</th>
                                                 <th>Tonase</th>
+                                            @else
+                                                <th>K A</th>
+                                                <th>D K</th>
+                                                <th>Mutu</th>
+                                                <th>T Sertif</th>
+                                                <th>No. Sertifikat</th>
+                                                <th>Kdl</th>
+                                                <th>QTY Label</th>
+                                                <th>No. Seri</th>
                                             @endif
-                                            <th>K A</th>
-                                            <th>D K</th>
-                                            <th>Mutu</th>
-                                            <th>T Sertif</th>
-                                            <th>No. Sertifikat</th>
-                                            <th>Kdl</th>
-                                            <th>QTY Label</th>
-                                            <th>No. Seri</th>
                                         @elseif (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
                                             <th>Nomor Lapang</th>
                                             @if (@isset($mkt))
@@ -233,23 +234,24 @@
                                                     <th>{{ number_format($lahan->taksasi, 0, ',', '.') . ' (Kg)' }}
                                                     </th>
                                                     <th>{{ number_format($lahan->tonase, 0, ',', '.') . ' (Kg)' }}</th>
-                                                @endif
-                                                <th>{{ $lahan->ka }}</th>
-                                                <th>{{ $lahan->kecambah }}</th>
-                                                <th
-                                                    class="text-lg {{ $lahan->mutu == 1 ? 'text-info' : 'text-danger' }}">
-                                                    @if ($lahan->mutu == 1)
-                                                        <i class="align-middle mr-2 fas fa-fw fa-check-circle"></i>
-                                                    @else
-                                                        <i class="align-middle mr-2 fas fa-fw fa-minus-circle"></i>
-                                                    @endif
+                                                @else
+                                                    <th>{{ $lahan->ka }}</th>
+                                                    <th>{{ $lahan->kecambah }}</th>
+                                                    <th
+                                                        class="text-lg {{ $lahan->mutu == 1 ? 'text-info' : 'text-danger' }}">
+                                                        @if ($lahan->mutu == 1)
+                                                            <i class="align-middle mr-2 fas fa-fw fa-check-circle"></i>
+                                                        @else
+                                                            <i class="align-middle mr-2 fas fa-fw fa-minus-circle"></i>
+                                                        @endif
 
-                                                </th>
-                                                <th>{{ $lahan->tonase_sertifikat }}</th>
-                                                <th>{{ $lahan->no_sertifikat }}</th>
-                                                <th>{{ \Carbon\Carbon::parse($lahan->tg_kadaluarsa)->format('d/m/Y') }}
-                                                <th>{{ $lahan->label }}</th>
-                                                <th>{{ $lahan->seri_label }}</th>
+                                                    </th>
+                                                    <th>{{ $lahan->tonase_sertifikat }}</th>
+                                                    <th>{{ $lahan->no_sertifikat }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->tg_kadaluarsa)->format('d/m/Y') }}
+                                                    <th>{{ $lahan->label }}</th>
+                                                    <th>{{ $lahan->seri_label }}</th>
+                                                @endif
                                             @elseif (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
                                                 <th>{{ $lahan->lapang }}</th>
                                                 @if (@isset($mkt))
