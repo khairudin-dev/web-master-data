@@ -60,11 +60,11 @@ class MarketingController extends Controller
 
         $lahan->update([
             'bantuan' => $request->bantuan,
-            't_bantuan' => $request->tp,
+            't_bantuan' => $tb,
             'market' => $request->market,
-            't_market' => $request->tm,
+            't_market' => $tm,
             'penangkaran' => $request->penangkaran,
-            't_penangkaran' => $request->tp,
+            't_penangkaran' => $tp,
             'stok' => $lahan->tonase_sertifikat - $tb - $tm - $tp,
         ]);
         // dd($lahan);
