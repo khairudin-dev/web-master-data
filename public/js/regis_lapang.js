@@ -1,7 +1,17 @@
 $(document).ready(function () {
     // Datatables basic
     $('#lahan').DataTable({
-        responsive: true
+        ordering: true,
+        order: [
+            [0, 'asc']
+        ],
+        scrollX: true,
+        language: {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ data per halaman",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            zeroRecords: "Data tidak ditemukan"
+        }
     });
     //     focusInvalid: true,
     //     onkeyup: function (element) {
@@ -112,5 +122,13 @@ $(document).ready(function () {
             $(element).parents(".form-group").find(".is-invalid").removeClass("is-invalid");
         }
     });
+    $(document).on('click', '.go-detail', function () {
+        var noBlok = $(this).data('blok_lahan');
+        $('#title_blok').text("Lahan " + noBlok);
+        $('#modal-body-detailahan').html('<p>Memuat data...</p>');
 
+        //ambil detail lahan
+        loadDetailLahan(noBlok)
+
+    });
 });

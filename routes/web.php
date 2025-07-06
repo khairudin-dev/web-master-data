@@ -41,6 +41,7 @@ Route::middleware(['auth', 'role:qc,superadmin'])->group(function () {
     Route::get('/panen', [PanenController::class, 'panen'])->name('panen');
 });
 Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
+
 Route::middleware(['auth', 'role:analis,superadmin'])->group(function () {
     Route::get('/uji-lab/input', [AnalissController::class, 'lapang'])->name('input uji lab');
     Route::get('/uji-lab/input/{s}', [AnalissController::class, 'form'])->name('form uji lab');

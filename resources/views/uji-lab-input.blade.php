@@ -21,7 +21,7 @@
                     {{-- seklias data --}}
                     <div class="m-sm-1 m-md-2">
                         <div class="row mb-4">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="text-muted mb-2">Nomor Blok</div>
@@ -45,7 +45,7 @@
                                         <tr>
                                             <td>Luas Akhir / Lahan Lulus</td>
                                             <td>:</td>
-                                            <td class="text-right">{{ $lahan->luas_akhir . ' ha' }}</td>
+                                            <td class="text-right">{{ $lahan->lulus . ' ha' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Tgl. Panen;</td>
@@ -57,7 +57,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="text-muted mb-2">Nomor Lapang</div>
@@ -96,17 +96,11 @@
                                             <td>Tgl. Kadaluarsa;</td>
                                             <td>: </td>
                                             <td class="text-right" id="kdl">
-                                                --
+                                                {{ $lahan->tg_kadaluarsa ? \Carbon\Carbon::parse($lahan->tg_kadaluarsa)->format('d/m/Y') : '--' }}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <img id="preview-label" class=""
-                                    style="max-height:220px; max-width: 100%; margin: auto; "
-                                    src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
-                                <div class="text-muted mb-2">Foto Label</div>
                             </div>
                             <hr class="bg-primary col-12">
                         </div>
@@ -121,7 +115,7 @@
                                     <div class="input-group date" id="datetimepicker-ambil" data-target-input="nearest">
                                         <input type="text" placeholder="Tanggal ambil..."
                                             class="form-control datetimepicker-input @error('ambil') is-invalid @enderror"
-                                            value="{{ old('ambil', !empty($lahan->ambil) ? \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y') : '') }}"
+                                            value="{{ old('ambil', !empty($lahan->tg_pengambilan) ? \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y') : '') }}"
                                             data-toggle="datetimepicker" data-target="#datetimepicker-ambil"
                                             id="ambil" name="ambil" data-mask="00/00/0000" />
                                         @error('ambil')
@@ -144,7 +138,7 @@
                                         data-target-input="nearest">
                                         <input type="text" placeholder="Tanggal selesai..."
                                             class="form-control datetimepicker-input @error('selesai') is-invalid @enderror"
-                                            value="{{ old('selesai', !empty($lahan->selesai) ? \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y') : '') }}"
+                                            value="{{ old('selesai', !empty($lahan->tg_selesai) ? \Carbon\Carbon::parse($lahan->tg_selesai)->format('d/m/Y') : '') }}"
                                             data-toggle="datetimepicker" data-target="#datetimepicker-selesai"
                                             id="selesai" name="selesai" data-mask="00/00/0000" />
                                         @error('selesai')
@@ -164,8 +158,8 @@
                                 <div class="form-group">
                                     <label for="ka">Kadar Air</label>
                                     <input type="number" class="form-control @error('ka') is-invalid @enderror"
-                                        value="{{ old('ka', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
-                                        id="ka" name="ka" placeholder="Kadar air...">
+                                        value="{{ old('ka', !empty($lahan->ka) ? $lahan->ka : '') }}" id="ka"
+                                        name="ka" placeholder="Kadar air...">
                                     @error('ka')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
                                             {{ $message }}
@@ -177,9 +171,22 @@
                                 <div class="form-group">
                                     <label for="dk">Daya Berkecambah</label>
                                     <input type="number" class="form-control @error('dk') is-invalid @enderror"
-                                        value="{{ old('dk', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
+                                        value="{{ old('dk', !empty($lahan->kecambah) ? $lahan->kecambah : '') }}"
                                         id="dk" name="dk" placeholder="Daya berkecambah...">
                                     @error('dk')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="bm">Benih Murni</label>
+                                    <input type="number" class="form-control @error('bm') is-invalid @enderror"
+                                        value="{{ old('bm', !empty($lahan->bm) ? $lahan->bm : '') }}" id="bm"
+                                        name="bm" placeholder="Benih murni...">
+                                    @error('bm')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -192,8 +199,8 @@
                                     <select id="lab" name="lab"
                                         class="form-control select2 @error('lab') is-invalid @enderror"
                                         data-toggle="select2">
-                                        <option value=1 >Ya</option>
-                                        <option value=0 >Tidak</option>
+                                        <option value='1' {{ old('lab', $lahan->mutu) == 1 ? 'selected' : '' }}>Lulus</option>
+                                        <option value='0' {{ old('lab', $lahan->mutu) == 0 ? 'selected' : '' }}>Tidak</option>
                                     </select>
                                     @error('lab')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
@@ -206,7 +213,7 @@
                                 <div class="form-group">
                                     <label for="sertif">Nomor Sertifikat</label>
                                     <input type="text" class="form-control @error('sertif') is-invalid @enderror"
-                                        value="{{ old('sertif', isset($edit) && $edit ? $lahan->sertif : '') }}"
+                                        value="{{ old('sertif', !empty($lahan->no_sertifikat) ? $lahan->no_sertifikat : '') }}"
                                         id="sertif" name="sertif" placeholder="Nomor Sertifikat...">
                                     @error('sertif')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
@@ -216,19 +223,19 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group row">
                                     <label class="col-12" for="seri">Nomor Seri Label</label>
                                     <input type="text"
-                                        class="form-control col-9 @error('seri') is-invalid @enderror"
-                                        value="{{ old('seri', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
-                                        id="seri" name="seri" placeholder="Seri Label..." data-mask="00000-00000">
+                                        class="form-control col-8 @error('seri') is-invalid @enderror"
+                                        value="{{ old('seri', !empty($lahan->seri_label) ? $lahan->seri_label : '') }}"
+                                        id="seri" name="seri" placeholder="Seri Label...">
                                     @error('seri')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    <button type="submit" class="col-2 ml-2 btn btn-primary">Submit</button>
+                                    <button type="submit" class="col-3 ml-2 btn btn-primary">Submit</button>
                                 </div>
                             </div>
                         </form>

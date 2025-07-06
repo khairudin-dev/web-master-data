@@ -14,7 +14,7 @@ class AnalissController extends Controller
     {
         $inplab = true;
         $title = "Input Hasil Uji Laboratorium";
-        $lahans = Datatani::whereNotNull('panen')->latest()->get(['id', 'lapang', 'no_blok', 'panen', 'lulus', "tonase", 'taksasi']);
+        $lahans = Datatani::whereNotNull('panen')->whereNull('mutu')->latest()->get(['id', 'lapang', 'no_blok', 'panen', 'lulus', "tonase", 'taksasi']);
         // // Kirim data ke view
         // dd($lahans);
         return view('lahan', compact('title', 'lahans', 'inplab'));
@@ -30,6 +30,7 @@ class AnalissController extends Controller
             'ka',
             'kecambah',
             'mutu',
+            'bm',
             'tonase_sertifikat',
             'no_sertifikat',
             'tg_kadaluarsa',
@@ -51,8 +52,16 @@ class AnalissController extends Controller
             'panen',
             'taksasi',
             'tonase',
-            'luas_akhir',
-            'i_label',
+            'lulus',
+            'tg_pengambilan',
+            'tg_selesai',
+            'ka',
+            'kecambah',
+            'bm',
+            'mutu',
+            'no_sertifikat',
+            'seri_label',
+            'tg_kadaluarsa',
         )->findOrFail($s);
         if (empty($lahan->panen)) {
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
@@ -66,26 +75,31 @@ class AnalissController extends Controller
         if (empty($lahan->tg_pl3)) {
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
-        // $request->validate([
-        //     'k_p' => 'required',
-        //     's_p' => 'required|numeric|min:0',
-        //     'tg_p' => 'required|date_format:d/m/Y',
-        // ], [
-        //     "k_p.required" => "Keterangan wajib diisi",
-        //     "s_p.required" => "Isikan 0 jika memang kosong",
-        //     "s_p.min" => "Isikan 0 jika memang kosong",
-        //     "s_p.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
-        //     "tg_p.required" => "Tanggal Pemantauan wajib diisi",
-        //     "tg_p.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-        //     // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
-        // ]);
-
-        // $panen = Carbon::createFromFormat('d/m/Y', $request->panen)->startOfDay();
-        // $semai = Carbon::parse($lahan->semai)->startOfDay();
-        // $selisih = $semai->diffInDays($panen, false); // false agar bisa hasil negatif juga
-
-        // Tambahkan 6 bulan
-        // $tanggalTambah6Bulan = $tanggal->copy()->addMonths(6);
+        $request->validate([
+            'seri' => 'required',
+            'lab' => 'required',
+            'sertif' => 'required',
+            'ka' => 'required|numeric|min:0',
+            'dk' => 'required|numeric|min:0',
+            'bm' => 'required|numeric|min:0',
+            'ambil'=> 'required|date_format:d/m/Y',
+            'selesai'=> 'required|date_format:d/m/Y|after:ambil',
+        ], [
+            "ambil.required"=>"Tanggal Pengambilan wajib diisi",
+            "ambil.date_format"=>"Isian wajib berupa tanggal! (HH/BB/TTTT)",
+            "selesai.required"=>"Tanggal Selesai wajib diisi",
+            "selesai.date_format"=>"Isian wajib berupa tanggal! (HH/BB/TTTT)",
+            "selesai.after"=>"Tanggal Selesai harus sesudah Tanggal Pengambilan",
+            "ka.required"=>"Kadar Air wajib diisi, isi 0 jika memang kosong",
+            "ka.numeric"=>"harus dengan angkat",
+            "dk.required"=>"Daya berKecambah wajib diisi, isi 0 jika memang kosong",
+            "dk.numeric"=>"harus dengan angkat",
+            "bm.required"=>"Benih Murni wajib diisi, isi 0 jika memang kosongbm",
+            "bm.numeric"=>"harus dengan angkat",
+            "lab.required"=>"Hasil Uji wajib diisi",  
+            "sertif.required"=>"Nomor sertifikat wajib diisi",  
+            "seri.required"=>"Nomor seri wajib diisi",  
+        ]);
 
         // dd(Carbon::createFromFormat('d/m/Y', $request->selesai)->copy()->addMonths(6)->format('Y-m-d'));
         $lahan->update([
@@ -95,10 +109,12 @@ class AnalissController extends Controller
             'kecambah' => $request->dk,
             'mutu' => $request->lab,
             'tonase_sertifikat' => $lahan->tonase,
+            'stok' => $lahan->tonase,
             'no_sertifikat' => $request->sertif,
             'tg_kadaluarsa' => Carbon::createFromFormat('d/m/Y', $request->selesai)->copy()->addMonths(6)->format('Y-m-d'),
             'label' =>  $lahan->tonase/5,
             'seri_label' =>  $request->seri,
+            'bm' =>  $request->bm,
         ]);
 
         //redirect to index

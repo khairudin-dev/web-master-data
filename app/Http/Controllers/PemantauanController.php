@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Datatani;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class PemantauanController extends Controller
     {
         $inppmt = true;
         $title = "Input Hasil Pemantauan";
-        $lahans = Datatani::whereNotNull('lapang')->latest()->get(['id', 'lapang', 'no_blok', 'nama', 'varietas', 'luas', 'semai', 'tanam']);
+        $lahans = Datatani::whereNotNull('lapang')->whereNull('tg_pl3')->latest()->get(['id', 'lapang', 'alamat', 'no_blok', 'nama', 'varietas', 'luas', 'semai', 'tanam']);
         // // Kirim data ke view
         // dd($lahans);
         return view('lahan', compact('title', 'lahans', 'inppmt'));
@@ -25,7 +26,7 @@ class PemantauanController extends Controller
     {
         $pmt = true;
         $title = "Daftar Hasil Pemantauan";
-        $lahans = Datatani::whereNotNull('tg_pendahuluan')->latest()->get(['id', 'lapang', 'no_blok', 'tg_pendahuluan', 'tg_pl1', 'tg_pl2', 'tg_pl3']);
+        $lahans = Datatani::whereNotNull('tg_pendahuluan')->latest()->get(['id', 'lapang','nama','varietas','alamat', 'no_blok', 'tg_pendahuluan', 'tg_pl1', 'tg_pl2', 'tg_pl3']);
         // // Kirim data ke view
         // dd($lahans);
         return view('lahan', compact('title', 'lahans', 'pmt'));
@@ -43,22 +44,27 @@ class PemantauanController extends Controller
             'luas',
             'luas_akhir',
             'i_label',
+            'lokasi',
             'tg_pendahuluan',
             'i_pendahuluan',
             'k_pendahuluan',
             's_pendahuluan',
+            'h_pendahuluan',
             'tg_pl1',
             'i_pl1',
             'k_pl1',
             's_pl1',
+            'h_pl1',
             'tg_pl2',
             'i_pl2',
             'k_pl2',
             's_pl2',
+            'h_pl2',
             'tg_pl3',
             'i_pl3',
             'k_pl3',
             's_pl3',
+            'h_pl3',
         )->findOrFail($s);
         // dd($lahan->semai);
         if (empty($lahan->lapang)) {
@@ -76,7 +82,7 @@ class PemantauanController extends Controller
         $request->validate([
             'k_p' => 'required',
             's_p' => 'required|numeric|min:0',
-            'tg_p' => 'required|date_format:d/m/Y',
+            'tg_p' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y'),
         ], [
             "k_p.required" => "Keterangan wajib diisi",
             "s_p.required" => "Isikan 0 jika memang kosong",
@@ -84,10 +90,18 @@ class PemantauanController extends Controller
             "s_p.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
             "tg_p.required" => "Tanggal Pemantauan wajib diisi",
             "tg_p.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-            // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
+            "tg_p.after" => "Tanggal Pemantauan harus setelah Tanggal Tanam",
         ]);
 
+        if ($lahan->tg_pl1) {
+            $request->validate([
+                'tg_p' => 'before:' . \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y'),
+            ], [
+                "tg_p.before" => "Tanggal Pemantauan harus sebelum Tanggal Pemantauan Lapang 1",
+            ]);
+        }
         $pendahuluan = $lahan->i_pendahuluan;
+        $hasil = $lahan->h_pendahuluan;
         // //check if image is uploaded
         if ($request->hasFile('pendahuluan') or empty($lahan->i_pendahuluan)) {
             $request->validate([
@@ -101,6 +115,31 @@ class PemantauanController extends Controller
             $oldPendahuluan = $pendahuluan;
             $pendahuluan = "pendahuluan-" . $lahan->no_blok . '.' . $request->file('pendahuluan')->getClientOriginalExtension();
         }
+        if ($request->hasFile('h_pendahuluan') or empty($lahan->h_pendahuluan)) {
+            $request->validate([
+                'h_pendahuluan' => 'required|mimes:jpeg,jpg,png,pdf|max:2048',
+            ], [
+                "h_pendahuluan.required" => "Dokumen Pemantauan wajib diisi",
+                'h_pendahuluan.mimes' => 'File harus berupa gambar (jpeg, jpg, png) atau PDF',
+                "h_pendahuluan.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+            ]);
+            $oldHasil = $hasil;
+            $hasil = "hasil_pendahuluan-" . $request->blok . '.pdf';
+            $fileHasil = $request->file('h_pendahuluan');
+            $ext = strtolower($fileHasil->getClientOriginalExtension());
+            if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                // Konversi gambar ke PDF
+                $imageData = base64_encode(file_get_contents($fileHasil->getRealPath()));
+                $html = '<img src="data:image/' . $ext . ';base64,' . $imageData . '" style="max-width:100%; height:auto;">';
+
+                $pdf = Pdf::loadHTML($html)->setPaper('a4', 'portrait')->output();
+            } elseif ($ext === 'pdf') {
+                $pdf = $fileHasil;
+            } else {
+                // Antisipasi tidak sesuai, meskipun validasi sudah ada
+                return back()->withErrors(['h_pendahuluan' => 'Tipe file tidak didukung' . $ext]);
+            }
+        }
 
         // dd($request->pendahuluan);
         $lahan->update([
@@ -108,6 +147,7 @@ class PemantauanController extends Controller
             's_pendahuluan' => $request->s_p,
             'tg_pendahuluan' => Carbon::createFromFormat('d/m/Y', $request->tg_p)->format('Y-m-d'),
             'i_pendahuluan' => $pendahuluan,
+            'h_pendahuluan' => $hasil,
             'luas_akhir' => $lahan->luas - $request->s_p - $lahan->s_pl1 - $lahan->s_pl2 - $lahan->s_pl3,
 
         ]);
@@ -125,7 +165,24 @@ class PemantauanController extends Controller
                 return redirect()->back()->with(['error' => 'Gagal simpan file label']);
             }
         }
-
+        if ($request->hasFile('h_pendahuluan')) {
+            //delete old image
+            if ($oldHasil && Storage::exists('pendahuluan/' . $oldHasil)) {
+                Storage::delete('pendahuluan/' . $oldHasil);
+            }
+            //upload new image
+            try {
+                if ($ext === 'pdf') {
+                    $request->file('h_pendahuluan')->storeAs('pendahuluan', $hasil);
+                } else {
+                    # code...
+                    Storage::put('pendahuluan/' . $hasil, $pdf);
+                }
+            } catch (\Exception $e) {
+                // Opsional: rollback DB atau log error
+                return redirect()->back()->with(['error' => 'Gagal simpan file lokasi']);
+            }
+        }
         //redirect to index
         return redirect()->route('pemantauan lapang')->with(['success' => 'Data Berhasil Diubah!']);
     }
@@ -138,7 +195,7 @@ class PemantauanController extends Controller
         $request->validate([
             'k_pl1' => 'required',
             's_pl1' => 'required|numeric|min:0',
-            'tg_pl1' => 'required|date_format:d/m/Y',
+            'tg_pl1' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y'),
         ], [
             "k_pl1.required" => "Keterangan wajib diisi",
             "s_pl1.required" => "Isikan 0 jika memang kosong",
@@ -146,10 +203,18 @@ class PemantauanController extends Controller
             "s_pl1.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
             "tg_pl1.required" => "Tanggal Pemantauan wajib diisi",
             "tg_pl1.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-            // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
+            "tg_pl1.after" => "Tanggal Pemantauan harus setelah Tanggal Pendahuluan",
         ]);
+        if ($lahan->tg_pl2) {
+            $request->validate([
+                'tg_pl1' => 'before:' . \Carbon\Carbon::parse($lahan->tg_pl2)->format('d/m/Y'),
+            ], [
+                "tg_pl1.before" => "Tanggal Pemantauan harus sebelum Tanggal Pemantauan Lapang 1",
+            ]);
+        }
 
         $pl1 = $lahan->i_pl1;
+        $hasil = $lahan->h_pl1;
         // //check if image is uploaded
         if ($request->hasFile('pl1') or empty($lahan->i_pl1)) {
             $request->validate([
@@ -163,12 +228,38 @@ class PemantauanController extends Controller
             $oldPl1 = $pl1;
             $pl1 = "pl1-" . $lahan->no_blok . '.' . $request->file('pl1')->getClientOriginalExtension();
         }
+        if ($request->hasFile('h_pl1') or empty($lahan->h_pl1)) {
+            $request->validate([
+                'h_pl1' => 'required|mimes:jpeg,jpg,png,pdf|max:2048',
+            ], [
+                "h_pl1.required" => "Dokumen Pemantauan wajib diisi",
+                'h_pl1.mimes' => 'File harus berupa gambar (jpeg, jpg, png) atau PDF',
+                "h_pl1.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+            ]);
+            $oldHasil = $hasil;
+            $hasil = "hasil_pl1-" . $request->blok . '.pdf';
+            $fileHasil = $request->file('h_pl1');
+            $ext = strtolower($fileHasil->getClientOriginalExtension());
+            if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                // Konversi gambar ke PDF
+                $imageData = base64_encode(file_get_contents($fileHasil->getRealPath()));
+                $html = '<img src="data:image/' . $ext . ';base64,' . $imageData . '" style="max-width:100%; height:auto;">';
+
+                $pdf = Pdf::loadHTML($html)->setPaper('a4', 'portrait')->output();
+            } elseif ($ext === 'pdf') {
+                $pdf = $fileHasil;
+            } else {
+                // Antisipasi tidak sesuai, meskipun validasi sudah ada
+                return back()->withErrors(['h_pl1' => 'Tipe file tidak didukung' . $ext]);
+            }
+        }
         // dd($request->pendahuluan);
         $lahan->update([
             'k_pl1' => $request->k_pl1,
             's_pl1' => $request->s_pl1,
             'tg_pl1' => Carbon::createFromFormat('d/m/Y', $request->tg_pl1)->format('Y-m-d'),
             'i_pl1' => $pl1,
+            'h_pl1' => $hasil,
             'luas_akhir' => $lahan->luas - $lahan->s_pendahuluan - $request->s_pl1 - $lahan->s_pl2 - $lahan->s_pl3,
 
         ]);
@@ -186,6 +277,24 @@ class PemantauanController extends Controller
                 return redirect()->back()->with(['error' => 'Gagal simpan file label']);
             }
         }
+        if ($request->hasFile('h_pl1')) {
+            //delete old image
+            if ($oldHasil && Storage::exists('pl1/' . $oldHasil)) {
+                Storage::delete('pl1/' . $oldHasil);
+            }
+            //upload new image
+            try {
+                if ($ext === 'pdf') {
+                    $request->file('h_pl1')->storeAs('pl1', $hasil);
+                } else {
+                    # code...
+                    Storage::put('pl1/' . $hasil, $pdf);
+                }
+            } catch (\Exception $e) {
+                // Opsional: rollback DB atau log error
+                return redirect()->back()->with(['error' => 'Gagal simpan file lokasi']);
+            }
+        }
 
         //redirect to index
         return redirect()->route('pemantauan lapang')->with(['success' => 'Data Berhasil Diubah!']);
@@ -199,7 +308,7 @@ class PemantauanController extends Controller
         $request->validate([
             'k_pl2' => 'required',
             's_pl2' => 'required|numeric|min:0',
-            'tg_pl2' => 'required|date_format:d/m/Y',
+            'tg_pl2' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y'),
         ], [
             "k_pl2.required" => "Keterangan wajib diisi",
             "s_pl2.required" => "Isikan 0 jika memang kosong",
@@ -207,10 +316,20 @@ class PemantauanController extends Controller
             "s_pl2.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
             "tg_pl2.required" => "Tanggal Pemantauan wajib diisi",
             "tg_pl2.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-            // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
+            "tg_pl2.after" => "Tanggal Pemantauan harus setelah Tanggal Pemantauan Lapang 1",
         ]);
 
+        if ($lahan->tg_pl3) {
+            $request->validate([
+                'tg_pl2' => 'before:' . \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y'),
+            ], [
+                "tg_pl2.before" => "Tanggal Pemantauan harus sebelum Tanggal Pemantauan Lapang 3",
+            ]);
+        }
+
         $pl2 = $lahan->i_pl2;
+        $hasil = $lahan->h_pl2;
+
         // //check if image is uploaded
         if ($request->hasFile('pl2') or empty($lahan->i_pl2)) {
             $request->validate([
@@ -224,12 +343,39 @@ class PemantauanController extends Controller
             $oldPl2 = $pl2;
             $pl2 = "pl2-" . $lahan->no_blok . '.' . $request->file('pl2')->getClientOriginalExtension();
         }
+        if ($request->hasFile('h_pl2') or empty($lahan->h_pl2)) {
+            $request->validate([
+                'h_pl2' => 'required|mimes:jpeg,jpg,png,pdf|max:2048',
+            ], [
+                "h_pl2.required" => "Dokumen Pemantauan wajib diisi",
+                'h_pl2.mimes' => 'File harus berupa gambar (jpeg, jpg, png) atau PDF',
+                "h_pl2.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+            ]);
+            $oldHasil = $hasil;
+            $hasil = "hasil_pl2-" . $request->blok . '.pdf';
+            $fileHasil = $request->file('h_pl2');
+            $ext = strtolower($fileHasil->getClientOriginalExtension());
+            if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                // Konversi gambar ke PDF
+                $imageData = base64_encode(file_get_contents($fileHasil->getRealPath()));
+                $html = '<img src="data:image/' . $ext . ';base64,' . $imageData . '" style="max-width:100%; height:auto;">';
+
+                $pdf = Pdf::loadHTML($html)->setPaper('a4', 'portrait')->output();
+            } elseif ($ext === 'pdf') {
+                $pdf = $fileHasil;
+            } else {
+                // Antisipasi tidak sesuai, meskipun validasi sudah ada
+                return back()->withErrors(['h_pl2' => 'Tipe file tidak didukung' . $ext]);
+            }
+        }
+
         // dd($request->pendahuluan);
         $lahan->update([
             'k_pl2' => $request->k_pl2,
             's_pl2' => $request->s_pl2,
             'tg_pl2' => Carbon::createFromFormat('d/m/Y', $request->tg_pl2)->format('Y-m-d'),
             'i_pl2' => $pl2,
+            'h_pl2' => $hasil,
             'luas_akhir' => $lahan->luas - $lahan->s_pendahuluan - $lahan->s_pl1 - $request->s_pl2 - $lahan->s_pl3,
 
         ]);
@@ -247,6 +393,24 @@ class PemantauanController extends Controller
                 return redirect()->back()->with(['error' => 'Gagal simpan file label']);
             }
         }
+        if ($request->hasFile('h_pl2')) {
+            //delete old image
+            if ($oldHasil && Storage::exists('pl2/' . $oldHasil)) {
+                Storage::delete('pl2/' . $oldHasil);
+            }
+            //upload new image
+            try {
+                if ($ext === 'pdf') {
+                    $request->file('h_pl2')->storeAs('pl2', $hasil);
+                } else {
+                    # code...
+                    Storage::put('pl2/' . $hasil, $pdf);
+                }
+            } catch (\Exception $e) {
+                // Opsional: rollback DB atau log error
+                return redirect()->back()->with(['error' => 'Gagal simpan file lokasi']);
+            }
+        }
 
         //redirect to index
         return redirect()->route('pemantauan lapang')->with(['success' => 'Data Berhasil Diubah!']);
@@ -260,7 +424,7 @@ class PemantauanController extends Controller
         $request->validate([
             'k_pl3' => 'required',
             's_pl3' => 'required|numeric|min:0',
-            'tg_pl3' => 'required|date_format:d/m/Y',
+            'tg_pl3' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y'),
         ], [
             "k_pl3.required" => "Keterangan wajib diisi",
             "s_pl3.required" => "Isikan 0 jika memang kosong",
@@ -268,10 +432,12 @@ class PemantauanController extends Controller
             "s_pl3.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
             "tg_pl3.required" => "Tanggal Pemantauan wajib diisi",
             "tg_pl3.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-            // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
+            "tg_pl2.after" => "Tanggal Pemantauan harus setelah Tanggal Pemantauan Lapang 2",
         ]);
 
         $pl3 = $lahan->i_pl3;
+        $hasil = $lahan->h_pl3;
+
         // //check if image is uploaded
         if ($request->hasFile('pl3') or empty($lahan->i_pl3)) {
             $request->validate([
@@ -285,12 +451,39 @@ class PemantauanController extends Controller
             $oldPl3 = $pl3;
             $pl3 = "pl3-" . $lahan->no_blok . '.' . $request->file('pl3')->getClientOriginalExtension();
         }
+        if ($request->hasFile('h_pl3') or empty($lahan->h_pl3)) {
+            $request->validate([
+                'h_pl3' => 'required|mimes:jpeg,jpg,png,pdf|max:2048',
+            ], [
+                "h_pl3.required" => "Dokumen Pemantauan wajib diisi",
+                'h_pl3.mimes' => 'File harus berupa gambar (jpeg, jpg, png) atau PDF',
+                "h_pl3.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+            ]);
+            $oldHasil = $hasil;
+            $hasil = "hasil_pl3-" . $request->blok . '.pdf';
+            $fileHasil = $request->file('h_pl3');
+            $ext = strtolower($fileHasil->getClientOriginalExtension());
+            if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
+                // Konversi gambar ke PDF
+                $imageData = base64_encode(file_get_contents($fileHasil->getRealPath()));
+                $html = '<img src="data:image/' . $ext . ';base64,' . $imageData . '" style="max-width:100%; height:auto;">';
+
+                $pdf = Pdf::loadHTML($html)->setPaper('a4', 'portrait')->output();
+            } elseif ($ext === 'pdf') {
+                $pdf = $fileHasil;
+            } else {
+                // Antisipasi tidak sesuai, meskipun validasi sudah ada
+                return back()->withErrors(['h_pl3' => 'Tipe file tidak didukung' . $ext]);
+            }
+        }
+
         // dd($request->pendahuluan);
         $lahan->update([
             'k_pl3' => $request->k_pl3,
             's_pl3' => $request->s_pl3,
             'tg_pl3' => Carbon::createFromFormat('d/m/Y', $request->tg_pl3)->format('Y-m-d'),
             'i_pl3' => $pl3,
+            'h_pl3' => $hasil,
             'luas_akhir' => $lahan->luas - $lahan->s_pendahuluan - $lahan->s_pl1 - $lahan->s_pl2 - $request->s_pl3,
 
         ]);
@@ -306,6 +499,24 @@ class PemantauanController extends Controller
             } catch (\Exception $e) {
                 // Opsional: rollback DB atau log error
                 return redirect()->back()->with(['error' => 'Gagal simpan file label']);
+            }
+        }
+        if ($request->hasFile('h_pl3')) {
+            //delete old image
+            if ($oldHasil && Storage::exists('pl3/' . $oldHasil)) {
+                Storage::delete('pl3/' . $oldHasil);
+            }
+            //upload new image
+            try {
+                if ($ext === 'pdf') {
+                    $request->file('h_pl3')->storeAs('pl3', $hasil);
+                } else {
+                    # code...
+                    Storage::put('pl3/' . $hasil, $pdf);
+                }
+            } catch (\Exception $e) {
+                // Opsional: rollback DB atau log error
+                return redirect()->back()->with(['error' => 'Gagal simpan file lokasi']);
             }
         }
 

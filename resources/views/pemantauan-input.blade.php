@@ -20,7 +20,7 @@
                     {{-- seklias data --}}
                     <div class="m-sm-1 m-md-2">
                         <div class="row mb-4">
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="text-muted mb-2">Nomor Blok</div>
@@ -32,16 +32,21 @@
                                             {{ $lahan->lapang }}
                                         </strong>
                                     </div>
-                                    <div class="col-lg-3 col-md-1"></div>
-                                    <div class="col-lg-7 col-md-10 col-12 text-center mb-2">
+                                    <div class="col-lg-6 col-md-6 col-12 text-center mb-2">
                                         <div class="text-muted mb-2">Foto Label</div>
                                         <img id="preview-label" class=""
                                             style="max-height:230px; max-width: 100%; margin: auto; "
                                             src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
                                     </div>
+                                    <div class="col-lg-6 col-md-6 col-12 text-center mb-2">
+                                        <div class="text-muted mb-2">Lokasi Lahan</div>
+                                        <img id="preview-label" class=""
+                                            style="max-height:230px; max-width: 100%; margin: auto; "
+                                            src="{{ asset('/lokasi/' . $lahan->lokasi) }}" alt="Unsplash">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
@@ -176,6 +181,33 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                            <div class="col-lg-3 col-4">
+                                                <label for="h_pendahuluan">Dokumen Hasil</label>
+                                            </div>
+                                            <div class="col-lg-3 col-4 text-right text-md-left">
+                                                <button type="button" id="btn-preview-h_p"
+                                                    class="btn btn-outline-info btn-sm"
+                                                    style="{{ empty($lahan->h_pendahuluan) ? 'display: none;' : '' }}"
+                                                    data-toggle="modal"
+                                                    data-doc="{{ asset('pendahuluan/' . $lahan->h_pendahuluan ?? '') }}"
+                                                    data-target="#modalPreviewFile">
+                                                    <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
+                                                </button>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="file" id="h_pendahuluan" name="h_pendahuluan"
+                                                        class="form-control-file validation-file @error('h_pendahuluan') is-invalid @enderror"
+                                                        value="{{ old('h_pendahuluan') }}"
+                                                        accept="application/pdf, image/*">
+                                                    @error('h_pendahuluan')
+                                                        <div
+                                                            class="jquery-validation-error small form-text invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -272,6 +304,34 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-3 col-4">
+                                                    <label for="h_pl1">Dokumen Hasil</label>
+                                                </div>
+                                                <div class="col-lg-3 col-4 text-right text-md-left">
+                                                    <button type="button" id="btn-preview-h_pl1"
+                                                        class="btn btn-outline-info btn-sm"
+                                                        style="{{ empty($lahan->h_pl1) ? 'display: none;' : '' }}"
+                                                        data-toggle="modal"
+                                                        data-doc="{{ asset('pl1/' . $lahan->h_pl1 ?? '') }}"
+                                                        data-target="#modalPreviewFile">
+                                                        <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <input type="file" id="h_pl1" name="h_pl1"
+                                                            class="form-control-file validation-file @error('h_pl1') is-invalid @enderror"
+                                                            value="{{ old('h_pl1') }}"
+                                                            accept="application/pdf, image/*">
+                                                        @error('h_pl1')
+                                                            <div
+                                                                class="jquery-validation-error small form-text invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                             </div>
 
                                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -370,6 +430,33 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-3 col-4">
+                                                    <label for="h_pl2">Dokumen Hasil</label>
+                                                </div>
+                                                <div class="col-lg-3 col-4 text-right text-md-left">
+                                                    <button type="button" id="btn-preview-h_pl2"
+                                                        class="btn btn-outline-info btn-sm"
+                                                        style="{{ empty($lahan->h_pl2) ? 'display: none;' : '' }}"
+                                                        data-toggle="modal"
+                                                        data-doc="{{ asset('pl1/' . $lahan->h_pl2 ?? '') }}"
+                                                        data-target="#modalPreviewFile">
+                                                        <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <input type="file" id="h_pl2" name="h_pl2"
+                                                            class="form-control-file validation-file @error('h_pl2') is-invalid @enderror"
+                                                            value="{{ old('h_pl2') }}"
+                                                            accept="application/pdf, image/*">
+                                                        @error('h_pl2')
+                                                            <div
+                                                                class="jquery-validation-error small form-text invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -458,7 +545,7 @@
                                                         <input type="number"
                                                             class="form-control @error('s_pl3') is-invalid @enderror"
                                                             value="{{ old('s_pl3', !empty($lahan->s_pl3) ? $lahan->s_pl3 : '') }}"
-                                                            id="s_pl2" name="s_pl3"
+                                                            id="s_pl3" name="s_pl3"
                                                             placeholder="Luas Lahan spotimg...">
                                                         @error('s_pl3')
                                                             <div
@@ -468,6 +555,34 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-3 col-4">
+                                                    <label for="h_pl3">Dokumen Hasil</label>
+                                                </div>
+                                                <div class="col-lg-3 col-4 text-right text-md-left">
+                                                    <button type="button" id="btn-preview-h_pl3"
+                                                        class="btn btn-outline-info btn-sm"
+                                                        style="{{ empty($lahan->h_pl3) ? 'display: none;' : '' }}"
+                                                        data-toggle="modal"
+                                                        data-doc="{{ asset('pl1/' . $lahan->h_pl3 ?? '') }}"
+                                                        data-target="#modalPreviewFile">
+                                                        <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <input type="file" id="h_pl3" name="h_pl3"
+                                                            class="form-control-file validation-file @error('h_pl3') is-invalid @enderror"
+                                                            value="{{ old('h_pl3') }}"
+                                                            accept="application/pdf, image/*">
+                                                        @error('h_pl3')
+                                                            <div
+                                                                class="jquery-validation-error small form-text invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                             </div>
 
                                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -482,6 +597,26 @@
                 </div>
             </div>
         </div>
+        <!-- Modal modalPreviewFile -->
+
+        <div class="modal fade" id="modalPreviewFile" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" id="header-body-detailahan">
+                        <h5 class="modal-title" id="title_blok">Preview Dokumen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body m-3">
+                        <iframe id="iframePreviewFile" style="width: 100%; height: 500px;" frameborder="0"></iframe>
+                    </div>
+                    <div class="modal-footer"id="footer-body-detailahan">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{-- end content --}}
         @push('sc')
             <script>
@@ -489,7 +624,14 @@
                 const imgCheck_pl1 = {{ empty($lahan->i_pl1) ? 'true' : 'false' }};
                 const imgCheck_pl2 = {{ empty($lahan->i_pl2) ? 'true' : 'false' }};
                 const imgCheck_pl3 = {{ empty($lahan->i_pl3) ? 'true' : 'false' }};
+                const tanam = "{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}"
+                const tg_p =
+                    "{{ !empty($lahan->tg_pendahuluan) ? \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y') : '' }}";
+                const tg_pl1 = "{{ !empty($lahan->tg_pl1) ? \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y') : '' }}";
+                const tg_pl2 = "{{ !empty($lahan->tg_pl2) ? \Carbon\Carbon::parse($lahan->tg_pl2)->format('d/m/Y') : '' }}";
+                const tg_pl3 = "{{ !empty($lahan->tg_pl3) ? \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y') : '' }}";
             </script>
+            <script type="text/javascript" src="{{ asset('js/pdf-lib.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/pemantauan.js') }}"></script>
         @endpush
 </x-layout>

@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Input Data Hasil Pemantauan</h5>
+                    <h5 class="card-title">Input Data Hasil Panen</h5>
                     <h6 class="card-subtitle text-muted">Inputkan hasil panen Blok {{ $lahan->no_blok }}</h6>
                 </div>
                 <div class="card-body">
@@ -98,12 +98,17 @@
                                         <tr class="text-lg">
                                             <td>Umur Padi</td>
                                             <td>:</td>
-                                            <td class="text-right" id="umur">--</td>
+                                            <td class="text-right" id="umur">
+                                                {{ $lahan->umur_padi ? $lahan->umur_padi ." hari" : '--' }}
+                                            </td>
                                         </tr>
                                         <tr class="text-lg">
                                             <td>Tonase</td>
                                             <td>:</td>
-                                            <td class="text-right" id="tonase">--</td>
+                                            <td class="text-right" id="tonase">
+                                                {{ $lahan->tonase_sertifikat ? $lahan->tonase_sertifikat : '--' }}
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -143,8 +148,8 @@
                                                 <label for="tk">Taksasi</label>
                                                 <input type="number"
                                                     class="form-control @error('tk') is-invalid @enderror"
-                                                    value="{{ old('tk', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
-                                                    id="tk" name="tk" placeholder="Luas Lahan spotimg...">
+                                                    value="{{ old('tk', !empty($lahan->taksasi) ? $lahan->taksasi : '') }}"
+                                                    id="tk" name="tk" placeholder="Input taksasi...">
                                                 @error('tk')
                                                     <div class="jquery-validation-error small form-text invalid-feedback">
                                                         {{ $message }}
@@ -168,6 +173,7 @@
                 // const x = {{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }};
                 const x = moment('{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}', 'DD/MM/YYYY');
                 const y = {{ $lahan->luas_akhir }}
+                const z = moment('{{ \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y') }}', 'DD/MM/YYYY');
             </script>
             <script type="text/javascript" src="{{ asset('js/panen.js') }}"></script>
         @endpush

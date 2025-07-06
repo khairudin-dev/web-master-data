@@ -1,7 +1,17 @@
 $(document).ready(function () {
     // Datatables basic
     $('#lahan').DataTable({
-        responsive: true
+        ordering: true,
+        order: [
+            [0, 'asc']
+        ],
+        scrollX: true,
+        language: {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ data per halaman",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            zeroRecords: "Data tidak ditemukan"
+        }
     });
 
     // Ketika tombol detail diklik
@@ -14,7 +24,7 @@ $(document).ready(function () {
         loadDetailLahan(noBlok)
 
     });
-    
+
     $(document).on('click', '.go-del', function () {
         var noBlok = $(this).data('blok_lahan');
         var Blok = $(this).data('blok');

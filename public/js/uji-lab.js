@@ -1,5 +1,17 @@
     $(document).ready(function () {
         // var imgCheck_p = true
+
+        $('#seri').mask('Z', {
+            translation: {
+                'Z': {
+                    pattern: /[0-9\-]/,
+                    recursive: true
+                }
+            }
+        });
+
+        // Select2
+
         if (window.innerWidth > 912) { // 768px adalah breakpoint 'md' di Bootstrap
             $("#sidebar").addClass("toggled");
         }
@@ -42,90 +54,104 @@
         });
 
         $("#lab_f").validate({
-            // ignore: ".ignore, .select2-input",
-            // focusInvalid: true,
-            // onkeyup: function (element) {
-            //     $(element).valid();
-            // },
-            // onclick: true,
-            // onfocusout: function (element) {
-            //     $(element).valid();
-            // },
-            // rules: {
-            //     // "k_p": {
-            //     //     required: true,
-            //     // },
-            //     // "pendahuluan": {
-            //     //     required: imgCheck_p,
-            //     //     accept: "image/png, image/jpg, image/jpeg",
-            //     //     filesize: {
-            //     //         param: 2097152, // 2MB
-            //     //         depends: function (element) {
-            //     //             return !imgCheck_p && $(element).val() !== "";
-            //     //         } // Max file size in bytes (5MB)
-            //     //     },
-            //     // },
-            //     "ka": {
-            //         // required: true,
-            //         number: true,
-            //         min: 0.0
-            //     },
-            //     "dk": {
-            //         // required: true,
-            //         number: true,
-            //         min: 0.0
-            //     },
-            //     // "tg_p": {
-            //     //     required: true,
-            //     //     dateITA: true,
-            //     // },
-            // },
-            // messages: {
-            //     // "k_p": {
-            //     //     required: "Keterangan wajib diisi",
-            //     // },
-            //     // "pendahuluan": {
-            //     //     required: "Foto pependahuluan wajib diisi",
-            //     //     accept: "Pilih dengan format (jpg,jpeg,png)", // Allowed extensions
-            //     //     filesize: "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
-            //     // },
-            //     "ka": {
-            //         // required: "Luas Lahan spoting wajib diisi, isi 0 jika memang kosong",
-            //         number: "harus dengan angkat",
-            //     },
-            //     "dk": {
-            //         // required: "Luas Lahan spoting wajib diisi, isi 0 jika memang kosong",
-            //         number: "harus dengan angkat",
-            //     },
-            //     // "tg_p": {
-            //     //     required: "Tanggal Pemantauan wajib diisi",
-            //     //     dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-            //     // },
-            // },
+            ignore: ".ignore, .select2-input",
+            focusInvalid: true,
+            onkeyup: function (element) {
+                $(element).valid();
+            },
+            onclick: true,
+            onfocusout: function (element) {
+                $(element).valid();
+            },
+            rules: {
+                "ambil": {
+                    required: true,
+                    dateITA: true,
+                },
+                "selesai": {
+                    required: true,
+                    dateITA: true,
+                },
+                "ka": {
+                    required: true,
+                    number: true,
+                    min: 0.0
+                },
+                "dk": {
+                    required: true,
+                    number: true,
+                    min: 0.0
+                },
+                "bm": {
+                    required: true,
+                    number: true,
+                    min: 0.0
+                },
+                "lab": {
+                    required: true,
+                },
+                "sertif": {
+                    required: true,
+                },
+                "seri": {
+                    required: true,
+                },
+            },
+            messages: {
+                "ambil": {
+                    required: "Tanggal Pengambilan wajib diisi",
+                    dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+                },
+                "selesai": {
+                    required: "Tanggal Selesai wajib diisi",
+                    dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+                },
+                "ka": {
+                    required: "Kadar Air wajib diisi, isi 0 jika memang kosong",
+                    number: "harus dengan angkat",
+                },
+                "dk": {
+                    required: "Daya berKecambah wajib diisi, isi 0 jika memang kosong",
+                    number: "harus dengan angkat",
+                },
+                "bm": {
+                    required: "Benih Murni wajib diisi, isi 0 jika memang kosong",
+                    number: "harus dengan angkat",
+                },
+                "lab": {
+                    required: "Hasil Uji wajib diisi",
+                },
+                "sertif": {
+                    required: "Nomor sertifikat wajib diisi",
+                },
+                "seri": {
+                    required: "Nomor seri wajib diisi",
+                },
+            },
 
-            // // Errors
-            // errorPlacement: function errorPlacement(error, element) {
-            //     var $parent = $(element).parents(".form-group");
-            //     // Do not duplicate errors
-            //     if ($parent.find(".jquery-validation-error").length) {
-            //         return;
-            //     }
-            //     $parent.append(
-            //         error.addClass("jquery-validation-error small form-text invalid-feedback")
-            //     );
-            // },
-            // highlight: function (element) {
-            //     var $el = $(element);
-            //     var $parent = $el.parents(".form-group");
-            //     $el.addClass("is-invalid");
-            //     // Select2 and Tagsinput
-            //     if ($el.hasClass("select2-hidden-accessible") || $el.attr("data-role") === "tagsinput") {
-            //         $el.parent().addClass("is-invalid");
-            //     }
-            // },
-            // unhighlight: function (element) {
-            //     $(element).parents(".form-group").find(".is-invalid").removeClass("is-invalid");
-            // }
+            // Errors
+            errorPlacement: function errorPlacement(error, element) {
+                var $parent = $(element).parents(".form-group");
+                // Do not duplicate errors
+                if ($parent.find(".jquery-validation-error").length) {
+                    return;
+                }
+                $parent.append(
+                    error.addClass("jquery-validation-error small form-text invalid-feedback")
+                );
+            },
+            highlight: function (element) {
+                var $el = $(element);
+                var $parent = $el.parents(".form-group");
+                $el.addClass("is-invalid");
+                // Select2 and Tagsinput
+                if ($el.hasClass("select2-hidden-accessible") || $el.attr("data-role") === "tagsinput") {
+                    $el.parent().addClass("is-invalid");
+                }
+            },
+            unhighlight: function (element) {
+                $(element).parents(".form-group").find(".is-invalid").removeClass("is-invalid");
+            }
         });
 
     });

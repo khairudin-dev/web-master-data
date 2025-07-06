@@ -271,8 +271,31 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="permohonan">Dokumen Permohonan</label>
+                                    <input type="file" id="permohonan" name="permohonan"
+                                        class="form-control-file validation-file @error('permohonan') is-invalid @enderror"
+                                        value="{{ old('permohonan') }}" accept="application/pdf, image/*">
+                                    @error('permohonan')
+                                        <div class="jquery-validation-error small form-text invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-center mb-4">
+                                    <iframe id="preview-pdf"
+                                        style="width: 100%; height: 500px; {{ empty($edit) ? 'display: none;' : '' }}"
+                                        frameborder="0"
+                                        @if (!empty($edit)) src="{{ asset('/permohonan/' . $lahan->permohonan) }}" @endif></iframe>
+                                </div>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
+
                     </form>
                 </div>
             </div>
@@ -296,6 +319,7 @@
                 // lanjutkan sesuai kebutuhan...
             };
         </script>
+        <script type="text/javascript" src="{{ asset('js/pdf-lib.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/regis_lahan.js') }}"></script>
     @endpush
 </x-layout>

@@ -82,9 +82,16 @@
             <img id="preview-label" class="" style="max-height:230px; max-width: 100%; margin: auto; "
                 src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
         </div>
+        <div class="col-md-12 text-center">
+            <div class="text-muted">Dokumen Permohonan</div>
+            <iframe id="preview-pdf" style="width: 100%; height: 500px;"
+                frameborder="0"
+                src="{{ asset('/permohonan/' . $lahan->permohonan) }}"></iframe>
+
+        </div>
     </div>
 
-    @if (auth()->user()->role == 'produksi')
+    @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
         <div class="text-center">
             <a href="{{ route('edit lahan', ['s' => $lahan->id]) }}" class="btn btn-outline-primary"><i
                     class="mr-1 fas fa-fw fa-pencil-alt"></i>

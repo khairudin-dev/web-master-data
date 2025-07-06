@@ -1,4 +1,6 @@
     $(document).ready(function () {
+
+
         if (window.innerWidth > 912) { // 768px adalah breakpoint 'md' di Bootstrap
             $("#sidebar").addClass("toggled");
         }
@@ -64,6 +66,10 @@
             format: 'DD/MM/YYYY',
         });
 
+        if (editMode) {
+            $('#datetimepicker-semai').datetimepicker('maxDate', moment($('#tanam').val(), 'DD/MM/YYYY').clone().subtract(1, 'days'));
+            $('#datetimepicker-tanam').datetimepicker('minDate', moment($('#semai').val(), 'DD/MM/YYYY').clone().add(1, 'days'));
+        }
         // Saat tanggal semai diubah
         $("#datetimepicker-semai").on("change.datetimepicker", function (e) {
             // Set tanggal minimum untuk tanam agar setelah semai
@@ -104,6 +110,7 @@
                 $preview.attr('src', '#').hide();
             }
         });
+
         $('#provinsi').on('change', function () {
             let provinsiDipilih = $(this).val();
             $('#kota').empty().append(`<option value="">Pilih Kabupaten</option>`);
@@ -135,6 +142,7 @@
                 });
             }
         });
+
         $('#kecamatan').on('change', function () {
             let provinsiDipilih = $('#provinsi').val();
             let kabupatenDipilih = $('#kota').val();
@@ -153,6 +161,55 @@
                 kec.desa.forEach(desa => {
                     $('#desa').append(`<option value="${desa}">${desa}</option>`);
                 });
+            }
+        });
+
+        $('#permohonan').on('change', function () {
+            const file = this.files[0];
+            const $iframe = $('#preview-pdf');
+
+            if (file) {
+                const fileType = file.type;
+
+                if (fileType.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = async function (e) {
+                        const imageBytes = await fetch(e.target.result).then(res => res.arrayBuffer());
+
+                        const pdfDoc = await PDFLib.PDFDocument.create();
+                        const image = fileType === 'image/png' ?
+                            await pdfDoc.embedPng(imageBytes) :
+                            await pdfDoc.embedJpg(imageBytes);
+
+                        const page = pdfDoc.addPage([image.width, image.height]);
+                        page.drawImage(image, {
+                            x: 0,
+                            y: 0,
+                            width: image.width,
+                            height: image.height,
+                        });
+
+                        const pdfBytes = await pdfDoc.save();
+                        const pdfBlob = new Blob([pdfBytes], {
+                            type: 'application/pdf'
+                        });
+                        const pdfUrl = URL.createObjectURL(pdfBlob);
+
+                        $iframe.attr('src', pdfUrl).show();
+                    };
+                    reader.readAsDataURL(file);
+                } else if (fileType === 'application/pdf') {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        $iframe.attr('src', e.target.result).show();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    $iframe.hide();
+                    alert('Tipe file tidak didukung');
+                }
+            } else {
+                $iframe.hide();
             }
         });
 
@@ -269,6 +326,16 @@
                     required: true,
                     dateITA: true,
                 },
+                "permohonan": {
+                    required: !editMode,
+                    accept: "image/png, image/jpg, image/jpeg, application/pdf",
+                    filesize: {
+                        param: 2097152, // 2MB
+                        depends: function (element) {
+                            return !editMode && $(element).val() !== "";
+                        } // Max file size in bytes (5MB)
+                    },
+                },
             },
             messages: {
                 "blok": {
@@ -344,7 +411,11 @@
                     required: "Tanggal Tanam wajib diisi",
                     dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
                 },
-
+                "permohonan": {
+                    required: "Dokumen Permohonan wajib diisi",
+                    accept: "Pilih dengan format (jpg,jpeg,png,pdf)", // Allowed extensions
+                    filesize: "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
+                },
             },
 
             // Errors

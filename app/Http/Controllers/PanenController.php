@@ -17,6 +17,8 @@ class PanenController extends Controller
         $title = "Input Hasil Panen";
         $lahans = Datatani::whereNotNull('tg_pl3')->whereNull('panen')->latest()->get([
             'id',
+            'nama',
+            'alamat',
             'lapang',
             'no_blok',
             'kb',
@@ -37,11 +39,14 @@ class PanenController extends Controller
         $lahans = Datatani::whereNotNull('panen')->latest()->get([
             'id',
             'lapang',
+            'nama',
+            'alamat',
             'no_blok',
             'panen',
             'taksasi',
+            'varietas',
             'tonase',
-            'luas_akhir',
+            'lulus',
         ]);
         // // Kirim data ke view
         // dd($lahans);
@@ -61,6 +66,9 @@ class PanenController extends Controller
             'luas_akhir',
             'i_label',
             'tg_pl3',
+            'taksasi',
+            'umur_padi',
+            'tonase_sertifikat',
         )->findOrFail($s);
         if (empty($lahan->tg_pl3)) {
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
@@ -74,19 +82,18 @@ class PanenController extends Controller
         if (empty($lahan->tg_pl3)) {
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
-        // $request->validate([
-        //     'k_p' => 'required',
-        //     's_p' => 'required|numeric|min:0',
-        //     'tg_p' => 'required|date_format:d/m/Y',
-        // ], [
-        //     "k_p.required" => "Keterangan wajib diisi",
-        //     "s_p.required" => "Isikan 0 jika memang kosong",
-        //     "s_p.min" => "Isikan 0 jika memang kosong",
-        //     "s_p.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
-        //     "tg_p.required" => "Tanggal Pemantauan wajib diisi",
-        //     "tg_p.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-        //     // "tanam.after" => "Tanggal Tanam harus setelah Tanggal Semai",
-        // ]);
+        $request->validate([
+            'tk' => 'required|numeric|min:0',
+            'panen' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y'),
+
+        ], [
+            "tk.required" => "Isikan 0 jika memang kosong",
+            "tk.min" => "Isikan 0 jika memang kosong",
+            "tk.numeric" => "Luas Lahan Taksasi wajib diisidengan angkat",
+            "panen.required" => "Tanggal Panen wajib diisi",
+            "panen.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+            "tg_p.after" => "Tanggal Panen harus setelah Tanggal Pemantauan Lapang 3",
+        ]);
 
         $panen = Carbon::createFromFormat('d/m/Y', $request->panen)->startOfDay();
         $semai = Carbon::parse($lahan->semai)->startOfDay();
@@ -94,11 +101,11 @@ class PanenController extends Controller
 
         // dd($request->pendahuluan);
         $lahan->update([
-            'panen'=> Carbon::createFromFormat('d/m/Y', $request->panen)->format('Y-m-d'),
+            'panen' => Carbon::createFromFormat('d/m/Y', $request->panen)->format('Y-m-d'),
             'taksasi' => $request->tk,
             'tonase' => $request->tk * $lahan->luas_akhir,
             'lulus' => $lahan->luas_akhir,
-            'umur' => $selisih,
+            'umur_padi' => $selisih,
         ]);
 
         //redirect to index

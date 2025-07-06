@@ -4,7 +4,7 @@
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('mkt') }}">Data Distribusi</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('input panen') }}">Input data ditribuasi</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('input marketing') }}">Input data ditribuasi</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ $title }} Blok : {{ $lahan->no_blok }}</li>
     </x-slot:head_link>
 
@@ -43,6 +43,30 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
+                                                    <td>Varietas</td>
+                                                    <td>:</td>
+                                                    <td class="text-right">{{ $lahan->varietas}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kelas Benih</td>
+                                                    <td>:</td>
+                                                    <td class="text-right">{{ $lahan->kb }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tgl. Tanam</td>
+                                                    <td>:</td>
+                                                    <td class="text-right">
+                                                        {{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tgl. Panen</td>
+                                                    <td>:</td>
+                                                    <td class="text-right">
+                                                        {{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>Tonase Sertifikat</td>
                                                     <td>:</td>
                                                     <td class="text-right">{{ $lahan->tonase_sertifikat . ' Kg' }}</td>
@@ -72,7 +96,8 @@
                                                 <tr>
                                                     <td>Stok</td>
                                                     <td>:</td>
-                                                    <td class="text-right" id="stok">{{ $lahan->stok. ' Kg' }}</td>
+                                                    <td class="text-right" id="stok">{{ $lahan->stok . ' Kg' }}
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -81,7 +106,7 @@
                             </div>
                             <div class="col-md-7">
                                 <hr class="bg-primary">
-                                <form id="panen_f" action="{{ route('post marketing', ['s' => $lahan->id]) }}"
+                                <form id="mkt_f" action="{{ route('post marketing', ['s' => $lahan->id]) }}"
                                     method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
@@ -92,7 +117,7 @@
                                                 <label for="bantuan">Ditribusi benih bantuan</label>
                                                 <input type="text"
                                                     class="form-control @error('bantuan') is-invalid @enderror"
-                                                    value="{{ old('bantuan', isset($edit) && $edit ? $lahan->bantuan : '') }}"
+                                                    value="{{ old('bantuan', !empty($lahan->bantuan) ? $lahan->bantuan : '') }}"
                                                     id="bantuan" name="bantuan" placeholder="Penerima bantuan...">
                                                 @error('bantuan')
                                                     <div class="jquery-validation-error small form-text invalid-feedback">
@@ -107,7 +132,7 @@
                                                 <label for="tb">Tonase</label>
                                                 <input type="number"
                                                     class="form-control @error('tb') is-invalid @enderror"
-                                                    value="{{ old('tb', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
+                                                    value="{{ old('tb', !empty($lahan->t_bantuan) ? $lahan->t_bantuan : '') }}"
                                                     id="tb" name="tb" placeholder="Jumlah bantuan...">
                                                 @error('tb')
                                                     <div class="jquery-validation-error small form-text invalid-feedback">
@@ -121,7 +146,7 @@
                                                 <label for="market">Ditribusi benih free market</label>
                                                 <input type="text"
                                                     class="form-control @error('market') is-invalid @enderror"
-                                                    value="{{ old('market', isset($edit) && $edit ? $lahan->market : '') }}"
+                                                    value="{{ old('market', !empty($lahan->market) ? $lahan->market : '') }}"
                                                     id="market" name="market" placeholder="Penerima market...">
                                                 @error('market')
                                                     <div class="jquery-validation-error small form-text invalid-feedback">
@@ -136,7 +161,7 @@
                                                 <label for="tm">Tonase</label>
                                                 <input type="number"
                                                     class="form-control @error('tm') is-invalid @enderror"
-                                                    value="{{ old('tm', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
+                                                    value="{{ old('tm', !empty($lahan->t_market) ? $lahan->t_market : '') }}"
                                                     id="tm" name="tm" placeholder="Jumlah bantuan...">
                                                 @error('tm')
                                                     <div class="jquery-validation-error small form-text invalid-feedback">
@@ -150,8 +175,9 @@
                                                 <label for="penangkaran">Penangkaran</label>
                                                 <input type="text"
                                                     class="form-control @error('penangkaran') is-invalid @enderror"
-                                                    value="{{ old('penangkaran', isset($edit) && $edit ? $lahan->penangkaran : '') }}"
-                                                    id="penangkaran" name="penangkaran" placeholder="Penerima penangkaran...">
+                                                    value="{{ old('penangkaran', !empty($lahan->penangkaran) ? $lahan->penangkaran : '') }}"
+                                                    id="penangkaran" name="penangkaran"
+                                                    placeholder="Penerima penangkaran...">
                                                 @error('penangkaran')
                                                     <div class="jquery-validation-error small form-text invalid-feedback">
                                                         {{ $message }}
@@ -165,7 +191,7 @@
                                                 <label for="tp">Tonase</label>
                                                 <input type="number"
                                                     class="form-control @error('tp') is-invalid @enderror"
-                                                    value="{{ old('tp', !empty($lahan->taksasu) ? $lahan->taksasu : '') }}"
+                                                    value="{{ old('tp', !empty($lahan->t_penangkaran) ? $lahan->t_penangkaran : '') }}"
                                                     id="tp" name="tp" placeholder="Jumlah bantuan...">
                                                 @error('tp')
                                                     <div class="jquery-validation-error small form-text invalid-feedback">
@@ -192,6 +218,6 @@
                 // const y = {{ $lahan->luas_akhir }}
                 const z = {{ $lahan->tonase_sertifikat }}
             </script>
-            <script type="text/javascript" src="{{ asset('js/panen.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/marketing.js') }}"></script>
         @endpush
 </x-layout>

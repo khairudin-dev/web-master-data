@@ -15,7 +15,7 @@ class MarketingController extends Controller
         $inpmkt = true;
         $title = "Input Data Marketing";
 
-        $lahans = Datatani::whereNotNull('tonase_sertifikat')->latest()->get(['id', 'lapang', 'no_blok', 'tonase_sertifikat', 'no_sertifikat', 'tg_kadaluarsa', 'label', 'seri_label',]);
+        $lahans = Datatani::where('stok', '>', 0)->latest()->get(['id', 'lapang','varietas', 'no_blok', 'tonase_sertifikat','stok', 'no_sertifikat', 'tg_kadaluarsa', 'label', 'seri_label',]);
         // // Kirim data ke view
         // dd($lahans);
         return view('lahan', compact('title', 'lahans', 'inpmkt'));
@@ -26,13 +26,23 @@ class MarketingController extends Controller
         $lahan = Datatani::select(
             'id',
             'lapang',
+            'varietas',
+            'kb',
+            'tanam',
+            'panen',
             'no_blok',
             'tonase_sertifikat',
             'no_sertifikat',
             'tg_kadaluarsa',
             'label',
             'seri_label',
-            'stok'
+            'stok',
+            'bantuan',
+            't_bantuan',
+            'market',
+            't_market',
+            'penangkaran',
+            't_penangkaran',
             // // Kirim data ke view,
         )->findOrFail($s);
         if (empty($lahan->tonase_sertifikat)) {
@@ -75,10 +85,13 @@ class MarketingController extends Controller
     public function mkt(): View
     {
         $mkt = true;
+        $total = Datatani::sum('stok');
+
         $title = "Daftar Data Distribusi";
-        $lahans = Datatani::whereNotNull('mutu')->latest()->get([
+        $lahans = Datatani::whereNotNull('bantuan')->latest()->get([
             'id',
             'lapang',
+            'varietas',
             'no_blok',
             'bantuan',
             't_bantuan',
@@ -91,6 +104,6 @@ class MarketingController extends Controller
         ]);
         // // Kirim data ke view
         // dd($lahans);
-        return view('lahan', compact('title', 'lahans', 'mkt'));
+        return view('lahan', compact('title', 'lahans', 'mkt','total'));
     }
 }
