@@ -53,14 +53,14 @@
                                                     <td class="text-right">{{ $lahan->kb }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Tgl. Tanam</td>
+                                                    <td>Tanggal Tanam</td>
                                                     <td>:</td>
                                                     <td class="text-right">
                                                         {{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Tgl. Panen</td>
+                                                    <td>Tanggal Panen</td>
                                                     <td>:</td>
                                                     <td class="text-right">
                                                         {{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
@@ -77,7 +77,7 @@
                                                     <td class="text-right">{{ $lahan->no_sertifikat . ' ha' }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Tgl. Kadaluarsa</td>
+                                                    <td>Tanggal Kadaluarsa</td>
                                                     <td>:</td>
                                                     <td class="text-right">
                                                         {{ \Carbon\Carbon::parse($lahan->tg_kadaluarsa)->format('d/m/Y') }}

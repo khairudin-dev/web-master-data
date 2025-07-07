@@ -92,25 +92,25 @@
                             <a href="#" data-toggle="collapse" data-target="#collapseListData"
                                 aria-expanded="true" aria-controls="collapseListData">
 
-                                Daftar Lahan
+                                Daftar Lahan Penangkaran
                             </a>
                         </h5>
                         @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin' and isset($lhn))
-                            <h6 class="card-subtitle text-muted">Daftar data lahan yang telah terregistrsi</h6>
+                            <h6 class="card-subtitle text-muted">Daftar data lahan penangkaran yang telah terdaftar</h6>
                         @endif
                         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                             @if (isset($regis_lpg))
-                                <h6 class="card-subtitle text-muted">Daftar data lahan yang belum terregistrsi nomor
-                                    lapang
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang belum terdaftar nomor
+                                    lapangan
                                 </h6>
                             @endif
                             @if (isset($lpg) or isset($inppmt))
-                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah diregistrsi Nomor
-                                    Lapang
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah diregistrasi nomor
+                                    lapangan
                                 </h6>
                             @endif
                             @if (isset($inppn) or isset($pmt))
-                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipantau
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dilakukan pemeriksaan
                                 </h6>
                             @endif
                             @if (isset($pn))
@@ -183,8 +183,8 @@
                                     <tr>
                                         <th>Nomor Blok</th>
                                         @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin' and isset($lhn))
-                                            <th>Alamat Pemilik</th>
-                                            <th>Nama Pemilik</th>
+                                            <th>Alamat Koordinator</th>
+                                            <th>Nama Koordinator</th>
                                             <th>Varietas</th>
                                             <th>Luas</th>
                                             <th>Tgl. Semai</th>
@@ -192,8 +192,8 @@
                                         @endif
                                         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                                             @if (isset($regis_lpg))
-                                                <th>Nama Pemilik</th>
-                                                <th>Alamat Pemilik</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
                                                 <th>Varietas</th>
                                                 <th>Luas</th>
                                                 <th>Tgl. Semai</th>
@@ -201,8 +201,8 @@
                                             @endif
                                             @if (isset($lpg))
                                                 <th>No. Lapang</th>
-                                                <th>Nama Pemilik</th>
-                                                <th>Alamat Pemilik</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
                                                 <th>Varietas</th>
                                                 <th>Luas</th>
                                                 <th>Tgl. Semai</th>
@@ -210,8 +210,8 @@
                                             @endif
                                             @if (isset($inppmt))
                                                 <th>No. Lapang</th>
-                                                <th>Nama Pemilik</th>
-                                                <th>Alamat Pemilik</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
                                                 <th>Varietas</th>
                                                 <th>Luas</th>
                                                 <th>Tgl. Semai</th>
@@ -219,8 +219,8 @@
                                             @endif
                                             @if (isset($pmt))
                                                 <th>No. Lapang</th>
-                                                <th>Nama Pemilik</th>
-                                                <th>Alamat Pemilik</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
                                                 <th>Varietas</th>
                                                 <th>Pendahuluan</th>
                                                 <th>PL 1</th>
@@ -229,8 +229,8 @@
                                             @endif
                                             @if (isset($inppn))
                                                 <th>No. Lapang</th>
-                                                <th>Nama Pemilik</th>
-                                                <th>Alamat Pemilik</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
                                                 <th>Kualitas Benih</th>
                                                 <th>Varietas</th>
                                                 <th>Luas</th>
@@ -240,8 +240,8 @@
                                             @endif
                                             @if (isset($pn))
                                                 <th>No. Lapang</th>
-                                                <th>Nama Pemilik</th>
-                                                <th>Alamat Pemilik</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
                                                 <th>Varietas</th>
                                                 <th>Panen</th>
                                                 <th>Luas Lulus</th>
@@ -265,7 +265,7 @@
                                                 <th>Hasil Uji</th>
                                                 <th>Tonase Sertifikat</th>
                                                 <th>No. Sertifikat</th>
-                                                <th>Tg. Kadaluarsa</th>
+                                                <th>Tgl. Kadaluarsa</th>
                                                 <th>QTY Label</th>
                                                 <th>No. Seri</th>
                                             @endif
@@ -298,7 +298,7 @@
                                         {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
 
                                             @if (isset($regis_lpg) or auth()->user()->role == 'produksi')
-                                                <th>Alamat Pemilik</th>
+                                                <th>Alamat Koordinator</th>
                                             @else
                                                 <th>Nomor Lapang</th>
                                             @endif
@@ -314,7 +314,7 @@
                                                 <th>tonase</th>
                                             @else
                                                 @if (!isset($inppn))
-                                                    <th>Nama Pemilik</th>
+                                                    <th>Nama Koordinator</th>
                                                 @else
                                                     <th>Kelas Benih</th>
                                                 @endif

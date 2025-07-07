@@ -27,7 +27,7 @@
                                         <strong>{{ $lahan->no_blok }}</strong>
                                     </div>
                                     <div class="col-6 text-right mb-2">
-                                        <div class="text-muted">Nomor Lapang</div>
+                                        <div class="text-muted">Nomor Induk Sertifikat</div>
                                         <strong>
                                             {{ $lahan->lapang }}
                                         </strong>
@@ -77,14 +77,14 @@
                                             <td class="text-right">{{ $lahan->kb }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Tgl. Semai;</td>
+                                            <td>Tanggal Semai</td>
                                             <td>: </td>
                                             <td class="text-right">
                                                 {{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Tgl. Tanam;</td>
+                                            <td>Tanggal Tanam</td>
                                             <td>: </td>
                                             <td class="text-right">
                                                 {{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
@@ -100,7 +100,7 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title">Input Pemantauan Pendahuluan</h5>
+                                    <h5 class="card-title">Input Pemeriksaan Pendahuluan</h5>
                                 </div>
                                 <div class="card-body">
                                     <form id="pendahuluan_f"
@@ -109,7 +109,7 @@
                                         @csrf
                                         @method('put')
                                         <div class="form-group">
-                                            <label for="k_p">Keterangan Hasil Pemantauan</label>
+                                            <label for="k_p">Keterangan Hasil Pemeriksaan</label>
                                             <textarea class="form-control @error('k_p') is-invalid @enderror" id="k_p" name="k_p"
                                                 placeholder="Keterangan hasil pemantauan...">{{ old('k_p', $lahan->k_pendahuluan) }}</textarea>
                                             @error('k_p')
@@ -122,7 +122,7 @@
                                         <div class="form-row">
                                             <!-- Kolom Kiri -->
                                             <div class="col-md-6">
-                                                <label for="pendahuluan">Bukti Pemantauan</label>
+                                                <label for="pendahuluan">Bukti Pemeriksaan</label>
                                                 <div class="text-center mb-4">
                                                     <img id="preview-pendahuluan" class=""
                                                         style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pendahuluan) ? 'display: none;' : '' }} margin: auto; "
@@ -143,7 +143,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="tg_p" class="form-label">Tanggal Pendahuluan</label>
+                                                    <label for="tg_p" class="form-label">Tanggal Pemeriksaan</label>
                                                     <div class="input-group date" id="datetimepicker-tg_p"
                                                         data-target-input="nearest">
                                                         <input type="text"
@@ -220,7 +220,7 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title">Input Pemantauan Lapang 1</h5>
+                                    <h5 class="card-title">Input Pemeriksaan Fase Vegetatif</h5>
                                 </div>
                                 <div class="card-body">
                                     <form id="pl1_f" action="{{ route('post pl1', ['s' => $lahan->id]) }}"
@@ -230,7 +230,7 @@
                                             @method('put')
 
                                             <div class="form-group">
-                                                <label for="k_pl1">Keterangan Hasil Pemantauan</label>
+                                                <label for="k_pl1">Keterangan Hasil Pemeriksaan</label>
                                                 <textarea class="form-control @error('k_pl1') is-invalid @enderror" id="k_pl1" name="k_pl1"
                                                     placeholder="Keterangan hasil pemantauan...">{{ old('k_pl1', $lahan->k_pl1) }}</textarea>
                                                 @error('k_pl1')
@@ -243,7 +243,7 @@
                                             <div class="form-row">
                                                 <!-- Kolom Kiri -->
                                                 <div class="col-md-6">
-                                                    <label for="pl1">Bukti Pemantauan</label>
+                                                    <label for="pl1">Bukti Pemeriksaan</label>
                                                     <div class="text-center mb-4">
                                                         <img id="preview-pl1" class=""
                                                             style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pl1) ? 'display: none;' : '' }} margin: auto; "
@@ -265,7 +265,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="tg_pl1" class="form-label">Tanggal
-                                                            oemantauan</label>
+                                                            Pemeriksaan</label>
                                                         <div class="input-group date" id="datetimepicker-tg_pl1"
                                                             data-target-input="nearest">
                                                             <input type="text"
@@ -346,7 +346,7 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title">Input Pemantauan Lapang 2</h5>
+                                    <h5 class="card-title">Input Pemeriksaan Fase Generatif</h5>
                                 </div>
                                 <div class="card-body">
                                     <form id="pl2_f" action="{{ route('post pl2', ['s' => $lahan->id]) }}"
@@ -356,7 +356,7 @@
                                             @method('put')
 
                                             <div class="form-group">
-                                                <label for="k_pl2">Keterangan Hasil Pemantauan</label>
+                                                <label for="k_pl2">Keterangan Hasil Pemeriksaan</label>
                                                 <textarea class="form-control @error('k_pl2') is-invalid @enderror" id="k_pl2" name="k_pl2"
                                                     placeholder="Keterangan hasil pemantauan...">{{ old('k_pl2', $lahan->k_pl2) }}</textarea>
                                                 @error('k_pl2')
@@ -369,7 +369,7 @@
                                             <div class="form-row">
                                                 <!-- Kolom Kiri -->
                                                 <div class="col-md-6">
-                                                    <label for="pl2">Bukti Pemantauan</label>
+                                                    <label for="pl2">Bukti Pemeriksaan</label>
                                                     <div class="text-center mb-4">
                                                         <img id="preview-pl2" class=""
                                                             style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pl2) ? 'display: none;' : '' }} margin: auto; "
@@ -391,7 +391,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="tg_pl2" class="form-label">Tanggal
-                                                            oemantauan</label>
+                                                            Pemeriksaan</label>
                                                         <div class="input-group date" id="datetimepicker-tg_pl2"
                                                             data-target-input="nearest">
                                                             <input type="text"
@@ -471,7 +471,7 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title">Input Pemantauan Lapang 3</h5>
+                                    <h5 class="card-title">Input Pemeriksaan Fase Masak</h5>
                                 </div>
                                 <div class="card-body">
                                     <form id="pl3_f" action="{{ route('post pl3', ['s' => $lahan->id]) }}"
@@ -481,7 +481,7 @@
                                             @method('put')
 
                                             <div class="form-group">
-                                                <label for="k_pl3">Keterangan Hasil Pemantauan</label>
+                                                <label for="k_pl3">Keterangan Hasil Pemeriksaan</label>
                                                 <textarea class="form-control @error('k_pl3') is-invalid @enderror" id="k_pl3" name="k_pl3"
                                                     placeholder="Keterangan hasil pemantauan...">{{ old('k_pl3', $lahan->k_pl3) }}</textarea>
                                                 @error('k_pl3')
@@ -494,7 +494,7 @@
                                             <div class="form-row">
                                                 <!-- Kolom Kiri -->
                                                 <div class="col-md-6">
-                                                    <label for="pl3">Bukti Pemantauan</label>
+                                                    <label for="pl3">Bukti Pemeriksaan</label>
                                                     <div class="text-center mb-4">
                                                         <img id="preview-pl3" class=""
                                                             style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pl3) ? 'display: none;' : '' }} margin: auto; "
@@ -516,7 +516,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="tg_pl3" class="form-label">Tanggal
-                                                            oemantauan</label>
+                                                            Pemeriksaan</label>
                                                         <div class="input-group date" id="datetimepicker-tg_pl3"
                                                             data-target-input="nearest">
                                                             <input type="text"

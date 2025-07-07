@@ -63,14 +63,14 @@
                                                     <td class="text-right">{{ $lahan->kb }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Tgl. Semai;</td>
+                                                    <td>Tanggal Semai</td>
                                                     <td>: </td>
                                                     <td class="text-right">
                                                         {{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Tgl. Tanam;</td>
+                                                    <td>Tanggal Tanam</td>
                                                     <td>: </td>
                                                     <td class="text-right">
                                                         {{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
@@ -79,12 +79,12 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-12 text-center mb-2">
+                                    <!-- <div class="col-12 text-center mb-2">
                                         <div class="text-muted mb-2">Foto Label</div>
                                         <img id="preview-label" class=""
                                             style="max-height:230px; max-width: 100%; margin: auto; "
                                             src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-md-7">

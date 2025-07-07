@@ -48,7 +48,7 @@
                                             <td class="text-right">{{ $lahan->lulus . ' ha' }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Tgl. Panen;</td>
+                                            <td>Tanggal Panen</td>
                                             <td>: </td>
                                             <td class="text-right">
                                                 {{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
@@ -93,7 +93,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Tgl. Kadaluarsa;</td>
+                                            <td>Tanggal Kadaluarsa</td>
                                             <td>: </td>
                                             <td class="text-right" id="kdl">
                                                 {{ $lahan->tg_kadaluarsa ? \Carbon\Carbon::parse($lahan->tg_kadaluarsa)->format('d/m/Y') : '--' }}
@@ -200,7 +200,7 @@
                                         class="form-control select2 @error('lab') is-invalid @enderror"
                                         data-toggle="select2">
                                         <option value='1' {{ old('lab', $lahan->mutu) == 1 ? 'selected' : '' }}>Lulus</option>
-                                        <option value='0' {{ old('lab', $lahan->mutu) == 0 ? 'selected' : '' }}>Tidak</option>
+                                        <option value='0' {{ old('lab', $lahan->mutu) == 0 ? 'selected' : '' }}>Tidak Lulus</option>
                                     </select>
                                     @error('lab')
                                         <div class="jquery-validation-error small form-text invalid-feedback">

@@ -11,14 +11,14 @@
             @endif
         </div>
         <div class="col-md-6 text-md-right">
-            <div class="text-muted">Nama Pemilik</div>
+            <div class="text-muted">Nama Koordinator</div>
             <strong>{{ $lahan->nama }}</strong>
         </div>
     </div>
 
     <div class="row mb-4">
         <div class="col-md-12">
-            <div class="text-muted">Alamat Pemilik</div>
+            <div class="text-muted">Alamat Koordinator</div>
             <strong>
                 {{ $lahan->alamat }}
             </strong>
@@ -55,22 +55,22 @@
                 <td class="text-right">{{ $lahan->kb }}</td>
             </tr>
             <tr>
-                <td>Label Sumber;</td>
+                <td>Label Sumber</td>
                 <td>:</td>
                 <td class="text-right">{{ $lahan->label_sumber }}</td>
             </tr>
             <tr>
-                <td>Musim Tanam;</td>
+                <td>Musim Tanam</td>
                 <td>:</td>
                 <td class="text-right">{{ $lahan->musim }}</td>
             </tr>
             <tr>
-                <td>Tgl. Semai;</td>
+                <td>Tanggal Semai</td>
                 <td>: </td>
                 <td class="text-right">{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}</td>
             </tr>
             <tr>
-                <td>Tgl. Tanam;</td>
+                <td>Tanggal Tanam</td>
                 <td>: </td>
                 <td class="text-right">{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}</td>
             </tr>

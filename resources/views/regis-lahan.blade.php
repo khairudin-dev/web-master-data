@@ -7,7 +7,7 @@
         @if (isset($edit))
             <li class="breadcrumb-item active" aria-current="page">Edit Data Lahan</li>
         @else
-            <li class="breadcrumb-item active" aria-current="page">Registrasi Lahan Baru/li>
+            <li class="breadcrumb-item active" aria-current="page">Registrasi Lahan Penangkaran</li>
         @endif
     </x-slot:head_link>
 
@@ -16,8 +16,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title">Input Data Lahan Baru</h5>
-                    <h6 class="card-subtitle text-muted">Registrasikan lahan baru</h6>
+                    <h5 class="card-title">Input Data Lahan Penangkaran</h5>
+                    <h6 class="card-subtitle text-muted">Registrasikan lahan penangkaran</h6>
                 </div>
                 <div class="card-body">
                     <form id="form_regis"
@@ -29,7 +29,7 @@
                         @endif
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="blok">No. Blok</label>
+                                <label for="blok">Nomor Blok</label>
                                 <input type="text" class="form-control @error('blok') is-invalid @enderror"
                                     value="{{ old('blok', isset($edit) && $edit ? $lahan->no_blok : '') }}"
                                     id="blok" name="blok" placeholder="Nomor blok baru...">
@@ -41,10 +41,10 @@
 
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="nama">Nama Pemilik</label>
+                                <label for="nama">Nama Koordinator</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     value="{{ old('nama', isset($edit) && $edit ? $lahan->nama : '') }}" id="nama"
-                                    name="nama" placeholder="Nama pemilik lahan...">
+                                    name="nama" placeholder="Nama koordinator lahan...">
                                 @error('nama')
                                     <div class="jquery-validation-error small form-text invalid-feedback">
                                         {{ $message }}
@@ -54,10 +54,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="alamat">Alamat Pemilik Lahan</label>
+                            <label for="alamat">Alamat Koordinator</label>
                             <input type="text" class="form-control @error('alamat') is-invalid @enderror"
                                 value="{{ old('alamat', isset($edit) && $edit ? $lahan->alamat_parts[0] : '') }}"
-                                id="alamat" name="alamat" placeholder="Alamat pemilik lahan...">
+                                id="alamat" name="alamat" placeholder="Alamat koordinator lahan...">
                             @error('alamat')
                                 <div class="jquery-validation-error small form-text invalid-feedback">
                                     {{ $message }}
@@ -196,7 +196,7 @@
                                 <label for="sumber">Label Sumber</label>
                                 <input type="text" class="form-control @error('sumber') is-invalid @enderror"
                                     value="{{ old('sumber', isset($edit) && $edit ? $lahan->label_sumber : '') }}"
-                                    id="sumber" name="sumber" placeholder="Laberl Sumber...">
+                                    id="sumber" name="sumber" placeholder="Label Sumber...">
                                 @error('sumber')
                                     <div class="jquery-validation-error small form-text invalid-feedback">
                                         {{ $message }}
