@@ -66,14 +66,18 @@ Route::middleware(['auth', 'role:manager qc'])->group(function () {});
 Route::middleware(['auth', 'role:superadmin'])->group(function () {});
 Route::middleware(['auth'])->group(function () {
     Route::get('/detail-lahan/{no_blok}', [LahanController::class, 'getDetail'])->name('detail lahan');
-    Route::get('/', function () {
-        // return view('welcome');
-        return view('app', ['title' => 'Dashboard']);
-    });
+
     Route::get('/home', function () {
         return redirect('/');
     })->name('home');
 });
-
+Route::get('/', function () {
+    // return view('welcome');
+    if (Auth::check()) {
+        return view('app', ['title' => 'Dashboard']);
+    } else {
+        return view('landingpage');
+    }
+});
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
