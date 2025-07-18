@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnalissController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LahanController;
 use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\PanenController;
@@ -74,10 +75,14 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', function () {
     // return view('welcome');
     if (Auth::check()) {
-        return view('app', ['title' => 'Dashboard']);
+        // return view('app', ['title' => 'Dashboard']);
+        return app(DashboardController::class)->index();
     } else {
         return view('landingpage');
     }
 });
+Route::get('/g', function () {
+    return view('grafik', ['title' => 'Dashboard']);
+})->name('home');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
