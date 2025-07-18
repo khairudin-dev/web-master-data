@@ -8,6 +8,7 @@ use App\Http\Controllers\PemantauanController;
 use App\Http\Controllers\ProsesController;
 use App\Http\Controllers\RegisLahanController;
 use App\Http\Controllers\RegisLapangController;
+use App\Http\Controllers\SampelController;
 use App\Http\Controllers\uniqueController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,8 +42,6 @@ Route::middleware(['auth', 'role:qc,superadmin'])->group(function () {
     Route::put('/pemantauan/pl2/{s}', [PemantauanController::class, 'pl2'])->name('post pl2');
     Route::put('/pemantauan/pl3/{s}', [PemantauanController::class, 'pl3'])->name('post pl3');
 });
-Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
-
 Route::middleware(['auth', 'role:analis,superadmin'])->group(function () {
     Route::get('/uji-lab/input', [AnalissController::class, 'lapang'])->name('input uji lab');
     Route::get('/uji-lab/input/{s}', [AnalissController::class, 'form'])->name('form uji lab');
@@ -54,6 +53,14 @@ Route::middleware(['auth', 'role:marketing,superadmin'])->group(function () {
     Route::get('/marketing/input/{s}', [MarketingController::class, 'form'])->name('form marketing');
     Route::put('/marketing/input/{s}', [MarketingController::class, 'post'])->name('post marketing');
     Route::get('/marketing', [MarketingController::class, 'mkt'])->name('mkt');
+});
+Route::middleware(['auth', 'role:procesing,superadmin'])->group(function () {
+    Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
+    Route::get('/proses', [ProsesController::class, 'proses_data'])->name('proses');
+    Route::put('/proses/{s}', [ProsesController::class, 'proses'])->name('post input proses');
+    Route::get('/sampel/input', [SampelController::class, 'input'])->name('input sampel');
+    Route::get('/sampel', [SampelController::class, 'sampel_data'])->name('sampel');
+    Route::put('/sampel/{s}', [SampelController::class, 'sampel'])->name('post input sampel');
 });
 Route::middleware(['auth', 'role:manager qc'])->group(function () {});
 Route::middleware(['auth', 'role:superadmin'])->group(function () {});

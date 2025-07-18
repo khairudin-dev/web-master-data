@@ -14,7 +14,15 @@
             @if (isset($pn))
                 <li class="breadcrumb-item active" aria-current="page">Panen</li>
             @endif
-
+        @endif
+        @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
+            @if (isset($inpprs))
+                <li class="breadcrumb-item"><a href="{{ route('panen') }}">Prosesing</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+            @endif
+            @if (isset($prs))
+                <li class="breadcrumb-item active" aria-current="page">Prosesing</li>
+            @endif
         @endif
         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
             @if (isset($regis_lpg))
@@ -158,6 +166,16 @@
                             @endif
                             @if (isset($mkt))
                                 <h6 class="card-subtitle text-muted">Daftar data distribusi hasil panen
+                                </h6>
+                            @endif
+                        @endif
+                        @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
+                            @if (isset($inpprs))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan telah panen
+                                </h6>
+                            @endif
+                            @if (isset($prs))
+                                <h6 class="card-subtitle text-muted">Daftar data hasil proses
                                 </h6>
                             @endif
                         @endif
@@ -341,7 +359,26 @@
                                                 <th>No. Seri</th>
                                             @endif
                                         @endif
-
+                                        @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
+                                            @if (isset($inpprs))
+                                                <th>No. Lapang</th>
+                                                <th>Varietas</th>
+                                                <th>Panen</th>
+                                                <th>Luas Lulus</th>
+                                                <th>Taksasi</th>
+                                                <th>Tonase</th>
+                                            @endif
+                                            @if (isset($prs))
+                                                <th>No. Lapang</th>
+                                                <th>Varietas</th>
+                                                <th>Panen</th>
+                                                <th>Luas Lulus</th>
+                                                <th>Taksasi</th>
+                                                <th>Tonase</th>
+                                                <th>GKP</th>
+                                                <th>CBB</th>
+                                            @endif
+                                        @endif
                                         {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
 
                                             @if (isset($regis_lpg) or auth()->user()->role == 'produksi')
@@ -684,7 +721,48 @@
                                                     </td>
                                                 @endif
                                             @endif
-
+                                            @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
+                                                @if (isset($inpprs))
+                                                    <th>{{ $lahan->lapang }}</th>
+                                                    <th>{{ $lahan->varietas }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}</th>
+                                                    <th>{{ $lahan->luas_akhir . ' ha' }}</th>
+                                                    <th>{{ $lahan->taksasi . ' Kg' }}</th>
+                                                    <th>{{ $lahan->tonase . ' Kg' }}</th>
+                                                    <th>
+                                                        <a href="#collapseOne" data-toggle="collapse"
+                                                            data-target="#collapseOne" class="accr-detail text-info"
+                                                            aria-expanded="true" aria-controls="collapseOne"
+                                                            data-lapang="{{ $lahan->lapang }}"
+                                                            data-blok_lahan="{{ $lahan->no_blok }}"
+                                                            data-s="{{ $lahan->id }}"
+                                                            data-l="{{ $lahan }}">
+                                                            <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                        </a>
+                                                    </th>
+                                                @endif
+                                                @if (isset($prs))
+                                                    <th>{{ $lahan->lapang }}</th>
+                                                    <th>{{ $lahan->varietas }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}</th>
+                                                    <th>{{ $lahan->luas_akhir . ' ha' }}</th>
+                                                    <th>{{ $lahan->taksasi . ' Kg' }}</th>
+                                                    <th>{{ $lahan->tonase . ' Kg' }}</th>
+                                                    <th>{{ $lahan->gkp . ' Kg' }}</th>
+                                                    <th>{{ $lahan->cbb . ' Kg' }}</th>
+                                                    <th>
+                                                        <a href="#collapseOne" data-toggle="collapse"
+                                                            data-target="#collapseOne" class="accr-detail text-info"
+                                                            aria-expanded="true" aria-controls="collapseOne"
+                                                            data-lapang="{{ $lahan->lapang }}"
+                                                            data-blok_lahan="{{ $lahan->no_blok }}"
+                                                            data-s="{{ $lahan->id }}"
+                                                            data-l="{{ $lahan }}">
+                                                            <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                        </a>
+                                                    </th>
+                                                @endif
+                                            @endif
 
                                             {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
                                                 @if (isset($regis_lpg) or auth()->user()->role == 'produksi')
@@ -895,6 +973,14 @@
                                                     Belum ada Lahan yang diuji
                                                 @endif
                                             @endif
+                                            @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
+                                                @if (isset($inpprs))
+                                                    Belum ada Lahan yang dipanen
+                                                @endif
+                                                @if (isset($prs))
+                                                    Belum ada Lahan yang diproses
+                                                @endif
+                                            @endif
 
                                             {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                                                 @if (isset($regis_lpg))
@@ -966,6 +1052,112 @@
 
                     </div>
                 @endif
+                @if ((auth()->user()->role == 'procesing' || auth()->user()->role == 'superadmin') && (isset($inpprs) || isset($prs)))
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="card-title my-2" id="title_blok">
+                                Data Proses
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse @error('lapang') show @enderror"
+                            aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-6">
+                                        <div class="m-sm-1 m-md-2">
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="text-muted">Nomor Blok</div>
+                                                    <strong id="txt_blok"></strong>
+                                                </div>
+                                                <div class="col-md-6 text-md-right">
+                                                    <div class="text-muted">Nomor Lapang</div>
+                                                    <strong id="txt_lpg">
+                                                    </strong>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Variabel</th>
+                                                        <th>&nbsp;</th>
+                                                        <th class="text-right">Nilai</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Luas lulus</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_lulus"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Varietas</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_varietas"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tanggal Panen</td>
+                                                        <td>: </td>
+                                                        <td class="text-right" id="td_panen">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Taksasi</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_tk"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tonase</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_tn"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-6">
+                                        <h5>Input Data Proses</h5>
+                                        <form class="row" id="formProses" action="#" method="POST">
+                                            @csrf
+                                            @method('put')
+
+                                            <div class="form-group col-md-6">
+                                                <label for="gkp">GKP</label>
+                                                <input type="number"
+                                                    class="form-control @error('gkp') is-invalid @enderror"
+                                                    value="{{ old('gkp', !empty($lahan->gkp) ? $lahan->gkp : '') }}"
+                                                    id="gkp" name="gkp" placeholder="Input GKP...">
+                                                @error('gkp')
+                                                    <div class="jquery-validation-error small form-text invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="cbb">CBB</label>
+                                                <input type="number"
+                                                    class="form-control @error('cbb') is-invalid @enderror"
+                                                    value="{{ old('cbb', !empty($lahan->cbb) ? $lahan->cbb : '') }}"
+                                                    id="cbb" name="cbb" placeholder="Input CBB...">
+                                                @error('cbb')
+                                                    <div class="jquery-validation-error small form-text invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -979,6 +1171,11 @@
         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
             @if (isset($regis_lpg) or isset($lpg) or isset($inppmt) or isset($pmt) or isset($inppn) or isset($pn))
                 <script src="{{ asset('js/regis_lapang.js') }}"></script>
+            @endif
+        @endif
+        @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
+            @if (isset($inpprs) or isset($prs))
+                <script src="{{ asset('js/proses.js') }}"></script>
             @endif
         @endif
         @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')

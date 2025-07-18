@@ -97,6 +97,19 @@
                         <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input proses') }}">Input Hasil
                                 Proses</a>
                         </li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('proses') }}"">Daftar Hasil
+                                Proses</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#sampel" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Permohonan Ambil Sampel</span>
+                    </a>
+                    <ul id="sampel" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input proses') }}">Input Hasil
+                                Proses</a>
+                        </li>
                         <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
                                 Proses</a>
                         </li>
