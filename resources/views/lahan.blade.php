@@ -3,8 +3,18 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <x-slot:head_link>
         <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-        @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin' and isset($lhn))
-            <li class="breadcrumb-item active" aria-current="page">Lahan</li>
+        @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
+            @if (isset($lhn))
+                <li class="breadcrumb-item active" aria-current="page">Lahan</li>
+            @endif
+            @if (isset($inppn))
+                <li class="breadcrumb-item"><a href="{{ route('panen') }}">Panen</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+            @endif
+            @if (isset($pn))
+                <li class="breadcrumb-item active" aria-current="page">Panen</li>
+            @endif
+
         @endif
         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
             @if (isset($regis_lpg))
@@ -21,13 +31,13 @@
             @if (isset($pmt))
                 <li class="breadcrumb-item active" aria-current="page">Pemantauan</li>
             @endif
-            @if (isset($inppn))
+            {{-- @if (isset($inppn))
                 <li class="breadcrumb-item"><a href="{{ route('panen') }}">Panen</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
             @endif
             @if (isset($pn))
                 <li class="breadcrumb-item active" aria-current="page">Panen</li>
-            @endif
+            @endif --}}
         @endif
         @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
             @if (isset($inplab))
@@ -95,8 +105,21 @@
                                 Daftar Lahan Penangkaran
                             </a>
                         </h5>
-                        @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin' and isset($lhn))
-                            <h6 class="card-subtitle text-muted">Daftar data lahan penangkaran yang telah terdaftar</h6>
+                        @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
+                            @if (isset($lhn))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan penangkaran yang telah terdaftar
+                                </h6>
+                            @endif
+                            @if (isset($inppn) or isset($pmt))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dilakukan pemeriksaan
+                                    Fase Masak
+                                </h6>
+                            @endif
+                            @if (isset($pn))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
+                                </h6>
+                            @endif
+
                         @endif
                         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                             @if (isset($regis_lpg))
@@ -113,10 +136,10 @@
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dilakukan pemeriksaan
                                 </h6>
                             @endif
-                            @if (isset($pn))
+                            {{-- @if (isset($pn))
                                 <h6 class="card-subtitle text-muted">Daftar data lahan yang telah dipanen
                                 </h6>
-                            @endif
+                            @endif --}}
                         @endif
                         @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                             @if (isset($inplab))
@@ -182,13 +205,37 @@
                                 <thead>
                                     <tr>
                                         <th>Nomor Blok</th>
-                                        @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin' and isset($lhn))
-                                            <th>Alamat Koordinator</th>
-                                            <th>Nama Koordinator</th>
-                                            <th>Varietas</th>
-                                            <th>Luas</th>
-                                            <th>Tgl. Semai</th>
-                                            <th>Tgl. Tanam</th>
+                                        @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
+                                            @if (isset($lhn))
+                                                <th>Alamat Koordinator</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Varietas</th>
+                                                <th>Luas</th>
+                                                <th>Tgl. Semai</th>
+                                                <th>Tgl. Tanam</th>
+                                            @endif
+                                            @if (isset($inppn))
+                                                <th>No. Lapang</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
+                                                <th>Kualitas Benih</th>
+                                                <th>Varietas</th>
+                                                <th>Luas</th>
+                                                <th>Luas Akhie</th>
+                                                <th>Taksasi</th>
+                                                <th>Tgl. Semai</th>
+                                                <th>Tgl. Tanam</th>
+                                            @endif
+                                            @if (isset($pn))
+                                                <th>No. Lapang</th>
+                                                <th>Nama Koordinator</th>
+                                                <th>Alamat Koordinator</th>
+                                                <th>Varietas</th>
+                                                <th>Panen</th>
+                                                <th>Luas Lulus</th>
+                                                <th>Taksasi</th>
+                                                <th>Tonase</th>
+                                            @endif
                                         @endif
                                         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                                             @if (isset($regis_lpg))
@@ -227,7 +274,7 @@
                                                 <th>PL 2</th>
                                                 <th>PL 3</th>
                                             @endif
-                                            @if (isset($inppn))
+                                            {{-- @if (isset($inppn))
                                                 <th>No. Lapang</th>
                                                 <th>Nama Koordinator</th>
                                                 <th>Alamat Koordinator</th>
@@ -247,7 +294,7 @@
                                                 <th>Luas Lulus</th>
                                                 <th>Taksasi</th>
                                                 <th>Tonase</th>
-                                            @endif
+                                            @endif --}}
                                         @endif
                                         @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                                             @if (isset($inplab))
@@ -369,27 +416,64 @@
                                     @forelse($lahans as $lahan)
                                         <tr>
                                             <td>{{ $lahan->no_blok }}</td>
-                                            @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin' and isset($lhn))
-                                                <td>{{ '..., Kec. ' . $lahan->alamat_parts[2] . ' ' . $lahan->alamat_parts[3] }}
-                                                </td>
-                                                <td>{{ $lahan->nama }}</td>
-                                                <td>{{ $lahan->varietas }}</td>
-                                                <td>{{ $lahan->luas . ' ha' }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}
-                                                </td>
-                                                <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
-                                                </td>
-                                                <td>
-                                                    <a href="#detailahan" data-toggle="modal"
-                                                        class="go-detail text-info"
-                                                        data-blok_lahan="{{ $lahan->no_blok }}">
-                                                        <i class="align-middle fas fa-fw fa-eye"></i></a>
-                                                    <a href="#detailahan" data-toggle="modal" class="go-del text-danger"
-                                                        data-blok_lahan="{{ $lahan->no_blok }}"
-                                                        data-blok="{{ $lahan->id }}"
-                                                        data-action="{{ route('delete regis lahan', ['s' => '__ID__']) }}">
-                                                        <i class="align-middle fas fa-fw fa-trash"></i></a>
-                                                </td>
+                                            @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
+                                                @if (isset($lhn))
+                                                    <td>{{ '..., Kec. ' . $lahan->alamat_parts[2] . ' ' . $lahan->alamat_parts[3] }}
+                                                    </td>
+                                                    <td>{{ $lahan->nama }}</td>
+                                                    <td>{{ $lahan->varietas }}</td>
+                                                    <td>{{ $lahan->luas . ' ha' }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}
+                                                    </td>
+                                                    <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="#detailahan" data-toggle="modal"
+                                                            class="go-detail text-info"
+                                                            data-blok_lahan="{{ $lahan->no_blok }}">
+                                                            <i class="align-middle fas fa-fw fa-eye"></i></a>
+                                                        <a href="#detailahan" data-toggle="modal"
+                                                            class="go-del text-danger"
+                                                            data-blok_lahan="{{ $lahan->no_blok }}"
+                                                            data-blok="{{ $lahan->id }}"
+                                                            data-action="{{ route('delete regis lahan', ['s' => '__ID__']) }}">
+                                                            <i class="align-middle fas fa-fw fa-trash"></i></a>
+                                                    </td>
+                                                @endif
+                                                @if (isset($inppn))
+                                                    <th>{{ $lahan->lapang }}</th>
+                                                    <th>{{ $lahan->nama }}</th>
+                                                    <td>{{ '..., Kec. ' . $lahan->alamat_parts[2] . ' ' . $lahan->alamat_parts[3] }}
+                                                    <th>{{ $lahan->kb }}</th>
+                                                    <th>{{ $lahan->varietas }}</th>
+                                                    <th>{{ $lahan->luas . ' ha' }}</th>
+                                                    <th>{{ $lahan->luas_akhir . ' ha' }}</th>
+                                                    <th>{{ $lahan->taksasi . ' Kg' }}</th>
+                                                    <td>{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}
+                                                    <td>{{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
+                                                    <td>
+                                                        <a href="{{ route('form panen', ['s' => $lahan->id]) }}"
+                                                            class="text-info">
+                                                            <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                @endif
+                                                @if (isset($pn))
+                                                    <th>{{ $lahan->lapang }}</th>
+                                                    <th>{{ $lahan->nama }}</th>
+                                                    <td>{{ '..., Kec. ' . $lahan->alamat_parts[2] . ' ' . $lahan->alamat_parts[3] }}
+                                                    <th>{{ $lahan->varietas }}</th>
+                                                    <td>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                    <th>{{ $lahan->lulus . ' ha' }}</th>
+                                                    <th>{{ $lahan->tonase . ' Kg' }}</th>
+                                                    <th>{{ $lahan->taksasi . ' Kg' }}</th>
+                                                    <td>
+                                                        <a href="{{ route('form panen', ['s' => $lahan->id]) }}"
+                                                            class="text-info">
+                                                            <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                @endif
                                             @endif
                                             @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                                                 @if (isset($regis_lpg))
@@ -497,7 +581,7 @@
                                                         </a>
                                                     </td>
                                                 @endif
-                                                @if (isset($inppn))
+                                                {{-- @if (isset($inppn))
                                                     <th>{{ $lahan->lapang }}</th>
                                                     <th>{{ $lahan->nama }}</th>
                                                     <td>{{ '..., Kec. ' . $lahan->alamat_parts[2] . ' ' . $lahan->alamat_parts[3] }}
@@ -529,7 +613,7 @@
                                                             <i class="align-middle mr-2 far fa-fw fa-edit"></i>
                                                         </a>
                                                     </td>
-                                                @endif
+                                                @endif --}}
                                             @endif
                                             @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                                                 @if (isset($inplab))
@@ -767,8 +851,16 @@
                                         </tr>
                                     @empty
                                         <div class="alert alert-danger p-1">
-                                            @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin' and isset($lhn))
-                                                Belum ada Lahan yang diregistrasi
+                                            @if (auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
+                                                @if (isset($lhn))
+                                                    Belum ada Lahan yang diregistrasi
+                                                @endif
+                                                @if (isset($inppn))
+                                                    Belum ada Lahan yang bisa diinput panen
+                                                @endif
+                                                @if (isset($pn))
+                                                    Belum ada Lahan yang dipanen
+                                                @endif
                                             @endif
                                             @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
                                                 @if (isset($regis_lpg))
@@ -780,12 +872,12 @@
                                                 @if (isset($pmt))
                                                     Belum ada Lahan yang dipantau
                                                 @endif
-                                                @if (isset($inppn))
+                                                {{-- @if (isset($inppn))
                                                     Belum ada Lahan yang bisa diinput panen
                                                 @endif
                                                 @if (isset($pn))
                                                     Belum ada Lahan yang dipanen
-                                                @endif
+                                                @endif --}}
                                             @endif
                                             @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                                                 @if (isset($inplab))

@@ -35,6 +35,19 @@
                         </li>
                     </ul>
                 </li>
+                <li class="sidebar-item">
+                    <a href="#Panen" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Panen</span>
+                    </a>
+                    <ul id="Panen" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input panen') }}">Input Hasil
+                                Panen</a>
+                        </li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('panen') }}">Daftar Hasil
+                                Panen</a>
+                        </li>
+                    </ul>
+                </li>
             @endif
 
             @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
@@ -70,19 +83,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#Panen" data-toggle="collapse" class="sidebar-link collapsed">
-                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Panen</span>
-                    </a>
-                    <ul id="Panen" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input panen') }}">Input Hasil
-                                Panen</a>
-                        </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('panen') }}">Daftar Hasil
-                                Panen</a>
-                        </li>
-                    </ul>
-                </li>
             @endif
 
             @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
@@ -113,7 +113,8 @@
                             Laboratorium</span>
                     </a>
                     <ul id="Laboratorium" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input uji lab') }}">Input Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input uji lab') }}">Input
+                                Hasil
                                 Uji</a>
                         </li>
                         <li class="sidebar-item"><a class="sidebar-link" href="{{ route('lab') }}">Daftar Hasil

@@ -26,7 +26,8 @@ class PanenController extends Controller
             'luas',
             'luas_akhir',
             'semai',
-            'tanam'
+            'tanam',
+            'taksasi'
         ]);
         // // Kirim data ke view
         // dd($lahans);
@@ -83,16 +84,16 @@ class PanenController extends Controller
             return redirect()->back()->with(['error' => 'Kamu memasukkan lahan yang salah']);
         }
         $request->validate([
-            'tk' => 'required|numeric|min:0',
+            // 'tk' => 'required|numeric|min:0',
             'panen' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y'),
 
         ], [
-            "tk.required" => "Isikan 0 jika memang kosong",
-            "tk.min" => "Isikan 0 jika memang kosong",
-            "tk.numeric" => "Luas Lahan Taksasi wajib diisidengan angkat",
+            // "tk.required" => "Isikan 0 jika memang kosong",
+            // "tk.min" => "Isikan 0 jika memang kosong",
+            // "tk.numeric" => "Taksasi wajib diisidengan angkat",
             "panen.required" => "Tanggal Panen wajib diisi",
             "panen.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-            "tg_p.after" => "Tanggal Panen harus setelah Tanggal Pemantauan Lapang 3",
+            "panen.after" => "Tanggal Panen harus setelah Tanggal Pemantauan Lapang 3",
         ]);
 
         $panen = Carbon::createFromFormat('d/m/Y', $request->panen)->startOfDay();
@@ -102,8 +103,7 @@ class PanenController extends Controller
         // dd($request->pendahuluan);
         $lahan->update([
             'panen' => Carbon::createFromFormat('d/m/Y', $request->panen)->format('Y-m-d'),
-            'taksasi' => $request->tk,
-            'tonase' => $request->tk * $lahan->luas_akhir,
+            'tonase' => $lahan->taksasi * $lahan->luas_akhir,
             'lulus' => $lahan->luas_akhir,
             'umur_padi' => $selisih,
         ]);

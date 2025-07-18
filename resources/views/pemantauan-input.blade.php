@@ -438,7 +438,7 @@
                                                         class="btn btn-outline-info btn-sm"
                                                         style="{{ empty($lahan->h_pl2) ? 'display: none;' : '' }}"
                                                         data-toggle="modal"
-                                                        data-doc="{{ asset('pl1/' . $lahan->h_pl2 ?? '') }}"
+                                                        data-doc="{{ asset('pl2/' . $lahan->h_pl2 ?? '') }}"
                                                         data-target="#modalPreviewFile">
                                                         <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
                                                     </button>
@@ -563,7 +563,7 @@
                                                         class="btn btn-outline-info btn-sm"
                                                         style="{{ empty($lahan->h_pl3) ? 'display: none;' : '' }}"
                                                         data-toggle="modal"
-                                                        data-doc="{{ asset('pl1/' . $lahan->h_pl3 ?? '') }}"
+                                                        data-doc="{{ asset('pl3/' . $lahan->h_pl3 ?? '') }}"
                                                         data-target="#modalPreviewFile">
                                                         <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
                                                     </button>
@@ -581,6 +581,25 @@
                                                             </div>
                                                         @enderror
                                                     </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <label for="tk">Taksasi</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="number"
+                                                            class="form-control @error('tk') is-invalid @enderror"
+                                                            value="{{ old('tk', !empty($lahan->taksasi) ? $lahan->taksasi : '') }}"
+                                                            id="tk" name="tk"
+                                                            placeholder="Input taksasi...">
+                                                        @error('tk')
+                                                            <div
+                                                                class="jquery-validation-error small form-text invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+
                                                 </div>
 
                                             </div>

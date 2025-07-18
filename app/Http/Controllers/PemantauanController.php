@@ -26,7 +26,7 @@ class PemantauanController extends Controller
     {
         $pmt = true;
         $title = "Daftar Hasil Pemantauan";
-        $lahans = Datatani::whereNotNull('tg_pendahuluan')->latest()->get(['id', 'lapang','nama','varietas','alamat', 'no_blok', 'tg_pendahuluan', 'tg_pl1', 'tg_pl2', 'tg_pl3']);
+        $lahans = Datatani::whereNotNull('tg_pendahuluan')->latest()->get(['id', 'lapang', 'nama', 'varietas', 'alamat', 'no_blok', 'tg_pendahuluan', 'tg_pl1', 'tg_pl2', 'tg_pl3']);
         // // Kirim data ke view
         // dd($lahans);
         return view('lahan', compact('title', 'lahans', 'pmt'));
@@ -65,6 +65,7 @@ class PemantauanController extends Controller
             'k_pl3',
             's_pl3',
             'h_pl3',
+            'taksasi',
         )->findOrFail($s);
         // dd($lahan->semai);
         if (empty($lahan->lapang)) {
@@ -93,9 +94,10 @@ class PemantauanController extends Controller
             "tg_p.after" => "Tanggal Pemantauan harus setelah Tanggal Tanam",
         ]);
 
+        // dd( \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y') ." ". $request->tg_p);
         if ($lahan->tg_pl1) {
             $request->validate([
-                'tg_p' => 'before:' . \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y'),
+                'tg_p' => 'required|date_format:d/m/Y|before:' . \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y'),
             ], [
                 "tg_p.before" => "Tanggal Pemantauan harus sebelum Tanggal Pemantauan Lapang 1",
             ]);
@@ -124,7 +126,7 @@ class PemantauanController extends Controller
                 "h_pendahuluan.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
             ]);
             $oldHasil = $hasil;
-            $hasil = "hasil_pendahuluan-" . $request->blok . '.pdf';
+            $hasil = "hasil_pendahuluan-" . $lahan->no_blok . '.pdf';
             $fileHasil = $request->file('h_pendahuluan');
             $ext = strtolower($fileHasil->getClientOriginalExtension());
             if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
@@ -140,6 +142,7 @@ class PemantauanController extends Controller
                 return back()->withErrors(['h_pendahuluan' => 'Tipe file tidak didukung' . $ext]);
             }
         }
+        // dd($hasil. $lahan->blok);
 
         // dd($request->pendahuluan);
         $lahan->update([
@@ -207,7 +210,7 @@ class PemantauanController extends Controller
         ]);
         if ($lahan->tg_pl2) {
             $request->validate([
-                'tg_pl1' => 'before:' . \Carbon\Carbon::parse($lahan->tg_pl2)->format('d/m/Y'),
+                'tg_pl1' => 'required|date_format:d/m/Y|before:' . \Carbon\Carbon::parse($lahan->tg_pl2)->format('d/m/Y'),
             ], [
                 "tg_pl1.before" => "Tanggal Pemantauan harus sebelum Tanggal Pemantauan Lapang 1",
             ]);
@@ -237,7 +240,7 @@ class PemantauanController extends Controller
                 "h_pl1.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
             ]);
             $oldHasil = $hasil;
-            $hasil = "hasil_pl1-" . $request->blok . '.pdf';
+            $hasil = "hasil_pl1-" . $lahan->no_blok . '.pdf';
             $fileHasil = $request->file('h_pl1');
             $ext = strtolower($fileHasil->getClientOriginalExtension());
             if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
@@ -321,7 +324,7 @@ class PemantauanController extends Controller
 
         if ($lahan->tg_pl3) {
             $request->validate([
-                'tg_pl2' => 'before:' . \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y'),
+                'tg_pl2' => 'required|date_format:d/m/Y|before:' . \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y'),
             ], [
                 "tg_pl2.before" => "Tanggal Pemantauan harus sebelum Tanggal Pemantauan Lapang 3",
             ]);
@@ -352,7 +355,7 @@ class PemantauanController extends Controller
                 "h_pl2.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
             ]);
             $oldHasil = $hasil;
-            $hasil = "hasil_pl2-" . $request->blok . '.pdf';
+            $hasil = "hasil_pl2-" . $lahan->no_blok . '.pdf';
             $fileHasil = $request->file('h_pl2');
             $ext = strtolower($fileHasil->getClientOriginalExtension());
             if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
@@ -424,7 +427,8 @@ class PemantauanController extends Controller
         $request->validate([
             'k_pl3' => 'required',
             's_pl3' => 'required|numeric|min:0',
-            'tg_pl3' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tg_pl1)->format('d/m/Y'),
+            'tg_pl3' => 'required|date_format:d/m/Y|after:' . \Carbon\Carbon::parse($lahan->tg_pl2)->format('d/m/Y'),
+            'tk' => 'required|numeric|min:0',
         ], [
             "k_pl3.required" => "Keterangan wajib diisi",
             "s_pl3.required" => "Isikan 0 jika memang kosong",
@@ -432,7 +436,10 @@ class PemantauanController extends Controller
             "s_pl3.numeric" => "Luas Lahan spoting wajib diisidengan angkat",
             "tg_pl3.required" => "Tanggal Pemantauan wajib diisi",
             "tg_pl3.date_format" => "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-            "tg_pl2.after" => "Tanggal Pemantauan harus setelah Tanggal Pemantauan Lapang 2",
+            "tg_pl3.after" => "Tanggal Pemantauan harus setelah Tanggal Pemantauan Lapang 2",
+            "tk.required" => "Isikan 0 jika memang kosong",
+            "tk.min" => "Isikan 0 jika memang kosong",
+            "tk.numeric" => "Taksasi wajib diisidengan angkat",
         ]);
 
         $pl3 = $lahan->i_pl3;
@@ -460,7 +467,7 @@ class PemantauanController extends Controller
                 "h_pl3.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
             ]);
             $oldHasil = $hasil;
-            $hasil = "hasil_pl3-" . $request->blok . '.pdf';
+            $hasil = "hasil_pl3-" . $lahan->no_blok . '.pdf';
             $fileHasil = $request->file('h_pl3');
             $ext = strtolower($fileHasil->getClientOriginalExtension());
             if (in_array($ext, ['jpeg', 'jpg', 'png'])) {
@@ -484,6 +491,7 @@ class PemantauanController extends Controller
             'tg_pl3' => Carbon::createFromFormat('d/m/Y', $request->tg_pl3)->format('Y-m-d'),
             'i_pl3' => $pl3,
             'h_pl3' => $hasil,
+            'taksasi'=>$request->tk,
             'luas_akhir' => $lahan->luas - $lahan->s_pendahuluan - $lahan->s_pl1 - $lahan->s_pl2 - $request->s_pl3,
 
         ]);

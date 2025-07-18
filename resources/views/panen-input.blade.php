@@ -99,17 +99,26 @@
                                             <td>Umur Padi</td>
                                             <td>:</td>
                                             <td class="text-right" id="umur">
-                                                {{ $lahan->umur_padi ? $lahan->umur_padi ." hari" : '--' }}
+                                                {{ $lahan->umur_padi ? $lahan->umur_padi . ' hari' : '--' }}
                                             </td>
+                                        </tr>
+                                        <tr class="text-lg">
+                                            <td>Taksasi</td>
+                                            <td>:</td>
+                                            <td class="text-right" id="tonase">
+                                                {{ $lahan->taksasi." Kg"}}
+                                            </td>
+
                                         </tr>
                                         <tr class="text-lg">
                                             <td>Tonase</td>
                                             <td>:</td>
                                             <td class="text-right" id="tonase">
-                                                {{ $lahan->tonase_sertifikat ? $lahan->tonase_sertifikat : '--' }}
+                                                {{ $lahan->tonase_sertifikat ? $lahan->tonase_sertifikat : $lahan->taksasi*$lahan->luas_akhir.".00 Kg"}}
                                             </td>
 
                                         </tr>
+
                                     </tbody>
                                 </table>
                                 <hr class="bg-primary">
@@ -143,7 +152,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tk">Taksasi</label>
                                                 <input type="number"
@@ -156,7 +165,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Submit</button>

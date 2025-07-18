@@ -31,7 +31,7 @@
             $('#datetimepicker-tg_pl3').datetimepicker('minDate', moment(tg_pl2, 'DD/MM/YYYY').clone().add(1, 'days'));
         }
         if (tg_pl3) {
-            $('#datetimepicker-tg_pl2').datetimepicker('maxDate', moment(tg_p, 'DD/MM/YYYY').clone().subtract(1, 'days'));
+            $('#datetimepicker-tg_pl2').datetimepicker('maxDate', moment(tg_pl3, 'DD/MM/YYYY').clone().subtract(1, 'days'));
         }
         $('#pendahuluan').on('change', function () {
             const file = this.files[0];
@@ -567,6 +567,11 @@
                     required: true,
                     dateITA: true,
                 },
+                "tk": {
+                    required: true,
+                    number: true,
+                    min: 0.0
+                },
             },
             messages: {
                 "k_pl3": {
@@ -584,6 +589,10 @@
                 "tg_pl3": {
                     required: "Tanggal Pemantauan wajib diisi",
                     dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+                },
+                "tk": {
+                    required: "Taksasi wajib diisi, isi 0 jika memang kosong",
+                    number: "Taksasi wajib diisi dengan angkat",
                 },
             },
 

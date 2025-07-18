@@ -22,6 +22,11 @@ Route::middleware(['auth', 'role:produksi,superadmin'])->group(function () {
     Route::put('/update-lahan/{s}', [RegisLahanController::class, 'update'])->name('update regis lahan');
     Route::delete('/del-lahan/{s}', [RegisLahanController::class, 'delete'])->name('delete regis lahan');
     Route::post('/u-blk', [uniqueController::class, 'validateBlok'])->name('u-blk');
+
+    Route::get('/panen-input', [PanenController::class, 'lapang'])->name('input panen');
+    Route::get('/panen-input/{s}', [PanenController::class, 'form'])->name('form panen');
+    Route::put('/panen-input/{s}', [PanenController::class, 'post'])->name('post panen');
+    Route::get('/panen', [PanenController::class, 'panen'])->name('panen');
 });
 Route::middleware(['auth', 'role:qc,superadmin'])->group(function () {
     Route::get('/regis-lapang', [RegisLapangController::class, 'lahan'])->name('regis lapang');
@@ -35,10 +40,6 @@ Route::middleware(['auth', 'role:qc,superadmin'])->group(function () {
     Route::put('/pemantauan/pl1/{s}', [PemantauanController::class, 'pl1'])->name('post pl1');
     Route::put('/pemantauan/pl2/{s}', [PemantauanController::class, 'pl2'])->name('post pl2');
     Route::put('/pemantauan/pl3/{s}', [PemantauanController::class, 'pl3'])->name('post pl3');
-    Route::get('/panen-input', [PanenController::class, 'lapang'])->name('input panen');
-    Route::get('/panen-input/{s}', [PanenController::class, 'form'])->name('form panen');
-    Route::put('/panen-input/{s}', [PanenController::class, 'post'])->name('post panen');
-    Route::get('/panen', [PanenController::class, 'panen'])->name('panen');
 });
 Route::get('/proses/input', [ProsesController::class, 'input'])->name('input proses');
 
