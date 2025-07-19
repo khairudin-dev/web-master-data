@@ -26,7 +26,7 @@
         <div class="col-md-12 text-center">
             <div class="text-muted">Lokasi Lahan</div>
             <img id="preview-label" class="" style="max-height:230px; max-width: 100%; margin: auto; "
-                src="{{ asset('/lokasi/' . $lahan->lokasi) }}" alt="Unsplash">
+                src="{{ asset('/storage/lokasi/' . $lahan->lokasi) }}" alt="Unsplash">
         </div>
     </div>
 
@@ -80,13 +80,13 @@
         <div class="col-md-12 text-center">
             <div class="text-muted">Foto Label</div>
             <img id="preview-label" class="" style="max-height:230px; max-width: 100%; margin: auto; "
-                src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
+                src="{{ asset('/storage/label/' . $lahan->i_label) }}" alt="Unsplash">
         </div>
         <div class="col-md-12 text-center">
             <div class="text-muted">Dokumen Permohonan</div>
             <iframe id="preview-pdf" style="width: 100%; height: 500px;"
                 frameborder="0"
-                src="{{ asset('/permohonan/' . $lahan->permohonan) }}"></iframe>
+                src="{{ asset('/storage/permohonan/' . $lahan->permohonan) }}"></iframe>
 
         </div>
     </div>

@@ -36,13 +36,13 @@
                                         <div class="text-muted mb-2">Foto Label</div>
                                         <img id="preview-label" class=""
                                             style="max-height:230px; max-width: 100%; margin: auto; "
-                                            src="{{ asset('/label/' . $lahan->i_label) }}" alt="Unsplash">
+                                            src="{{ asset('/storage/label/' . $lahan->i_label) }}" alt="Unsplash">
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-12 text-center mb-2">
                                         <div class="text-muted mb-2">Lokasi Lahan</div>
                                         <img id="preview-label" class=""
                                             style="max-height:230px; max-width: 100%; margin: auto; "
-                                            src="{{ asset('/lokasi/' . $lahan->lokasi) }}" alt="Unsplash">
+                                            src="{{ asset('/storage/lokasi/' . $lahan->lokasi) }}" alt="Unsplash">
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                                                 <div class="text-center mb-4">
                                                     <img id="preview-pendahuluan" class=""
                                                         style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pendahuluan) ? 'display: none;' : '' }} margin: auto; "
-                                                        @if (!empty($lahan->i_pendahuluan)) src="{{ asset('/pendahuluan/' . $lahan->i_pendahuluan) }}" @endif
+                                                        @if (!empty($lahan->i_pendahuluan)) src="{{ asset('/storage/pendahuluan/' . $lahan->i_pendahuluan) }}" @endif
                                                         alt="Unsplash">
                                                 </div>
                                             </div>
@@ -189,7 +189,7 @@
                                                     class="btn btn-outline-info btn-sm"
                                                     style="{{ empty($lahan->h_pendahuluan) ? 'display: none;' : '' }}"
                                                     data-toggle="modal"
-                                                    data-doc="{{ asset('pendahuluan/' . $lahan->h_pendahuluan ?? '') }}"
+                                                    data-doc="{{ asset('/storage/pendahuluan/' . $lahan->h_pendahuluan ?? '') }}"
                                                     data-target="#modalPreviewFile">
                                                     <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
                                                 </button>
@@ -247,7 +247,7 @@
                                                     <div class="text-center mb-4">
                                                         <img id="preview-pl1" class=""
                                                             style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pl1) ? 'display: none;' : '' }} margin: auto; "
-                                                            @if (!empty($lahan->i_pl1)) src="{{ asset('/pl1/' . $lahan->i_pl1) }}" @endif
+                                                            @if (!empty($lahan->i_pl1)) src="{{ asset('/storage/pl1/' . $lahan->i_pl1) }}" @endif
                                                             alt="Unsplash">
                                                     </div>
                                                 </div>
@@ -312,7 +312,7 @@
                                                         class="btn btn-outline-info btn-sm"
                                                         style="{{ empty($lahan->h_pl1) ? 'display: none;' : '' }}"
                                                         data-toggle="modal"
-                                                        data-doc="{{ asset('pl1/' . $lahan->h_pl1 ?? '') }}"
+                                                        data-doc="{{ asset('/storage/pl1/' . $lahan->h_pl1 ?? '') }}"
                                                         data-target="#modalPreviewFile">
                                                         <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
                                                     </button>
@@ -373,7 +373,7 @@
                                                     <div class="text-center mb-4">
                                                         <img id="preview-pl2" class=""
                                                             style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pl2) ? 'display: none;' : '' }} margin: auto; "
-                                                            @if (!empty($lahan->i_pl2)) src="{{ asset('/pl2/' . $lahan->i_pl2) }}" @endif
+                                                            @if (!empty($lahan->i_pl2)) src="{{ asset('/storage/pl2/' . $lahan->i_pl2) }}" @endif
                                                             alt="Unsplash">
                                                     </div>
                                                 </div>
@@ -438,7 +438,7 @@
                                                         class="btn btn-outline-info btn-sm"
                                                         style="{{ empty($lahan->h_pl2) ? 'display: none;' : '' }}"
                                                         data-toggle="modal"
-                                                        data-doc="{{ asset('pl2/' . $lahan->h_pl2 ?? '') }}"
+                                                        data-doc="{{ asset('/storage/pl2/' . $lahan->h_pl2 ?? '') }}"
                                                         data-target="#modalPreviewFile">
                                                         <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
                                                     </button>
@@ -498,7 +498,7 @@
                                                     <div class="text-center mb-4">
                                                         <img id="preview-pl3" class=""
                                                             style="max-width: 100%; max-height:230px; {{ empty($lahan->i_pl3) ? 'display: none;' : '' }} margin: auto; "
-                                                            @if (!empty($lahan->i_pl3)) src="{{ asset('/pl3/' . $lahan->i_pl3) }}" @endif
+                                                            @if (!empty($lahan->i_pl3)) src="{{ asset('/storage/pl3/' . $lahan->i_pl3) }}" @endif
                                                             alt="Unsplash">
                                                     </div>
                                                 </div>
@@ -563,7 +563,7 @@
                                                         class="btn btn-outline-info btn-sm"
                                                         style="{{ empty($lahan->h_pl3) ? 'display: none;' : '' }}"
                                                         data-toggle="modal"
-                                                        data-doc="{{ asset('pl3/' . $lahan->h_pl3 ?? '') }}"
+                                                        data-doc="{{ asset('/storage/pl3/' . $lahan->h_pl3 ?? '') }}"
                                                         data-target="#modalPreviewFile">
                                                         <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
                                                     </button>

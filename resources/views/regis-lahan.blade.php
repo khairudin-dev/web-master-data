@@ -164,7 +164,7 @@
                                 <div class="text-center mb-4">
                                     <img id="preview-label" class=""
                                         style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
-                                        @if (!empty($edit)) src="{{ asset('/label/' . $lahan->i_label) }}" @endif
+                                        @if (!empty($edit)) src="{{ asset('/storage/label/' . $lahan->i_label) }}" @endif
                                         alt="Unsplash">
 
                                 </div>
@@ -185,7 +185,7 @@
                                 <div class="text-center mb-4">
                                     <img id="preview-lokasi" class=""
                                         style="max-width: 100%; max-height:230px; {{ empty($edit) ? 'display: none;' : '' }} margin: auto; "
-                                        @if (!empty($edit)) src="{{ asset('/lokasi/' . $lahan->lokasi) }}" @endif
+                                        @if (!empty($edit)) src="{{ asset('/storage/lokasi/' . $lahan->lokasi) }}" @endif
                                         alt="Unsplash">
                                 </div>
                             </div>
@@ -290,7 +290,7 @@
                                     <iframe id="preview-pdf"
                                         style="width: 100%; height: 500px; {{ empty($edit) ? 'display: none;' : '' }}"
                                         frameborder="0"
-                                        @if (!empty($edit)) src="{{ asset('/permohonan/' . $lahan->permohonan) }}" @endif></iframe>
+                                        @if (!empty($edit)) src="{{ asset('/storage/permohonan/' . $lahan->permohonan) }}" @endif></iframe>
                                 </div>
                             </div>
                         </div>
