@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
             'produksi',
             'qc',
             'procesing',
+            'pcb',
             'analis',
             'manager qc',
             'marketing',
