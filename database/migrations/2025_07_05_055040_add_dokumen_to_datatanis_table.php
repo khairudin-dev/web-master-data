@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('datatanis', function (Blueprint $table) {
             //
-            $table->text('h_pendahuluan')->default('')->after('s_pendahuluan');
-            $table->text('h_pl1')->default('')->after('s_pl1');
-            $table->text('h_pl2')->default('')->after('s_pl2');
-            $table->text('h_pl3')->default('')->after('s_pl3');
+            $table->text('h_pendahuluan')->nullable()->after('s_pendahuluan');
+            $table->text('h_pl1')->nullable()->after('s_pl1');
+            $table->text('h_pl2')->nullable()->after('s_pl2');
+            $table->text('h_pl3')->nullable()->after('s_pl3');
         });
     }
 

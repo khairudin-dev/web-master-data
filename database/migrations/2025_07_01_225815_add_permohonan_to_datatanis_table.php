@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('datatanis', function (Blueprint $table) {
             //
-            $table->text('permohonan')->default('')->after('luas');
+            $table->text('permohonan')->nullable()->after('luas');
         });
     }
 
