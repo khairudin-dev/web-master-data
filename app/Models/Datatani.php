@@ -50,6 +50,8 @@ class Datatani extends Model
         'umur_padi',
         'gkp',
         'cbb',
+        'tg_p_spl',
+        'p_spl',
         'tg_pengambilan',
         'tg_selesai',
         'campuran',

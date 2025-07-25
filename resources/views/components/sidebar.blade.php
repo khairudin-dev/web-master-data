@@ -107,10 +107,9 @@
                         <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Permohonan Ambil Sampel</span>
                     </a>
                     <ul id="sampel" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input proses') }}">Input Hasil
-                                Proses</a>
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input sampel') }}">Input Permohonan</a>
                         </li>
-                        <li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Daftar Hasil
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('sampel') }}">Daftar Permohonan
                                 Proses</a>
                         </li>
                     </ul>
@@ -157,7 +156,12 @@
                     </ul>
                 </li>
             @endif
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ route('buku besar') }}">
+                    <i class="align-middle mr-2 fas fa-fw fa-home"></i> <span class="align-middle">Buku Besar</span>
 
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

@@ -426,7 +426,7 @@
                     dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
                 },
                 "h_pl1": {
-                    required: "Dokumen Permohonan wajib diisi",
+                    required: "Dokumen Pemantauan wajib diisi",
                     accept: "Pilih dengan format (jpg,jpeg,png,pdf)", // Allowed extensions
                     filesize: "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
                 },

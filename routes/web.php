@@ -67,6 +67,7 @@ Route::middleware(['auth', 'role:manager qc'])->group(function () {});
 Route::middleware(['auth', 'role:superadmin'])->group(function () {});
 Route::middleware(['auth'])->group(function () {
     Route::get('/detail-lahan/{no_blok}', [LahanController::class, 'getDetail'])->name('detail lahan');
+    Route::get('/buku-besar', [LahanController::class, 'bukuBesar'])->name('buku besar');
 
     Route::get('/home', function () {
         return redirect('/');

@@ -23,6 +23,13 @@
             @if (isset($prs))
                 <li class="breadcrumb-item active" aria-current="page">Prosesing</li>
             @endif
+            @if (isset($inpspl))
+                <li class="breadcrumb-item"><a href="{{ route('sampel') }}">Permohonan Sampel</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+            @endif
+            @if (isset($spl))
+                <li class="breadcrumb-item active" aria-current="page">Permohonan Sampel</li>
+            @endif
         @endif
         @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
             @if (isset($regis_lpg))
@@ -176,6 +183,15 @@
                             @endif
                             @if (isset($prs))
                                 <h6 class="card-subtitle text-muted">Daftar data hasil proses
+                                </h6>
+                            @endif
+                            @if (isset($inpspl))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan telah diproses
+                                </h6>
+                            @endif
+                            @if (isset($spl))
+                                <h6 class="card-subtitle text-muted">Daftar data lahan telah pengajuan pengambilan
+                                    sampel
                                 </h6>
                             @endif
                         @endif
@@ -378,7 +394,67 @@
                                                 <th>GKP</th>
                                                 <th>CBB</th>
                                             @endif
+                                            @if (isset($inpspl))
+                                                <th>No. Lapang</th>
+                                                <th>Varietas</th>
+                                                <th>Panen</th>
+                                                <th>Luas Lulus</th>
+                                                <th>Taksasi</th>
+                                                <th>Tonase</th>
+                                                <th>GKP</th>
+                                                <th>CBB</th>
+                                            @endif
+                                            @if (isset($spl))
+                                                <th>No. Lapang</th>
+                                                <th>Varietas</th>
+                                                <th>Panen</th>
+                                                <th>Luas Lulus</th>
+                                                {{-- <th>Taksasi</th>
+                                                <th>Tonase</th> --}}
+                                                <th>GKP</th>
+                                                <th>CBB</th>
+                                                <th>Tgl. Permohonan</th>
+                                                <th>Dokumen</th>
+                                            @endif
                                         @endif
+                                        @if (isset($bubes))
+                                            <td>No. Lapang</td>
+                                            <td>Varietas</td>
+                                            <td>Kelas Benih</td>
+                                            <td>Lokasi</td>
+                                            <td>Label Sumber</td>
+                                            <td>Tgl. Semai</td>
+                                            <td>Tgl. Tanam</td>
+                                            <td>Luas</td>
+                                            <td>Pendahuluan</td>
+                                            <td>PL 1</td>
+                                            <td>PL 2</td>
+                                            <td>PL 3</td>
+                                            <td>Panen</td>
+                                            <td>LULUS</td>
+                                            <td>Taksasi</td>
+                                            <td>Tonase</td>
+                                            <td>Umur Padi</td>
+                                            <td>GKP</td>
+                                            <td>CBB</td>
+                                            <td>Tgl. Prngambilan</td>
+                                            <td>Tgl. Selesai</td>
+                                            <td>KA</td>
+                                            <td>Daya Berkecambah</td>
+                                            <td>Hasil Uji</td>
+                                            <td>Tonase Sertif</td>
+                                            <td>No. Sertif</td>
+                                            <td>Tgl. Kadaluarsa<td>
+                                            <td>QTY Label<td>
+                                            <td>No. Sersi<td>
+                                            <td>D. Bantuan<td>
+                                            <td>Tonase<td>
+                                            <td>Free Market<td>
+                                            <td>Tonase<td>
+                                            <td>Penangkaran<td>
+                                            <td>Tonase<td>
+                                        @endif
+
                                         {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
 
                                             @if (isset($regis_lpg) or auth()->user()->role == 'produksi')
@@ -725,7 +801,8 @@
                                                 @if (isset($inpprs))
                                                     <th>{{ $lahan->lapang }}</th>
                                                     <th>{{ $lahan->varietas }}</th>
-                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                    </th>
                                                     <th>{{ $lahan->luas_akhir . ' ha' }}</th>
                                                     <th>{{ $lahan->taksasi . ' Kg' }}</th>
                                                     <th>{{ $lahan->tonase . ' Kg' }}</th>
@@ -744,7 +821,8 @@
                                                 @if (isset($prs))
                                                     <th>{{ $lahan->lapang }}</th>
                                                     <th>{{ $lahan->varietas }}</th>
-                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                    </th>
                                                     <th>{{ $lahan->luas_akhir . ' ha' }}</th>
                                                     <th>{{ $lahan->taksasi . ' Kg' }}</th>
                                                     <th>{{ $lahan->tonase . ' Kg' }}</th>
@@ -762,6 +840,104 @@
                                                         </a>
                                                     </th>
                                                 @endif
+                                                @if (isset($inpspl))
+                                                    <th>{{ $lahan->lapang }}</th>
+                                                    <th>{{ $lahan->varietas }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                    </th>
+                                                    <th>{{ $lahan->luas_akhir . ' ha' }}</th>
+                                                    <th>{{ $lahan->taksasi . ' Kg' }}</th>
+                                                    <th>{{ $lahan->tonase . ' Kg' }}</th>
+                                                    <th>{{ $lahan->gkp . ' Kg' }}</th>
+                                                    <th>{{ $lahan->cbb . ' Kg' }}</th>
+                                                    <th>
+                                                        <a href="#collapseOne" data-toggle="collapse"
+                                                            data-target="#collapseOne" class="accr-inpspl text-info"
+                                                            aria-expanded="true" aria-controls="collapseOne"
+                                                            data-lapang="{{ $lahan->lapang }}"
+                                                            data-blok_lahan="{{ $lahan->no_blok }}"
+                                                            data-s="{{ $lahan->id }}"
+                                                            data-l="{{ $lahan }}">
+                                                            <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                        </a>
+                                                    </th>
+                                                @endif
+                                                @if (isset($spl))
+                                                    <th>{{ $lahan->lapang }}</th>
+                                                    <th>{{ $lahan->varietas }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
+                                                    </th>
+                                                    <th>{{ $lahan->luas_akhir . ' ha' }}</th>
+                                                    {{-- <th>{{ $lahan->taksasi . ' Kg' }}</th>
+                                                    <th>{{ $lahan->tonase . ' Kg' }}</th> --}}
+                                                    <th>{{ $lahan->gkp . ' Kg' }}</th>
+                                                    <th>{{ $lahan->cbb . ' Kg' }}</th>
+                                                    <th>{{ \Carbon\Carbon::parse($lahan->tg_p_spl)->format('d/m/Y') }}
+                                                    </th>
+                                                    <th>
+                                                        <button type="button" id="btn-preview-doc"
+                                                            class="btn btn-outline-info btn-sm" data-toggle="modal"
+                                                            data-doc="{{ asset('/storage/ambil sampel/' . $lahan->p_spl ?? '') }}"
+                                                            data-target="#modalPreviewFile">
+                                                            <i class="align-middle fas fa-fw fa-eye"></i> Lihat File
+                                                        </button>
+
+                                                    </th>
+                                                    <th>
+                                                        <a href="#collapseOne" data-toggle="collapse"
+                                                            data-target="#collapseOne" class="accr-inpspl text-info"
+                                                            aria-expanded="true" aria-controls="collapseOne"
+                                                            data-lapang="{{ $lahan->lapang }}"
+                                                            data-blok_lahan="{{ $lahan->no_blok }}"
+                                                            data-s="{{ $lahan->id }}"
+                                                            data-l="{{ $lahan }}">
+                                                            <i class="align-middle mr-2 far fa-fw fa-edit"></i>
+                                                        </a>
+                                                    </th>
+                                                @endif
+                                            @endif
+                                            @if (isset($bubes))
+                                                <td>{{ $lahan->lapang }}</td>
+                                                <td>{{ $lahan->varietas }}</td>
+                                                <td>{{ $lahan->kb }}</td>
+                                                <td>{{ '..., Kec. ' . $lahan->alamat_parts[2] . ' ' . $lahan->alamat_parts[3] }}
+                                                <td>{{ $lahan->label_sumber }}</td>
+                                                <td>{{ $lahan->semai }}</td>
+                                                <td>{{ $lahan->tanam }}</td>
+                                                <td>{{ $lahan->luas . ' ha' }}</td>
+                                                <td>{{ $lahan->tg_pendahuluan}}</td>
+                                                <td>{{ $lahan->tg_pl1}}</td>
+                                                <td>{{ $lahan->tg_pl2}}</td>
+                                                <td>{{ $lahan->tg_pl3}}</td>
+                                                <td>{{ $lahan->panen}}</td>
+                                                <td>{{ $lahan->lulus. ' ha'}}</td>
+                                                <td>{{ $lahan->taksasi. ' Kg'}}</td>
+                                                <td>{{ $lahan->tonase. ' Kg'}}</td>
+                                                <td>{{ $lahan->umur_padi." hari"}}</td>
+                                                <td>{{ $lahan->gkp}}</td>
+                                                <td>{{ $lahan->cbb}}</td>
+                                                <td>{{ $lahan->tg_pengambilan}}</td>
+                                                <td>{{ $lahan->tg_selesai}}</td>
+                                                <td>{{ $lahan->ka}}</td>
+                                                <td>{{ $lahan->kecambah}}</td>
+                                                <td>{{ $lahan->mutu}}</td>
+                                                <td>{{ $lahan->tonase_sertifikat}}</td>
+                                                <td>{{ $lahan->no_sertifikat}}</td>
+                                                <td>{{ $lahan->tg_kadaluarsa}}<td>
+                                                <td>{{ $lahan->label}}<td>
+                                                <td>{{ $lahan->seri_label}}<td>
+                                                <td>{{ $lahan->bantuan}}<td>
+                                                <td>{{ $lahan->t_bantuan}}<td>
+                                                <td>{{ $lahan->market}}<td>
+                                                <td>{{ $lahan->t_market}}<td>
+                                                <td>{{ $lahan->penangkaran}}<td>
+                                                <td>{{ $lahan->t_penangkaran}}<td>
+                                                <td>
+                                                    <a href="#"
+                                                        class="text-info">
+                                                        <i class="align-middle mr-2 far fa-fw fa-eye"></i>
+                                                    </a>
+                                                </td>
                                             @endif
 
                                             {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'produksi' or auth()->user()->role == 'superadmin')
@@ -980,6 +1156,12 @@
                                                 @if (isset($prs))
                                                     Belum ada Lahan yang diproses
                                                 @endif
+                                                @if (isset($inpspl))
+                                                    Belum ada Lahan yang diproses
+                                                @endif
+                                                @if (isset($spl))
+                                                    Belum ada Lahan yang diajukan
+                                                @endif
                                             @endif
 
                                             {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
@@ -1158,6 +1340,164 @@
 
                     </div>
                 @endif
+                @if ((auth()->user()->role == 'procesing' || auth()->user()->role == 'superadmin') && (isset($inpspl) || isset($spl)))
+                    <div class="card" style="overflow: visible;">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="card-title my-2" id="title_blok">
+                                Data Permohonan Pengambilan Sampel
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse @error('lapang') show @enderror"
+                            aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-6">
+                                        <div class="m-sm-1 m-md-2">
+                                            <div class="row mb-4">
+                                                <div class="col-md-6">
+                                                    <div class="text-muted">Nomor Blok</div>
+                                                    <strong id="txt_blok"></strong>
+                                                </div>
+                                                <div class="col-md-6 text-md-right">
+                                                    <div class="text-muted">Nomor Lapang</div>
+                                                    <strong id="txt_lpg">
+                                                    </strong>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Variabel</th>
+                                                        <th>&nbsp;</th>
+                                                        <th class="text-right">Nilai</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Luas lulus</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_lulus"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Varietas</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_varietas"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tanggal Panen</td>
+                                                        <td>: </td>
+                                                        <td class="text-right" id="td_panen">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Taksasi</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_tk"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tonase</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_tn"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>FKP</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_gkp"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>CBB</td>
+                                                        <td>:</td>
+                                                        <td class="text-right" id="td_cbb"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-6">
+                                        <h5>Input Data Permohonan Pengambilan Sampel</h5>
+                                        <form class="row" id="formSampel" action="#" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            @method('put')
+
+                                            <div class="form-group col-md-6">
+                                                <label for="sampel" class="form-label">Tanggal Permohonan</label>
+                                                <div class="input-group date" id="datetimepicker-sampel"
+                                                    data-target-input="nearest">
+                                                    <input type="text"
+                                                        class="form-control datetimepicker-input @error('sampel') is-invalid @enderror"
+                                                        value="{{ old('sampel', isset($lahan->tg_p_spl) ? \Carbon\Carbon::parse($lahan->tg_p_spl)->format('d/m/Y') : '') }}"
+                                                        data-toggle="datetimepicker"
+                                                        data-target="#datetimepicker-sampel" id="sampel"
+                                                        placeholder="masukkan tanggal permohonan..." name="sampel"
+                                                        data-mask="00/00/0000" />
+                                                    @error('sampel')
+                                                        <div
+                                                            class="jquery-validation-error small form-text invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                    <div class="input-group-append"
+                                                        data-target="#datetimepicker-sampel"
+                                                        data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label" for="permohonan">Dokumen Permohonan</label>
+                                                <input type="file" id="permohonan" name="permohonan"
+                                                    class="form-control-file validation-file @error('permohonan') is-invalid @enderror"
+                                                    value="{{ old('permohonan') }}"
+                                                    accept="application/pdf, image/*">
+                                                @error('permohonan')
+                                                    <div class="jquery-validation-error small form-text invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="text-center mb-4">
+                                                    <iframe id="preview-pdf"
+                                                        style="width: 100%; height: 500px; {{ empty($lahan->p_spl) ? 'display: none;' : '' }}"
+                                                        frameborder="0"
+                                                        @if (!empty($lahan->p_spl)) src="{{ asset('/storage/permohonan/' . $lahan->p_spl) }}" @endif></iframe>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal fade" id="modalPreviewFile" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" id="header-body-detailahan">
+                                    <h5 class="modal-title" id="title_blok">Preview Dokumen</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body m-3">
+                                    <iframe id="iframePreviewFile" style="width: 100%; height: 500px;"
+                                        frameborder="0"></iframe>
+                                </div>
+                                <div class="modal-footer"id="footer-body-detailahan">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        data-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -1174,7 +1514,11 @@
             @endif
         @endif
         @if (auth()->user()->role == 'procesing' or auth()->user()->role == 'superadmin')
-            @if (isset($inpprs) or isset($prs))
+            @if (isset($inpprs) or isset($prs) or isset($inpspl) or isset($spl))
+                <script type="text/javascript" src="{{ asset('js/pdf-lib.min.js') }}"></script>
+                <script>
+                    const imgCheck = {{ empty($lahan->p_spl) ? 'true' : 'false' }};
+                </script>
                 <script src="{{ asset('js/proses.js') }}"></script>
             @endif
         @endif
@@ -1187,6 +1531,9 @@
             @if (isset($mkt) or isset($inpmkt))
                 <script src="{{ asset('js/marketing.js') }}"></script>
             @endif
+        @endif
+        @if (isset($bubes))
+            <script src="{{ asset('js/bubes.js') }}"></script>
         @endif
         {{-- @if (auth()->user()->role == 'qc' or auth()->user()->role == 'superadmin')
             <script src="{{ asset('js/regis_lapang.js') }}"></script>
