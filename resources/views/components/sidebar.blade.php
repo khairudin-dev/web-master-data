@@ -115,6 +115,23 @@
                     </ul>
                 </li>
             @endif
+            @if (auth()->user()->role == 'pcb' or auth()->user()->role == 'superadmin')
+                <li class="sidebar-header">
+                    Kelola Data (PCB)
+                </li>
+                <li class="sidebar-item">
+                    <a href="#sampel" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle mr-2 fas fa-fw fa-file"></i> <span class="align-middle">Pengambilan Sampel</span>
+                    </a>
+                    <ul id="sampel" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('input ambil') }}">Input Pengambilan</a>
+                        </li>
+                        <li class="sidebar-item"><a class="sidebar-link" href="{{ route('ambil') }}">Daftar Pengambilan
+                                Proses</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
             @if (auth()->user()->role == 'analis' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">
                     Kelola Data (Analis)
@@ -135,7 +152,6 @@
                     </ul>
                 </li>
             @endif
-
 
             @if (auth()->user()->role == 'marketing' or auth()->user()->role == 'superadmin')
                 <li class="sidebar-header">

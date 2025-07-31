@@ -54,6 +54,13 @@
                                                 {{ \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') }}
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>Tanggal Pengambilan</td>
+                                            <td>: </td>
+                                            <td class="text-right">
+                                                {{ \Carbon\Carbon::parse($lahan->tg_pengambilan)->format('d/m/Y') }}
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -109,7 +116,7 @@
                             @csrf
                             @method('put')
 
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ambil" class="form-label">Tanggal Pengambilan Calon Benih</label>
                                     <div class="input-group date" id="datetimepicker-ambil" data-target-input="nearest">
@@ -130,7 +137,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="selesai" class="form-label">Tanggal Selesai Uji Lab</label>
@@ -199,8 +206,10 @@
                                     <select id="lab" name="lab"
                                         class="form-control select2 @error('lab') is-invalid @enderror"
                                         data-toggle="select2">
-                                        <option value='1' {{ old('lab', $lahan->mutu) == 1 ? 'selected' : '' }}>Lulus</option>
-                                        <option value='0' {{ old('lab', $lahan->mutu) == 0 ? 'selected' : '' }}>Tidak Lulus</option>
+                                        <option value='1' {{ old('lab', $lahan->mutu) == 1 ? 'selected' : '' }}>
+                                            Lulus</option>
+                                        <option value='0' {{ old('lab', $lahan->mutu) == 0 ? 'selected' : '' }}>
+                                            Tidak Lulus</option>
                                     </select>
                                     @error('lab')
                                         <div class="jquery-validation-error small form-text invalid-feedback">
@@ -209,7 +218,9 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4">
+
+                            {{-- m qc --}}
+                            {{-- <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="sertif">Nomor Sertifikat</label>
                                     <input type="text" class="form-control @error('sertif') is-invalid @enderror"
@@ -222,8 +233,9 @@
                                     @enderror
 
                                 </div>
-                            </div>
-                            <div class="col-md-4">
+                            </div> --}}
+                            {{-- s a --}}
+                            {{-- <div class="col-md-4">
                                 <div class="form-group row">
                                     <label class="col-12" for="seri">Nomor Seri Label</label>
                                     <input type="text"
@@ -235,8 +247,10 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    <button type="submit" class="col-3 ml-2 btn btn-primary">Submit</button>
                                 </div>
+                            </div> --}}
+                            <div class="text-center col-md-12">
+                                <button type="submit" class="col-3 ml-2 btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -246,7 +260,7 @@
         {{-- end content --}}
         @push('sc')
             <script>
-                // const x = {{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }};
+                const x = "{{ \Carbon\Carbon::parse($lahan->tg_pengambilan)->format('d/m/Y') }}";
                 // const x = moment('{{ \Carbon\Carbon::parse($lahan->semai)->format('d/m/Y') }}', 'DD/MM/YYYY');
                 // const y = {{ $lahan->luas_akhir }}
             </script>

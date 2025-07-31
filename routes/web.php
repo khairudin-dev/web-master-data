@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AmbilController;
 use App\Http\Controllers\AnalissController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LahanController;
@@ -62,6 +63,11 @@ Route::middleware(['auth', 'role:procesing,superadmin'])->group(function () {
     Route::get('/sampel/input', [SampelController::class, 'input'])->name('input sampel');
     Route::get('/sampel', [SampelController::class, 'sampel_data'])->name('sampel');
     Route::put('/sampel/{s}', [SampelController::class, 'sampel'])->name('post input sampel');
+});
+Route::middleware(['auth', 'role:pcb,superadmin'])->group(function () {
+    Route::get('/ambil/input', [AmbilController::class, 'input'])->name('input ambil');
+    Route::get('/ambil', [AmbilController::class, 'ambil_data'])->name('ambil');
+    Route::put('/ambil/{s}', [AmbilController::class, 'ambil'])->name('post input ambil');
 });
 Route::middleware(['auth', 'role:manager qc'])->group(function () {});
 Route::middleware(['auth', 'role:superadmin'])->group(function () {});

@@ -76,6 +76,13 @@
                                                         {{ \Carbon\Carbon::parse($lahan->tanam)->format('d/m/Y') }}
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>Tanggal Pemeriksaan Fase Masak</td>
+                                                    <td>: </td>
+                                                    <td class="text-right">
+                                                        {{ \Carbon\Carbon::parse($lahan->tg_pl3)->format('d/m/Y') }}
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -135,7 +142,7 @@
                                                     data-target-input="nearest">
                                                     <input type="text" placeholder="Tanggal panen..."
                                                         class="form-control datetimepicker-input @error('panen') is-invalid @enderror"
-                                                        value="{{ old('panen', !empty($lahan->panen) ? \Carbon\Carbon::parse($lahan->tg_pendahuluan)->format('d/m/Y') : '') }}"
+                                                        value="{{ old('panen', !empty($lahan->panen) ? \Carbon\Carbon::parse($lahan->panen)->format('d/m/Y') : '') }}"
                                                         data-toggle="datetimepicker" data-target="#datetimepicker-panen"
                                                         id="panen" name="panen" data-mask="00/00/0000" />
                                                     @error('panen')

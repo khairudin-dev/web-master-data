@@ -60,7 +60,7 @@ class SampelController extends Controller
             $request->validate([
                 'permohonan' => 'required|mimes:jpeg,jpg,png,pdf|max:2048',
             ], [
-                "permohonan.required" => "Dokumen Pemantauan wajib diisi",
+                "permohonan.required" => "Dokumen Permohonan wajib diisi",
                 'permohonan.mimes' => 'File harus berupa gambar (jpeg, jpg, png) atau PDF',
                 "permohonan.max" => "Pilih file dengan ukuran maks. 2MB", // Max file size in bytes (5MB)
             ]);
@@ -127,6 +127,8 @@ class SampelController extends Controller
             'gkp',
             'cbb',
             'tg_p_spl',
+            'tg_pengambilan',
+            'mutu',
             'p_spl',
 
         ]);

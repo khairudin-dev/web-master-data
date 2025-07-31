@@ -91,12 +91,19 @@
             var limit = moment($(this).data('l').panen).format("DD/MM/yyyy");
             $('#datetimepicker-sampel').datetimepicker('minDate', moment(limit, 'DD/MM/YYYY').clone().add(1, 'days'));
             $('#txt_lpg').html($(this).data('l').lapang);
-            $('#td_tn').html($(this).data('l').tonase + " Kg");
-            $('#td_tk').html($(this).data('l').taksasi + " Kg");
             $('#td_gkp').html($(this).data('l').gkp + " Kg");
             $('#td_cbb').html($(this).data('l').cbb + " Kg");
-            $('#sampel').html($(this).data('l').tg_p_spl);
-
+            const tg_p_spl = $(this).data('l').tg_p_spl;
+            if (tg_p_spl) {
+                const formattedDate = moment(tg_p_spl).format("DD/MM/YYYY");
+                $('#datetimepicker-sampel').datetimepicker('date', formattedDate);
+            }
+            const p_spl = $(this).data('doc');
+            if (p_spl) {
+                $('#preview-pdf')
+                    .attr('src', p_spl) // atur sumber PDF
+                    .css('display', 'block'); // tampilkan iframe
+            }
 
             //ambil detail lahan
             // loadDetailLahan_acccord(noBlok)
@@ -276,7 +283,7 @@
                 $(element).parents(".form-group").find(".is-invalid").removeClass("is-invalid");
             }
         });
-        $('#btn-preview-doc').on('click', function () {
+        $('.btn-preview-doc').on('click', function () {
             const fileUrl = $(this).data('doc');
             $('#iframePreviewFile').attr('src', fileUrl);
         });

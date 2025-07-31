@@ -69,6 +69,8 @@ class PanenController extends Controller
             'tg_pl3',
             'taksasi',
             'umur_padi',
+            'panen',
+            'tg_pl3',
             'tonase_sertifikat',
         )->findOrFail($s);
         if (empty($lahan->tg_pl3)) {

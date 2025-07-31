@@ -1,14 +1,14 @@
     $(document).ready(function () {
         // var imgCheck_p = true
 
-        $('#seri').mask('Z', {
-            translation: {
-                'Z': {
-                    pattern: /[0-9\-]/,
-                    recursive: true
-                }
-            }
-        });
+        // $('#seri').mask('Z', {
+        //     translation: {
+        //         'Z': {
+        //             pattern: /[0-9\-]/,
+        //             recursive: true
+        //         }
+        //     }
+        // });
 
         // Select2
 
@@ -21,10 +21,10 @@
             format: 'DD/MM/YYYY',
 
         });
-        $('#datetimepicker-ambil').datetimepicker({
-            format: 'DD/MM/YYYY',
+        // $('#datetimepicker-ambil').datetimepicker({
+        //     format: 'DD/MM/YYYY',
 
-        });
+        // });
         // $('#tk').change(function () {
         //     // $('#tonase').text($(this).val() * y);
         //     const nilai = parseFloat($(this).val());
@@ -36,22 +36,23 @@
         // });
 
         // Saat tanggal panen diubah
+        $('#datetimepicker-selesai').datetimepicker('minDate', moment(x, 'DD/MM/YYYY').clone().add(1, 'days'));
 
-        $("#datetimepicker-selesai").on("change.datetimepicker", function (e) {
-            let tanggalDipilih = e.date;
+        // $("#datetimepicker-selesai").on("change.datetimepicker", function (e) {
+        //     let tanggalDipilih = e.date;
 
-            if (tanggalDipilih) {
-                // Tambah 6 bulan menggunakan moment.js (bawaan tempusdominus)
-                let tanggalBaru = tanggalDipilih.clone().add(6, 'months');
+        //     if (tanggalDipilih) {
+        //         // Tambah 6 bulan menggunakan moment.js (bawaan tempusdominus)
+        //         let tanggalBaru = tanggalDipilih.clone().add(6, 'months');
 
-                // Tampilkan hasil di console
-                console.log("Tanggal dipilih:", tanggalDipilih.format('DD/MM/yyy'));
-                console.log("Tanggal setelah 6 bulan:", tanggalBaru.format('DD/MM/yyy'));
+        //         // Tampilkan hasil di console
+        //         console.log("Tanggal dipilih:", tanggalDipilih.format('DD/MM/yyy'));
+        //         console.log("Tanggal setelah 6 bulan:", tanggalBaru.format('DD/MM/yyy'));
 
-                // (Opsional) Set tanggal baru ke datetimepicker lain
-                $('#kdl').text(tanggalBaru.format('DD/MM/yyy'));
-            }
-        });
+        //         // (Opsional) Set tanggal baru ke datetimepicker lain
+        //         $('#kdl').text(tanggalBaru.format('DD/MM/yyy'));
+        //     }
+        // });
 
         $("#lab_f").validate({
             ignore: ".ignore, .select2-input",
@@ -64,10 +65,10 @@
                 $(element).valid();
             },
             rules: {
-                "ambil": {
-                    required: true,
-                    dateITA: true,
-                },
+                // "ambil": {
+                //     required: true,
+                //     dateITA: true,
+                // },
                 "selesai": {
                     required: true,
                     dateITA: true,
@@ -90,18 +91,18 @@
                 "lab": {
                     required: true,
                 },
-                "sertif": {
-                    required: true,
-                },
-                "seri": {
-                    required: true,
-                },
+                // "sertif": {
+                //     required: true,
+                // },
+                // "seri": {
+                //     required: true,
+                // },
             },
             messages: {
-                "ambil": {
-                    required: "Tanggal Pengambilan wajib diisi",
-                    dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
-                },
+                // "ambil": {
+                //     required: "Tanggal Pengambilan wajib diisi",
+                //     dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
+                // },
                 "selesai": {
                     required: "Tanggal Selesai wajib diisi",
                     dateITA: "Isian wajib berupa tanggal! (HH/BB/TTTT)",
@@ -121,12 +122,12 @@
                 "lab": {
                     required: "Hasil Uji wajib diisi",
                 },
-                "sertif": {
-                    required: "Nomor sertifikat wajib diisi",
-                },
-                "seri": {
-                    required: "Nomor seri wajib diisi",
-                },
+                // "sertif": {
+                //     required: "Nomor sertifikat wajib diisi",
+                // },
+                // "seri": {
+                //     required: "Nomor seri wajib diisi",
+                // },
             },
 
             // Errors
